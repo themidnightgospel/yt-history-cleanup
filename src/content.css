@@ -1,0 +1,38 @@
+.ythc-delete-btn {
+  position: absolute;
+  right: -8px;
+  top: 48px;
+  z-index: 10;
+  background: var(--yt-spec-base-background, rgba(15, 15, 15, 0.6));
+  border: 1px solid var(--yt-spec-10-percent-layer, rgba(255, 255, 255, 0.15));
+  padding: 4px;
+  cursor: pointer;
+  color: var(--yt-spec-text-secondary, #aaa);
+  opacity: 0.85;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: opacity 120ms, color 120ms, background 120ms;
+}
+
+.ythc-delete-btn:hover {
+  opacity: 1;
+  color: #f28b82;
+  background: var(--yt-spec-10-percent-layer, rgba(255, 255, 255, 0.18));
+}
+
+.ythc-toast {
+  position: fixed;
+  bottom: 80px;
+  right: 24px;
+  padding: 12px 16px;
+  background: var(--yt-spec-base-background, #0f0f0f);
+  color: var(--yt-spec-text-primary, #fff);
+  border: 1px solid var(--yt-spec-10-percent-layer, rgba(255, 255, 255, 0.1));
+  border-radius: 8px;
+  z-index: 10000;
+  font-family: "Roboto", "Arial", sans-serif;
+  font-size: 14px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}

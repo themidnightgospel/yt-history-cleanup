@@ -1,0 +1,25 @@
+{
+  "name": "yt-history-cleanup",
+  "version": "0.2.0",
+  "private": true,
+  "description": "Chrome extension that adds always-visible delete buttons to the YouTube watch history page.",
+  "type": "module",
+  "scripts": {
+    "build": "node esbuild.config.mjs",
+    "watch": "node esbuild.config.mjs --watch",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "test:e2e": "playwright test --config e2e/playwright.config.ts"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.60.0",
+    "@types/chrome": "^0.0.268",
+    "@vitest/coverage-v8": "^4.1.8",
+    "esbuild": "^0.23.0",
+    "jsdom": "^29.1.1",
+    "typescript": "^5.5.3",
+    "vitest": "^4.1.8"
+  }
+}

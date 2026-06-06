@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>History fixture</title>
+  </head>
+  <body>
+    <script>
+      window.ytcfg = {
+        data_: {
+          INNERTUBE_API_KEY: "FIXTURE_KEY",
+          INNERTUBE_CONTEXT: { client: { clientName: "WEB", clientVersion: "2.99" } },
+        },
+      };
+      window.ytInitialData = {
+        feedbackToken: "FIXTURE_TOKEN_1",
+        actions: [
+          { hideItemSectionVideosByIdCommand: { videoId: "fixtureVid1" } },
+        ],
+      };
+      document.cookie = "SAPISID=fixtureSapisid; Path=/";
+    </script>
+    <yt-lockup-view-model id="row-1">
+      <a href="https://www.youtube.com/watch?v=fixtureVid1">Fixture video 1</a>
+    </yt-lockup-view-model>
+  </body>
+</html>

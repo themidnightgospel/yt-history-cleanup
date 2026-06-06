@@ -1,0 +1,47 @@
+{
+  "comment": "Hand-crafted ytInitialData-shaped fragments. Each top-level key documents one token-walker scenario.",
+  "viaHideItemSection": {
+    "feedbackToken": "TOKEN_VIA_HIDE_ITEM",
+    "actions": [
+      { "hideItemSectionVideosByIdCommand": { "videoId": "vidHideItem" } }
+    ]
+  },
+  "viaLocalWatchHistory": {
+    "feedbackToken": "TOKEN_VIA_LOCAL_HISTORY",
+    "actions": [
+      { "localWatchHistoryCommand": { "videoId": "vidLocalHist" } }
+    ]
+  },
+  "preferHideOverLocal": {
+    "feedbackToken": "TOKEN_BOTH",
+    "actions": [
+      { "hideItemSectionVideosByIdCommand": { "videoId": "vidPreferred" } },
+      { "localWatchHistoryCommand": { "videoId": "vidBackup" } }
+    ]
+  },
+  "noActions": {
+    "feedbackToken": "TOKEN_NO_ACTIONS"
+  },
+  "actionsEmpty": {
+    "feedbackToken": "TOKEN_ACTIONS_EMPTY",
+    "actions": []
+  },
+  "actionUnknownShape": {
+    "feedbackToken": "TOKEN_UNKNOWN",
+    "actions": [{ "someOtherCommand": { "videoId": "vidIgnored" } }]
+  },
+  "nestedDeep": {
+    "level1": {
+      "level2": {
+        "level3": [
+          {
+            "feedbackToken": "TOKEN_DEEP",
+            "actions": [
+              { "hideItemSectionVideosByIdCommand": { "videoId": "vidDeep" } }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

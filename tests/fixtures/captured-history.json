@@ -1,0 +1,3 @@
+{
+  "_PLACEHOLDER": "Replace this file with a real ytInitialData snapshot captured from /feed/history. In DevTools console on a logged-in YouTube history page, run: copy(JSON.stringify(window.ytInitialData)) and paste the result here, replacing the entire object. The canary test in src/tokens.test.ts checks that the walker finds >= 1 token in this snapshot — when YouTube renames a field, it drops to 0 and the test fails."
+}
