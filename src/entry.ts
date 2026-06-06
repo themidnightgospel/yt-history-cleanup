@@ -9,22 +9,50 @@ import {
   SHELF_SELECTOR,
 } from "./dom.js";
 
-function main(): void {
+const HISTORY_PATH = "/feed/history";
+
+let fetchPatched = false;
+let observerStarted = false;
+
+function isOnHistory(): boolean {
+  return location.pathname === HISTORY_PATH;
+}
+
+function activate(): void {
   console.log(
-    `${LOG_PREFIX} content script loaded at`,
+    `${LOG_PREFIX} activate at`,
     location.pathname,
     "ytInitialData?",
     typeof window.ytInitialData,
   );
   buildInitialTokenMap();
-  patchFetchForContinuations();
-  const initialRows = document.querySelectorAll<HTMLElement>(HISTORY_ITEM_SELECTOR);
-  console.log(`${LOG_PREFIX} initial scan found`, initialRows.length, "rows");
-  initialRows.forEach(decorateRow);
-  const initialShelves = document.querySelectorAll<HTMLElement>(SHELF_SELECTOR);
-  console.log(`${LOG_PREFIX} initial scan found`, initialShelves.length, "shelves");
-  initialShelves.forEach(decorateShelf);
-  observeNewItems();
+  const rows = document.querySelectorAll<HTMLElement>(HISTORY_ITEM_SELECTOR);
+  console.log(`${LOG_PREFIX} scan found`, rows.length, "rows");
+  rows.forEach(decorateRow);
+  const shelves = document.querySelectorAll<HTMLElement>(SHELF_SELECTOR);
+  console.log(`${LOG_PREFIX} scan found`, shelves.length, "shelves");
+  shelves.forEach(decorateShelf);
+  if (!observerStarted) {
+    observeNewItems();
+    observerStarted = true;
+  }
 }
 
-main();
+function bootstrap(): void {
+  if (!fetchPatched) {
+    patchFetchForContinuations();
+    fetchPatched = true;
+  }
+  if (isOnHistory()) activate();
+}
+
+bootstrap();
+
+// YouTube is an SPA: navigating to /feed/history via the side nav does not
+// reload the page, so the document_idle injection only fires on the first
+// landing or a hard refresh. yt-navigate-finish is fired by YouTube's app
+// shell after every client-side route change — re-activate when it lands on
+// the history page.
+window.addEventListener("yt-navigate-finish", () => {
+  if (isOnHistory()) activate();
+});
