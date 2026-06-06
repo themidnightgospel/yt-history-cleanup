@@ -1,12 +1,15 @@
 import { describe, it, expect, beforeEach } from "vitest";
 import {
   collectTokens,
+  collectChannels,
   videoIdFromFeedbackActions,
   getFeedbackToken,
   getVideoId,
+  getChannelId,
   buildInitialTokenMap,
   clearTokens,
   tokenCount,
+  channelCount,
 } from "./tokens.js";
 import synthetic from "../tests/fixtures/synthetic-history.json" with { type: "json" };
 import captured from "../tests/fixtures/captured-history.json" with { type: "json" };
@@ -149,6 +152,52 @@ describe("buildInitialTokenMap", () => {
 // ytInitialData payload. If YouTube renames `hideItemSectionVideosByIdCommand`
 // or `localWatchHistoryCommand`, the walker stops finding tokens and this
 // fails — surfaces the drift before users hit it.
+describe("collectChannels", () => {
+  it("pairs videoId with the first UC-prefixed browseId in the same subtree", () => {
+    const lockup = {
+      contentId: "abc12345_XY",
+      metadata: {
+        bylineText: {
+          commandRuns: [
+            {
+              onTap: {
+                browseEndpoint: {
+                  browseId: "UCsomeChannel111111111X",
+                  canonicalBaseUrl: "/@someChannel",
+                },
+              },
+            },
+          ],
+        },
+      },
+    };
+    collectChannels({ root: [lockup] });
+    expect(channelCount()).toBe(1);
+  });
+
+  it("ignores contentIds without a UC-prefixed browseId nearby", () => {
+    const lockup = {
+      contentId: "abc12345_XY",
+      // No browseId anywhere — just a playlist endpoint
+      onTap: { watchEndpoint: { playlistId: "PL999" } },
+    };
+    collectChannels({ root: [lockup] });
+    expect(channelCount()).toBe(0);
+  });
+
+  it("indexes channels via getChannelId after collection", () => {
+    collectChannels({
+      contentId: "VIDX_lookup",
+      onTap: { browseEndpoint: { browseId: "UCxxxxxxxxxxxxxxxxxxxxxx" } },
+    });
+    const row = document.createElement("div");
+    const link = document.createElement("a");
+    link.href = "https://www.youtube.com/watch?v=VIDX_lookup";
+    row.appendChild(link);
+    expect(getChannelId(row)).toBe("UCxxxxxxxxxxxxxxxxxxxxxx");
+  });
+});
+
 describe("captured snapshot canary", () => {
   it("captured fixture yields tokens via the walker", () => {
     collectTokens(captured);

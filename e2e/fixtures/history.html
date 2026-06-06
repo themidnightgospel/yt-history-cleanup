@@ -42,9 +42,32 @@
       };
       document.cookie = "SAPISID=fixtureSapisid; Path=/";
     </script>
-    <yt-lockup-view-model id="row-1">
-      <a href="https://www.youtube.com/watch?v=fixtureVid1">Fixture video 1</a>
-    </yt-lockup-view-model>
+    <script>
+      window.ytInitialData.items.push({
+        contentId: "fixtureVid1",
+        onTap: {
+          browseEndpoint: { browseId: "UCfixtureChannel11111111", canonicalBaseUrl: "/@fixturechan" },
+        },
+      });
+    </script>
+    <ytd-item-section-renderer>
+      <div id="header">
+        <ytd-item-section-header-renderer>
+          <div id="header">
+            <h2 id="title">Today</h2>
+          </div>
+        </ytd-item-section-header-renderer>
+      </div>
+      <yt-lockup-view-model id="row-1">
+        <a href="https://www.youtube.com/watch?v=fixtureVid1">Fixture video 1</a>
+        <div aria-label="Go to channel Fixture Channel" role="button"></div>
+        <div class="ytContentMetadataViewModelMetadataRow">
+          <span>Fixture Channel</span>
+          <span> • </span>
+          <span>10K views</span>
+        </div>
+      </yt-lockup-view-model>
+    </ytd-item-section-renderer>
     <ytd-reel-shelf-renderer>
       <div id="contents">
         <ytm-shorts-lockup-view-model id="short-1" class="shortsLockupViewModelHost">

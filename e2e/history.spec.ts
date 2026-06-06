@@ -77,6 +77,30 @@ test("clicking the shelf short delete button posts its feedbackToken", async () 
   await expect(page.locator("#short-1")).toHaveCount(0);
 });
 
+test("channel-delete button appears in the video row's metadata row", async () => {
+  await page.goto("https://www.youtube.com/feed/history");
+  const btn = page.locator("#row-1 .ythc-channel-delete-btn");
+  await expect(btn).toHaveCount(1, { timeout: 5000 });
+});
+
+test("channel-delete dialog opens with channel name and closes on cancel", async () => {
+  await page.goto("https://www.youtube.com/feed/history");
+  await page.locator("#row-1 .ythc-channel-delete-btn").click();
+  const dialog = page.locator("dialog.ythc-channel-dialog");
+  await expect(dialog).toBeVisible();
+  await expect(dialog.locator(".ythc-channel-dialog-title")).toContainText(
+    "Fixture Channel",
+  );
+
+  const cancelBtn = dialog
+    .locator(
+      ".ythc-channel-dialog-form .ythc-channel-dialog-btn:not(.ythc-channel-dialog-btn-danger)",
+    )
+    .first();
+  await cancelBtn.click();
+  await expect(dialog).toHaveCount(0);
+});
+
 test("shelf delete-all button empties a single-page shelf and posts each token", async () => {
   const posted: string[] = [];
   await page.route("https://www.youtube.com/youtubei/v1/feedback*", async (route, request) => {

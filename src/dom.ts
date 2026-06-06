@@ -1,6 +1,10 @@
 import { LOG_PREFIX } from "./log.js";
 import { deleteHistoryItem } from "./api.js";
 import { getFeedbackToken } from "./tokens.js";
+import { makeTrashIcon, showToast } from "./dom-shared.js";
+import { tryDecorateChannelButton } from "./channel-delete.js";
+
+export { makeTrashIcon, showToast };
 
 const SHORTS_LOCKUP_SELECTOR =
   "ytm-shorts-lockup-view-model, ytm-shorts-lockup-view-model-v2";
@@ -18,25 +22,6 @@ const HISTORY_ITEM_SELECTORS = [
   "ytm-shorts-lockup-view-model-v2",
 ];
 export const HISTORY_ITEM_SELECTOR = HISTORY_ITEM_SELECTORS.join(",");
-const SVG_NS = "http://www.w3.org/2000/svg";
-const TRASH_PATH_D =
-  "M9 3v1H4v2h1v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V6h1V4h-5V3H9zm0 5h2v10H9V8zm4 0h2v10h-2V8z";
-const TOAST_LIFETIME_MS = 4000;
-
-// YouTube's CSP enforces Trusted Types; setting `innerHTML` to a raw string
-// throws. Build SVG nodes via DOM APIs instead.
-export function makeTrashIcon(): SVGSVGElement {
-  const svg = document.createElementNS(SVG_NS, "svg");
-  svg.setAttribute("viewBox", "0 0 24 24");
-  svg.setAttribute("width", "24");
-  svg.setAttribute("height", "24");
-  svg.setAttribute("fill", "currentColor");
-  svg.setAttribute("aria-hidden", "true");
-  const path = document.createElementNS(SVG_NS, "path");
-  path.setAttribute("d", TRASH_PATH_D);
-  svg.appendChild(path);
-  return svg;
-}
 
 export function observeNewItems(): void {
   const observer = new MutationObserver((mutations) => {
@@ -60,7 +45,12 @@ export function observeNewItems(): void {
 }
 
 export function decorateRow(row: HTMLElement): void {
-  if (row.dataset["ythcDecorated"] === "1") return;
+  if (row.dataset["ythcDecorated"] === "1") {
+    // Re-attempt channel button — its decoration is independent and may
+    // become possible after channel info arrives via continuation.
+    tryDecorateChannelButton(row);
+    return;
+  }
   // Shorts shelf items can nest one history-item tag inside another
   // (`<ytm-shorts-lockup-view-model><ytm-shorts-lockup-view-model-v2>...`).
   // Skip the inner match so we render exactly one button per visible card.
@@ -68,6 +58,7 @@ export function decorateRow(row: HTMLElement): void {
   row.dataset["ythcDecorated"] = "1";
   row.style.position = "relative";
   insertDeleteButton(row);
+  tryDecorateChannelButton(row);
 }
 
 export function insertDeleteButton(row: HTMLElement): void {
@@ -236,12 +227,4 @@ function waitForNewCards(shelf: HTMLElement, timeoutMs: number): Promise<boolean
       resolve(false);
     }, timeoutMs);
   });
-}
-
-export function showToast(message: string): void {
-  const t = document.createElement("div");
-  t.className = "ythc-toast";
-  t.textContent = message;
-  document.body.appendChild(t);
-  setTimeout(() => t.remove(), TOAST_LIFETIME_MS);
 }

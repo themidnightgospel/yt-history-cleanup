@@ -1,5 +1,8 @@
 import { LOG_PREFIX } from "./log.js";
-import { collectTokens, tokenCount } from "./tokens.js";
+import { collectTokens, collectChannels, tokenCount } from "./tokens.js";
+import { tryDecorateChannelButton } from "./channel-delete.js";
+
+const ROW_SELECTOR = "yt-lockup-view-model, ytd-video-renderer";
 
 export const INNERTUBE_BROWSE_MATCH = "/youtubei/v1/browse";
 
@@ -19,6 +22,7 @@ export function patchFetchForContinuations(): void {
           .then((json) => {
             const before = tokenCount();
             collectTokens(json);
+            collectChannels(json);
             const added = tokenCount() - before;
             if (added > 0) {
               console.log(
@@ -27,6 +31,11 @@ export function patchFetchForContinuations(): void {
                 "tokens (total",
                 tokenCount() + ")",
               );
+            }
+            // Channel info may have just arrived for already-decorated rows.
+            // Sweep video rows and retry channel-button decoration.
+            for (const row of document.querySelectorAll<HTMLElement>(ROW_SELECTOR)) {
+              tryDecorateChannelButton(row);
             }
           })
           .catch((err) => console.debug(`${LOG_PREFIX} continuation parse failed`, err));

@@ -4,6 +4,7 @@
 
 Accepted — 2026-06-06
 Amended — 2026-06-06 (batch delete feature removed; decision applies only to the per-row trash icon)
+Amended — 2026-06-06 (scope clarified: applies to per-row trash and shelf delete-all; channel-wide delete carved out via ADR 0004)
 
 ## Context
 
@@ -15,7 +16,9 @@ Undo is also technically expensive. YouTube exposes no "restore history item" en
 
 ## Decision
 
-Single-click on the row trash icon deletes immediately. No confirmation dialog. No undo affordance. Failures surface as a non-blocking toast.
+Single-click on the row trash icon deletes immediately. The shelf "delete all shorts in this group" button does likewise. No confirmation dialog. No undo affordance. Failures surface as a non-blocking toast.
+
+The channel-wide "delete all videos of this channel" action is the deliberate exception — see ADR 0004.
 
 ## Consequences
 
