@@ -1,3 +1,1995 @@
 {
-  "_PLACEHOLDER": "Replace this file with a real ytInitialData snapshot captured from /feed/history. In DevTools console on a logged-in YouTube history page, run: copy(JSON.stringify(window.ytInitialData)) and paste the result here, replacing the entire object. The canary test in src/tokens.test.ts checks that the walker finds >= 1 token in this snapshot — when YouTube renames a field, it drops to 0 and the test fails."
+  "_scrubbed": "Synthetic tokens + videoIds. Personal data fully replaced; shape preserved so the canary test still exercises the walker over a realistic-looking, multi-entry payload.",
+  "triples": [
+    {
+      "feedbackToken": "synthToken_0001",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0001"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0002",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0002"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0003",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0003"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0004",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0004"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0005",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0005"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0006",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0006"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0007",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0007"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0008",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0008"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0009",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0009"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0010",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0010"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0011",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0011"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0012",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0012"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0013",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0013"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0014",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0014"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0015",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0015"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0016",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0016"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0017",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0017"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0018",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0018"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0019",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0019"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0020",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0020"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0021",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0021"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0022",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0022"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0023",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0023"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0024",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0024"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0025",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0025"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0026",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0026"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0027",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0027"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0028",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0028"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0029",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0029"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0030",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0030"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0031",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0031"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0032",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0032"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0033",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0033"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0034",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0034"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0035",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0035"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0036",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0036"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0037",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0037"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0038",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0038"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0039",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0039"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0040",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0040"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0041",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0041"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0042",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0042"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0043",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0043"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0044",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0044"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0045",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0045"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0046",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0046"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0047",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0047"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0048",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0048"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0049",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0049"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0050",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0050"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0051",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0051"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0052",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0052"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0053",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0053"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0054",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0054"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0055",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0055"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0056",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0056"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0057",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0057"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0058",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0058"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0059",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0059"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0060",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0060"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0061",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0061"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0062",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0062"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0063",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0063"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0064",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0064"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0065",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0065"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0066",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0066"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0067",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0067"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0068",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0068"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0069",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0069"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0070",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0070"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0071",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0071"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0072",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0072"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0073",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0073"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0074",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0074"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0075",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0075"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0076",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0076"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0077",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0077"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0078",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0078"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0079",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0079"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0080",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0080"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0081",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0081"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0082",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0082"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0083",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0083"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0084",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0084"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0085",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0085"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0086",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0086"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0087",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0087"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0088",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0088"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0089",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0089"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0090",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0090"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0091",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0091"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0092",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0092"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0093",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0093"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0094",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0094"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0095",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0095"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0096",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0096"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0097",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0097"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0098",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0098"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0099",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0099"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0100",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0100"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0101",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0101"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0102",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0102"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0103",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0103"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0104",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0104"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0105",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0105"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0106",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0106"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0107",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0107"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0108",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0108"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0109",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0109"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0110",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0110"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0111",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0111"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0112",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0112"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0113",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0113"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0114",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0114"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0115",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0115"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0116",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0116"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0117",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0117"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0118",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0118"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0119",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0119"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0120",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0120"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0121",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0121"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0122",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0122"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0123",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0123"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0124",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0124"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0125",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0125"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0126",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0126"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0127",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0127"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0128",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0128"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0129",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0129"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0130",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0130"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0131",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0131"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0132",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0132"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0133",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0133"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0134",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0134"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0135",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0135"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0136",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0136"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0137",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0137"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0138",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0138"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0139",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0139"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0140",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0140"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0141",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0141"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0142",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0142"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0143",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0143"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0144",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0144"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0145",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0145"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0146",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0146"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0147",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0147"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0148",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0148"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0149",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0149"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0150",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0150"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0151",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0151"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0152",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0152"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0153",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0153"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0154",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0154"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0155",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0155"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0156",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0156"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0157",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0157"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0158",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0158"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0159",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0159"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0160",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0160"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0161",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0161"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0162",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0162"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0163",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0163"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0164",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0164"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0165",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0165"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0166",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0166"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0167",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0167"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0168",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0168"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0169",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0169"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0170",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0170"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0171",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0171"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0172",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0172"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0173",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0173"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0174",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0174"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0175",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0175"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0176",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0176"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0177",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0177"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0178",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0178"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0179",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0179"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0180",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0180"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0181",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0181"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0182",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0182"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0183",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0183"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0184",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0184"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0185",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0185"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0186",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0186"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0187",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0187"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0188",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0188"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0189",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0189"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0190",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0190"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0191",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0191"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0192",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0192"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0193",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0193"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0194",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0194"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0195",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0195"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0196",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0196"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0197",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0197"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0198",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0198"
+          }
+        }
+      ]
+    },
+    {
+      "feedbackToken": "synthToken_0199",
+      "actions": [
+        {
+          "hideItemSectionVideosByIdCommand": {
+            "videoId": "synthVid_0199"
+          }
+        }
+      ]
+    }
+  ]
 }

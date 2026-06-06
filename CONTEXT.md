@@ -6,7 +6,11 @@ Glossary for this project. Canonical meanings of terms that appear in code, docs
 
 ### history item
 
-A single video row rendered on `https://www.youtube.com/feed/history`. Each row carries a thumbnail, title, channel, and a hidden `feedbackToken` used to remove it from watch history.
+A single video or short rendered on `https://www.youtube.com/feed/history`. Carries a thumbnail, title, channel, and a hidden `feedbackToken` used to remove it from watch history. May appear as a standalone row or as a card inside a `shorts shelf`.
+
+### shorts shelf
+
+A horizontal group of short `history items`, rendered as `<ytd-reel-shelf-renderer>`. YouTube groups shorts into shelves when several appear contiguously in the history feed. Each shelf item is a `<ytm-shorts-lockup-view-model>` (or `-v2`) card; a short can also appear outside a shelf as a regular `<ytd-video-renderer>` row.
 
 ### feedbackToken
 

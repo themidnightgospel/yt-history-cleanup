@@ -13,9 +13,31 @@
         },
       };
       window.ytInitialData = {
-        feedbackToken: "FIXTURE_TOKEN_1",
-        actions: [
-          { hideItemSectionVideosByIdCommand: { videoId: "fixtureVid1" } },
+        items: [
+          {
+            feedbackToken: "FIXTURE_TOKEN_1",
+            actions: [
+              { hideItemSectionVideosByIdCommand: { videoId: "fixtureVid1" } },
+            ],
+          },
+          {
+            feedbackToken: "FIXTURE_TOKEN_SHORT",
+            actions: [
+              { hideItemSectionVideosByIdCommand: { videoId: "fixtureShort1" } },
+            ],
+          },
+          {
+            feedbackToken: "FIXTURE_TOKEN_SHELF_A",
+            actions: [
+              { hideItemSectionVideosByIdCommand: { videoId: "fixtureShelfA" } },
+            ],
+          },
+          {
+            feedbackToken: "FIXTURE_TOKEN_SHELF_B",
+            actions: [
+              { hideItemSectionVideosByIdCommand: { videoId: "fixtureShelfB" } },
+            ],
+          },
         ],
       };
       document.cookie = "SAPISID=fixtureSapisid; Path=/";
@@ -23,5 +45,30 @@
     <yt-lockup-view-model id="row-1">
       <a href="https://www.youtube.com/watch?v=fixtureVid1">Fixture video 1</a>
     </yt-lockup-view-model>
+    <ytd-reel-shelf-renderer>
+      <div id="contents">
+        <ytm-shorts-lockup-view-model id="short-1" class="shortsLockupViewModelHost">
+          <a href="/shorts/fixtureShort1">Fixture short 1</a>
+        </ytm-shorts-lockup-view-model>
+      </div>
+    </ytd-reel-shelf-renderer>
+    <ytd-reel-shelf-renderer id="shelf-bulk">
+      <div id="header">
+        <div id="menu">
+          <button aria-label="More actions">⋯</button>
+        </div>
+      </div>
+      <div id="right-arrow">
+        <button aria-label="Next" aria-disabled="true">→</button>
+      </div>
+      <div id="contents">
+        <ytm-shorts-lockup-view-model id="bulk-a" class="shortsLockupViewModelHost">
+          <a href="/shorts/fixtureShelfA">A</a>
+        </ytm-shorts-lockup-view-model>
+        <ytm-shorts-lockup-view-model id="bulk-b" class="shortsLockupViewModelHost">
+          <a href="/shorts/fixtureShelfB">B</a>
+        </ytm-shorts-lockup-view-model>
+      </div>
+    </ytd-reel-shelf-renderer>
   </body>
 </html>

@@ -69,9 +69,11 @@ export function getFeedbackToken(row: HTMLElement): string | null {
 }
 
 export function getVideoId(row: HTMLElement): string | null {
-  const link = row.querySelector<HTMLAnchorElement>('a[href*="watch?v="]');
+  const link = row.querySelector<HTMLAnchorElement>(
+    'a[href*="watch?v="], a[href*="/shorts/"]',
+  );
   if (!link) return null;
-  const match = link.href.match(/[?&]v=([^&]+)/);
+  const match = link.href.match(/(?:[?&]v=|\/shorts\/)([A-Za-z0-9_-]+)/);
   return match?.[1] ?? null;
 }
 

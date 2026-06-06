@@ -93,6 +93,19 @@ describe("getVideoId / getFeedbackToken (DOM)", () => {
     expect(getVideoId(row)).toBe("abc123XYZ");
   });
 
+  it("extracts videoId from a /shorts/ link", () => {
+    const row = makeRow("https://www.youtube.com/shorts/SHORT_abc-1");
+    expect(getVideoId(row)).toBe("SHORT_abc-1");
+  });
+
+  it("extracts videoId from a relative /shorts/ link", () => {
+    const row = document.createElement("div");
+    const link = document.createElement("a");
+    link.setAttribute("href", "/shorts/REL_short99");
+    row.appendChild(link);
+    expect(getVideoId(row)).toBe("REL_short99");
+  });
+
   it("returns null when no /watch?v= link is present", () => {
     const row = makeRow(null);
     expect(getVideoId(row)).toBeNull();
@@ -132,13 +145,12 @@ describe("buildInitialTokenMap", () => {
   });
 });
 
+// Canary: feeds the walker a scrubbed snapshot derived from a real
+// ytInitialData payload. If YouTube renames `hideItemSectionVideosByIdCommand`
+// or `localWatchHistoryCommand`, the walker stops finding tokens and this
+// fails — surfaces the drift before users hit it.
 describe("captured snapshot canary", () => {
-  it("captured fixture contains at least one extractable token (or is the placeholder)", () => {
-    if ("_PLACEHOLDER" in captured) {
-      // No real snapshot supplied yet — skip the canary assertion but document why.
-      expect(captured._PLACEHOLDER).toBeTypeOf("string");
-      return;
-    }
+  it("captured fixture yields tokens via the walker", () => {
     collectTokens(captured);
     expect(tokenCount()).toBeGreaterThan(0);
   });

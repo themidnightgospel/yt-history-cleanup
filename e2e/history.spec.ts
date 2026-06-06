@@ -49,11 +49,15 @@ test("decorates a history row with a delete button", async () => {
   await expect(btn).toHaveAttribute("aria-label", "Delete from history");
 });
 
-test("clicking the delete button issues a POST to /youtubei/v1/feedback", async () => {
-  let feedbackHit = false;
+test("decorates a shelf short with a delete button", async () => {
+  await page.goto("https://www.youtube.com/feed/history");
+  const btn = page.locator("#short-1 .ythc-delete-btn");
+  await expect(btn).toHaveCount(1, { timeout: 5000 });
+});
+
+test("clicking the shelf short delete button posts its feedbackToken", async () => {
   let feedbackBody: string | null = null;
   await page.route("https://www.youtube.com/youtubei/v1/feedback*", async (route, request) => {
-    feedbackHit = true;
     feedbackBody = request.postData();
     await route.fulfill({
       status: 200,
@@ -63,10 +67,61 @@ test("clicking the delete button issues a POST to /youtubei/v1/feedback", async 
   });
 
   await page.goto("https://www.youtube.com/feed/history");
-  await page.locator("yt-lockup-view-model .ythc-delete-btn").click();
-  await page.waitForTimeout(500);
+  const responsePromise = page.waitForResponse((r) =>
+    r.url().includes("/youtubei/v1/feedback"),
+  );
+  await page.locator("#short-1 .ythc-delete-btn").click();
+  await responsePromise;
 
-  expect(feedbackHit).toBe(true);
+  expect(feedbackBody).toContain("FIXTURE_TOKEN_SHORT");
+  await expect(page.locator("#short-1")).toHaveCount(0);
+});
+
+test("shelf delete-all button empties a single-page shelf and posts each token", async () => {
+  const posted: string[] = [];
+  await page.route("https://www.youtube.com/youtubei/v1/feedback*", async (route, request) => {
+    const body = request.postData();
+    if (body) posted.push(body);
+    await route.fulfill({
+      status: 200,
+      contentType: "application/json",
+      body: JSON.stringify({ feedbackResponses: [{ isProcessed: true }] }),
+    });
+  });
+
+  await page.goto("https://www.youtube.com/feed/history");
+  const shelfBtn = page.locator("#shelf-bulk .ythc-shelf-delete-btn");
+  await expect(shelfBtn).toHaveCount(1, { timeout: 5000 });
+  await shelfBtn.click();
+
+  await page.waitForFunction(
+    () => document.querySelectorAll("#shelf-bulk ytm-shorts-lockup-view-model").length === 0,
+    null,
+    { timeout: 5000 },
+  );
+
+  expect(posted.some((b) => b.includes("FIXTURE_TOKEN_SHELF_A"))).toBe(true);
+  expect(posted.some((b) => b.includes("FIXTURE_TOKEN_SHELF_B"))).toBe(true);
+});
+
+test("clicking the delete button issues a POST to /youtubei/v1/feedback", async () => {
+  let feedbackBody: string | null = null;
+  await page.route("https://www.youtube.com/youtubei/v1/feedback*", async (route, request) => {
+    feedbackBody = request.postData();
+    await route.fulfill({
+      status: 200,
+      contentType: "application/json",
+      body: JSON.stringify({ feedbackResponses: [{ isProcessed: true }] }),
+    });
+  });
+
+  await page.goto("https://www.youtube.com/feed/history");
+  const responsePromise = page.waitForResponse((r) =>
+    r.url().includes("/youtubei/v1/feedback"),
+  );
+  await page.locator("yt-lockup-view-model .ythc-delete-btn").click();
+  await responsePromise;
+
   expect(feedbackBody).toContain("FIXTURE_TOKEN_1");
   await expect(page.locator("#row-1")).toHaveCount(0);
 });

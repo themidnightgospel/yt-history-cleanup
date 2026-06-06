@@ -1,7 +1,13 @@
 import { LOG_PREFIX } from "./log.js";
 import { buildInitialTokenMap } from "./tokens.js";
 import { patchFetchForContinuations } from "./fetch-patch.js";
-import { decorateRow, observeNewItems, HISTORY_ITEM_SELECTOR } from "./dom.js";
+import {
+  decorateRow,
+  decorateShelf,
+  observeNewItems,
+  HISTORY_ITEM_SELECTOR,
+  SHELF_SELECTOR,
+} from "./dom.js";
 
 function main(): void {
   console.log(
@@ -12,9 +18,12 @@ function main(): void {
   );
   buildInitialTokenMap();
   patchFetchForContinuations();
-  const initial = document.querySelectorAll<HTMLElement>(HISTORY_ITEM_SELECTOR);
-  console.log(`${LOG_PREFIX} initial scan found`, initial.length, "rows");
-  initial.forEach(decorateRow);
+  const initialRows = document.querySelectorAll<HTMLElement>(HISTORY_ITEM_SELECTOR);
+  console.log(`${LOG_PREFIX} initial scan found`, initialRows.length, "rows");
+  initialRows.forEach(decorateRow);
+  const initialShelves = document.querySelectorAll<HTMLElement>(SHELF_SELECTOR);
+  console.log(`${LOG_PREFIX} initial scan found`, initialShelves.length, "shelves");
+  initialShelves.forEach(decorateShelf);
   observeNewItems();
 }
 
