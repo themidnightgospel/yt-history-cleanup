@@ -3,6 +3,19 @@
   "name": "YouTube History Cleanup",
   "version": "0.2.0",
   "description": "Adds always-visible delete buttons to the YouTube watch history page.",
+  "icons": {
+    "16": "icon.png",
+    "32": "icon.png",
+    "48": "icon.png",
+    "128": "icon.png"
+  },
+  "action": {
+    "default_icon": {
+      "16": "icon.png",
+      "32": "icon.png"
+    },
+    "default_title": "YouTube History Cleanup"
+  },
   "content_scripts": [
     {
       "matches": ["https://www.youtube.com/feed/history*"],

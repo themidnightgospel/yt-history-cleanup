@@ -7,6 +7,7 @@ async function copyStatic() {
   await mkdir("dist", { recursive: true });
   await copyFile("manifest.json", "dist/manifest.json");
   await copyFile("src/content.css", "dist/content.css");
+  await copyFile("icon.png", "dist/icon.png");
 }
 
 const ctx = await esbuild.context({
