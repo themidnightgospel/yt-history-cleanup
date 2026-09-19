@@ -146,6 +146,69 @@ test("Undo restores the card and posts the undo token, not the survey token", as
   await expect(page.locator("#card-1 .ythc-removed")).toHaveCount(0);
   await expect(page.locator("#card-1 yt-lockup-view-model")).toBeVisible();
   await expect(page.locator("#card-1 .ythc-fb-btn")).toHaveCount(2);
+  // The undo request must have succeeded silently.
+  await expect(page.locator(".ythc-toast")).toHaveCount(0);
+});
+
+test("Undo is removed when the response carries no undo token", async () => {
+  await captureFeedback({ feedbackResponses: [{ isProcessed: true }], actions: [] });
+  await page.goto(HOME_URL);
+  await page.locator('#card-1 .ythc-fb-btn[data-action="notInterested"]').click();
+  await expect(page.locator("#card-1 .ythc-removed")).toBeVisible();
+  await expect(page.locator("#card-1 .ythc-removed-undo")).toHaveCount(0);
+});
+
+test("a card rendered after load is decorated by the observer without any fetch", async () => {
+  await page.goto(HOME_URL);
+  await expect(page.locator("#card-1 .ythc-fb-btn")).toHaveCount(2, { timeout: 5000 });
+
+  // Same video as card-1, so its tokens are already known from ytInitialData.
+  await page.evaluate(() => {
+    const card = document.createElement("ytd-rich-item-renderer");
+    card.id = "card-observed";
+    const content = document.createElement("div");
+    content.id = "content";
+    const lockup = document.createElement("yt-lockup-view-model");
+    const link = document.createElement("a");
+    link.href = "https://www.youtube.com/watch?v=fixtureHom1";
+    lockup.append(link, document.createElement("yt-thumbnail-view-model"));
+    content.appendChild(lockup);
+    card.appendChild(content);
+    document.querySelector("#contents")!.appendChild(card);
+  });
+
+  await expect(page.locator("#card-observed .ythc-fb-btn")).toHaveCount(2, { timeout: 5000 });
+});
+
+test("history decorations do not bleed onto home cards after History → Home SPA navigation", async () => {
+  const historyHtml = await readFile(resolve(here, "fixtures", "history.html"), "utf8");
+  await page.route("https://www.youtube.com/feed/history*", (route) =>
+    route.fulfill({ status: 200, contentType: "text/html", body: historyHtml }),
+  );
+  await page.goto("https://www.youtube.com/feed/history");
+  await expect(page.locator("#row-1 .ythc-delete-btn")).toHaveCount(1, { timeout: 5000 });
+
+  // Client-side route change to Home, then a home card renders.
+  await page.evaluate(() => {
+    history.pushState({}, "", "/");
+    window.dispatchEvent(new Event("yt-navigate-finish"));
+    const card = document.createElement("ytd-rich-item-renderer");
+    card.id = "card-after-nav";
+    const content = document.createElement("div");
+    content.id = "content";
+    const lockup = document.createElement("yt-lockup-view-model");
+    const link = document.createElement("a");
+    link.href = "https://www.youtube.com/watch?v=fixtureVid1";
+    lockup.append(link, document.createElement("yt-thumbnail-view-model"));
+    content.appendChild(lockup);
+    card.appendChild(content);
+    document.body.appendChild(card);
+  });
+
+  // Give the observers a tick, then assert nothing history-shaped landed.
+  await page.waitForTimeout(200);
+  await expect(page.locator("#card-after-nav .ythc-delete-btn")).toHaveCount(0);
+  await expect(page.locator("#card-after-nav .ythc-channel-delete-btn")).toHaveCount(0);
 });
 
 test("a failed request restores the card and shows a toast", async () => {

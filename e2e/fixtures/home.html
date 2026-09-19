@@ -71,7 +71,8 @@
             richItemRenderer: {
               content: {
                 shortsLockupViewModel: {
-                  contentId: "fixtureSht1",
+                  entityId: "shorts-shelf-item-fixtureSht1",
+                  onTap: { innertubeCommand: { reelWatchEndpoint: { videoId: "fixtureSht1" } } },
                   menuOnTap: menu([item("Not interested", "FIXTURE_SHORT_NI")]).buttonViewModel
                     .onTap,
                 },

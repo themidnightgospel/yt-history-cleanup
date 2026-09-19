@@ -1,5 +1,3 @@
-import { getVideoId } from "./tokens.js";
-
 // Home-feed cards carry two feedback actions in their 3-dot menu:
 // "Not interested" and "Don't recommend channel". Each is a feedbackToken
 // with no videoId inside its endpoint (unlike history tokens), so we key
@@ -41,14 +39,19 @@ export function collectHomeTokens(root: unknown): void {
     const obj = node as Record<string, unknown>;
 
     const id = cardId(obj);
-    if (id && !actionsByVideoId.has(id)) {
+    if (id) {
       const found = labeledTokensIn(obj);
       const tokens: ActionTokens = {};
       for (const action of Object.keys(ACTION_LABELS) as FeedbackAction[]) {
         const hit = found.find((t) => ACTION_LABELS[action].test(t.label.trim()));
         if (hit) tokens[action] = hit.token;
       }
-      if (Object.keys(tokens).length > 0) actionsByVideoId.set(id, tokens);
+      // Merge per action, newest payload wins: the same video can appear in
+      // a shorts shelf (Not interested only) and in the grid (both), and
+      // YouTube issues fresh tokens on every render.
+      if (Object.keys(tokens).length > 0) {
+        actionsByVideoId.set(id, { ...actionsByVideoId.get(id), ...tokens });
+      }
     }
 
     if (Array.isArray(node)) for (const c of node) stack.push(c);
@@ -63,6 +66,29 @@ function cardId(obj: Record<string, unknown>): string | null {
   // require the menu to be present to treat this node as a card.
   const vid = obj["videoId"];
   if (typeof vid === "string" && VIDEO_ID_RE.test(vid) && "menu" in obj) return vid;
+  // Shorts lockups carry their menu as `menuOnTap` and their id inside the
+  // tap command's reelWatchEndpoint rather than a top-level contentId.
+  if ("menuOnTap" in obj) return findVideoIdInSubtree(obj["onTap"]);
+  return null;
+}
+
+function findVideoIdInSubtree(root: unknown): string | null {
+  const stack: unknown[] = [root];
+  let steps = 0;
+  while (stack.length > 0 && steps++ < 200) {
+    const node = stack.pop();
+    if (!node || typeof node !== "object") continue;
+    const obj = node as Record<string, unknown>;
+    for (const key of ["reelWatchEndpoint", "watchEndpoint"]) {
+      const ep = obj[key];
+      if (ep && typeof ep === "object") {
+        const vid = (ep as Record<string, unknown>)["videoId"];
+        if (typeof vid === "string" && VIDEO_ID_RE.test(vid)) return vid;
+      }
+    }
+    if (Array.isArray(node)) for (const c of node) stack.push(c);
+    else for (const k in obj) stack.push(obj[k]);
+  }
   return null;
 }
 
@@ -112,6 +138,8 @@ export function labeledTokensIn(root: unknown): LabeledToken[] {
 function labelOf(obj: Record<string, unknown>): string | null {
   for (const key of ["text", "title"]) {
     const t = obj[key];
+    // View-model buttons carry a plain string title ("Undo").
+    if (typeof t === "string") return t;
     if (!t || typeof t !== "object") continue;
     const rec = t as Record<string, unknown>;
     if (typeof rec["simpleText"] === "string") return rec["simpleText"];
@@ -135,8 +163,23 @@ export function findLabeledToken(root: unknown, pattern: RegExp): string | null 
   return hit?.token ?? null;
 }
 
+// A playlist or mix card links to `/watch?v=<first video>&list=...`; keying
+// it by that video would let it borrow a real video card's tokens. Only
+// links without a list parameter identify a card.
+export function getHomeVideoId(card: HTMLElement): string | null {
+  const links = card.querySelectorAll<HTMLAnchorElement>(
+    'a[href*="watch?v="], a[href*="/shorts/"]',
+  );
+  for (const link of links) {
+    if (/[?&]list=/.test(link.href)) continue;
+    const match = link.href.match(/(?:[?&]v=|\/shorts\/)([A-Za-z0-9_-]+)/);
+    if (match?.[1]) return match[1];
+  }
+  return null;
+}
+
 export function getHomeToken(card: HTMLElement, action: FeedbackAction): string | null {
-  const videoId = getVideoId(card);
+  const videoId = getHomeVideoId(card);
   if (!videoId) return null;
   return actionsByVideoId.get(videoId)?.[action] ?? null;
 }

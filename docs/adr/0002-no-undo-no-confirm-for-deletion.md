@@ -5,6 +5,7 @@
 Accepted — 2026-06-06
 Amended — 2026-06-06 (batch delete feature removed; decision applies only to the per-row trash icon)
 Amended — 2026-06-06 (scope clarified: applies to per-row trash and shelf delete-all; channel-wide delete carved out via ADR 0004)
+Amended — 2026-09-19 (home-feed feedback actions offer Undo because YouTube returns a genuine undo token; carved out via ADR 0005. This decision still governs history deletes.)
 
 ## Context
 

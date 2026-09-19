@@ -2,6 +2,7 @@ import { LOG_PREFIX } from "./log.js";
 import { collectTokens, collectChannels, tokenCount } from "./tokens.js";
 import { collectHomeTokens, homeTokenCount } from "./home-tokens.js";
 import { tryDecorateChannelButton } from "./channel-delete.js";
+import { isOnHistory } from "./dom.js";
 import { decorateAllHomeCards, isOnHome } from "./home-feed.js";
 
 const ROW_SELECTOR = "yt-lockup-view-model, ytd-video-renderer";
@@ -46,9 +47,12 @@ export function patchFetchForContinuations(): void {
               );
             }
             // Channel info may have just arrived for already-decorated rows.
-            // Sweep video rows and retry channel-button decoration.
-            for (const row of document.querySelectorAll<HTMLElement>(ROW_SELECTOR)) {
-              tryDecorateChannelButton(row);
+            // Sweep video rows and retry channel-button decoration. Gated by
+            // route: home-feed lockups match ROW_SELECTOR too.
+            if (isOnHistory()) {
+              for (const row of document.querySelectorAll<HTMLElement>(ROW_SELECTOR)) {
+                tryDecorateChannelButton(row);
+              }
             }
             // Likewise home cards that rendered before their tokens landed.
             if (isOnHome()) decorateAllHomeCards();

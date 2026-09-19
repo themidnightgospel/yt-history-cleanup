@@ -48,7 +48,7 @@ See [`CONTEXT.md`](CONTEXT.md) for the glossary of terms used in the code and do
 
 - No accounts, no analytics, no telemetry, no remote servers
 - No data is collected, stored, or transmitted to any third party
-- The only network traffic is the delete request sent directly to youtube.com on your behalf
+- The only network traffic is the delete, feedback, and undo requests sent directly to youtube.com on your behalf
 - No `chrome.storage`, no `localStorage`, no cookies, no persistence
 
 Full policy: [`docs/privacy.md`](docs/privacy.md)

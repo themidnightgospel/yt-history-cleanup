@@ -5,6 +5,7 @@ import {
   labeledTokensIn,
   findLabeledToken,
   getHomeToken,
+  getHomeVideoId,
   clearHomeTokens,
   homeTokenCount,
   UNDO_LABEL,
@@ -54,7 +55,7 @@ describe("collectHomeTokens", () => {
     expect(homeTokenCount()).toBe(0);
   });
 
-  it("does not overwrite an existing entry for the same id", () => {
+  it("merges per action so a later payload refreshes one token and keeps the other", () => {
     collectHomeTokens(synthetic.lockupCard);
     collectHomeTokens({
       lockupViewModel: {
@@ -66,7 +67,16 @@ describe("collectHomeTokens", () => {
       },
     });
     const card = makeCard("https://www.youtube.com/watch?v=vidLockup01");
-    expect(getHomeToken(card, "notInterested")).toBe("TOKEN_LOCKUP_NI");
+    expect(getHomeToken(card, "notInterested")).toBe("TOKEN_SECOND");
+    expect(getHomeToken(card, "dontRecommendChannel")).toBe("TOKEN_LOCKUP_DRC");
+  });
+
+  it("keys a short by the reelWatchEndpoint videoId under its tap command", () => {
+    collectHomeTokens(synthetic.shortsCard);
+    expect(homeTokenCount()).toBe(1);
+    expect(getHomeToken(makeCard("/shorts/vidShorts01"), "notInterested")).toBe(
+      "TOKEN_SHORTS_NI",
+    );
   });
 
   it("walks a whole feed payload with several cards", () => {
@@ -98,6 +108,16 @@ describe("labeledTokensIn", () => {
     expect(labels).toEqual(["Not interested", "Don't recommend channel"]);
   });
 
+  it("reads a plain-string title, as view-model buttons use", () => {
+    const found = labeledTokensIn({
+      buttonViewModel: {
+        title: "Undo",
+        onTap: { innertubeCommand: { feedbackEndpoint: { feedbackToken: "T_VM_UNDO" } } },
+      },
+    });
+    expect(found).toEqual([{ label: "Undo", token: "T_VM_UNDO" }]);
+  });
+
   it("survives cyclic input", () => {
     const a: Record<string, unknown> = { feedbackEndpoint: { feedbackToken: "T" } };
     a["self"] = a;
@@ -113,6 +133,27 @@ describe("findLabeledToken", () => {
 
   it("returns null when no label matches", () => {
     expect(findLabeledToken(synthetic.feedbackResponseWithoutUndo.actions, UNDO_LABEL)).toBeNull();
+  });
+});
+
+describe("getHomeVideoId", () => {
+  it("reads the video id from a plain watch link", () => {
+    expect(getHomeVideoId(makeCard("https://www.youtube.com/watch?v=vidLockup01"))).toBe(
+      "vidLockup01",
+    );
+  });
+
+  it("ignores playlist and mix links so a list card never borrows a video's tokens", () => {
+    const card = makeCard("https://www.youtube.com/watch?v=vidLockup01&list=RDvidLockup01");
+    expect(getHomeVideoId(card)).toBeNull();
+  });
+
+  it("prefers a plain link over a list link when both are present", () => {
+    const card = makeCard("https://www.youtube.com/watch?v=vidLockup01&list=PL1");
+    const plain = document.createElement("a");
+    plain.href = "https://www.youtube.com/watch?v=vidClassic1";
+    card.appendChild(plain);
+    expect(getHomeVideoId(card)).toBe("vidClassic1");
   });
 });
 

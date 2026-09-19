@@ -6,7 +6,7 @@
 
 ## Summary
 
-YouTube History Cleanup does not collect, store, or transmit any user data to any party. It runs entirely in your browser. The only network traffic it produces is requests sent directly to youtube.com on your behalf to delete history items.
+YouTube History Cleanup does not collect, store, or transmit any user data to any party. It runs entirely in your browser. The only network traffic it produces is requests sent directly to youtube.com on your behalf to delete history items or to mark home-feed recommendations as not interested, and to undo the latter.
 
 ## Data we collect
 

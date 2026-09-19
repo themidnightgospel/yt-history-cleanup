@@ -5,19 +5,14 @@ import {
   decorateRow,
   decorateShelf,
   observeNewItems,
+  isOnHistory,
   HISTORY_ITEM_SELECTOR,
   SHELF_SELECTOR,
 } from "./dom.js";
 import { activateHomeFeed, isOnHome, restoreAllPlaceholders } from "./home-feed.js";
 
-const HISTORY_PATH = "/feed/history";
-
 let fetchPatched = false;
 let observerStarted = false;
-
-function isOnHistory(): boolean {
-  return location.pathname === HISTORY_PATH;
-}
 
 function activate(): void {
   console.log(

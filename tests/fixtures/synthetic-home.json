@@ -120,7 +120,12 @@
     "richItemRenderer": {
       "content": {
         "shortsLockupViewModel": {
-          "contentId": "vidShorts01",
+          "entityId": "shorts-shelf-item-vidShorts01",
+          "onTap": {
+            "innertubeCommand": {
+              "reelWatchEndpoint": { "videoId": "vidShorts01", "playerParams": "x" }
+            }
+          },
           "menuOnTap": {
             "innertubeCommand": {
               "showSheetCommand": {

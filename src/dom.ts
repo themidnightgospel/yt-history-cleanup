@@ -23,8 +23,17 @@ const HISTORY_ITEM_SELECTORS = [
 ];
 export const HISTORY_ITEM_SELECTOR = HISTORY_ITEM_SELECTORS.join(",");
 
+const HISTORY_PATH = "/feed/history";
+
+export function isOnHistory(): boolean {
+  return location.pathname === HISTORY_PATH;
+}
+
 export function observeNewItems(): void {
   const observer = new MutationObserver((mutations) => {
+    // The observer outlives SPA navigations; home-feed cards match the
+    // history selectors too, so never decorate off the history page.
+    if (!isOnHistory()) return;
     for (const m of mutations) {
       m.addedNodes.forEach((node) => {
         if (!(node instanceof HTMLElement)) return;

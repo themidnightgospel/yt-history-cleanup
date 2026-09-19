@@ -1,12 +1,11 @@
 import { LOG_PREFIX } from "./log.js";
 import { postFeedback } from "./api.js";
-import { getVideoId } from "./tokens.js";
 import {
-  ACTION_LABELS,
   UNDO_LABEL,
   buildInitialHomeTokenMap,
   findLabeledToken,
   getHomeToken,
+  getHomeVideoId,
   type FeedbackAction,
 } from "./home-tokens.js";
 import { makeSvgIcon, showToast } from "./dom-shared.js";
@@ -58,13 +57,15 @@ const ACTION_ORDER: FeedbackAction[] = ["notInterested", "dontRecommendChannel"]
 // token has since become known (continuations land after the card renders).
 // If YouTube re-binds the element to another video, the box is rebuilt.
 export function decorateHomeCard(card: HTMLElement): void {
-  const videoId = getVideoId(card);
+  const videoId = getHomeVideoId(card);
   if (!videoId) return;
 
   const placeholder = placeholders.get(card);
   if (placeholder) {
-    if (placeholder.videoId !== videoId) placeholder.restore();
-    return;
+    if (placeholder.videoId === videoId) return;
+    // Re-bound to another video: drop the stale placeholder and fall
+    // through so the button box is rebuilt for the new video.
+    placeholder.restore();
   }
 
   let box = card.querySelector<HTMLElement>(`.${BOX_CLASS}`);
@@ -114,7 +115,13 @@ export function decorateAllHomeCards(): void {
 // ---------------------------------------------------------------------------
 // Placeholder (mirrors YouTube's own "Video removed / Undo" card)
 
-type Placeholder = { videoId: string; restore: () => void; onUndo: () => void };
+type Placeholder = {
+  videoId: string;
+  restore: () => void;
+  /** Removes the Undo button, for a response that carried no undo token. */
+  disableUndo: () => void;
+  onUndo: () => void;
+};
 
 const placeholders = new Map<HTMLElement, Placeholder>();
 
@@ -123,6 +130,10 @@ export function showRemovedPlaceholder(
   videoId: string,
   text: string,
 ): Placeholder {
+  // Cards YouTube dropped without a navigation would otherwise stay
+  // referenced here until the next yt-navigate-finish.
+  for (const [el, p] of placeholders) if (!el.isConnected) p.restore();
+
   const content = card.querySelector<HTMLElement>(":scope > #content") ?? card;
   const height = content.offsetHeight;
 
@@ -153,6 +164,7 @@ export function showRemovedPlaceholder(
   const placeholder: Placeholder = {
     videoId,
     onUndo: () => {},
+    disableUndo: () => undo.remove(),
     restore: () => {
       if (!placeholders.has(card)) return;
       placeholders.delete(card);
@@ -185,7 +197,7 @@ export async function onFeedbackClick(
 ): Promise<void> {
   e.stopPropagation();
   e.preventDefault();
-  const videoId = getVideoId(card);
+  const videoId = getHomeVideoId(card);
   const token = getHomeToken(card, action);
   if (!videoId || !token) {
     console.warn(`${LOG_PREFIX} no ${action} token for card`, card);
@@ -195,6 +207,7 @@ export async function onFeedbackClick(
 
   const placeholder = showRemovedPlaceholder(card, videoId, ACTIONS[action].removedText);
   let undoToken: string | null = null;
+  let responded = false;
   let undoRequested = false;
 
   placeholder.onUndo = () => {
@@ -202,16 +215,19 @@ export async function onFeedbackClick(
     placeholder.restore();
     // If the request is still in flight the undo is sent when it lands.
     if (undoToken) void sendUndo(undoToken);
+    else if (responded) showToast("Couldn't undo. YouTube may still have this feedback.");
   };
 
   try {
     const res = await postFeedback(token);
+    responded = true;
     undoToken = findLabeledToken(res.actions, UNDO_LABEL);
     if (undoRequested) {
       if (undoToken) void sendUndo(undoToken);
       else showToast("Couldn't undo. YouTube may still have this feedback.");
     } else if (!undoToken) {
       console.warn(`${LOG_PREFIX} no undo token in feedback response`);
+      placeholder.disableUndo();
     }
   } catch (err) {
     console.warn(`${LOG_PREFIX} ${action} failed`, err);
@@ -268,5 +284,3 @@ export function observeHomeCards(): void {
   });
   observer.observe(document.body, { childList: true, subtree: true });
 }
-
-export { ACTION_LABELS };

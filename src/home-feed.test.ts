@@ -157,11 +157,28 @@ describe("showRemovedPlaceholder", () => {
     expect(document.querySelectorAll(".ythc-removed")).toHaveLength(0);
   });
 
-  it("decorateHomeCard drops a placeholder when the card is re-bound", () => {
+  it("decorateHomeCard drops a placeholder when the card is re-bound and rebuilds the box", () => {
+    collectHomeTokens({ a: synthetic.lockupCard, b: synthetic.classicCard });
     const card = makeCard("https://www.youtube.com/watch?v=vidLockup01");
+    decorateHomeCard(card);
     showRemovedPlaceholder(card, "vidLockup01", "x");
     card.querySelector("a")!.href = "https://www.youtube.com/watch?v=vidClassic1";
     decorateHomeCard(card);
+    expect(card.querySelector(".ythc-removed")).toBeNull();
+    const box = card.querySelector<HTMLElement>(".ythc-fb-box")!;
+    expect(box.dataset["videoId"]).toBe("vidClassic1");
+  });
+
+  it("showRemovedPlaceholder prunes placeholders of cards no longer in the document", () => {
+    const gone = makeCard("https://www.youtube.com/watch?v=vidLockup01");
+    showRemovedPlaceholder(gone, "vidLockup01", "x");
+    gone.remove();
+    const card = makeCard("https://www.youtube.com/watch?v=vidClassic1");
+    showRemovedPlaceholder(card, "vidClassic1", "y");
+    restoreAllPlaceholders();
+    // Only the live card's placeholder existed to restore; the detached one
+    // was already pruned and must not resurrect anything.
+    expect(gone.querySelector(".ythc-removed")).toBeNull();
     expect(card.querySelector(".ythc-removed")).toBeNull();
   });
 });
@@ -195,9 +212,11 @@ describe("onFeedbackClick", () => {
     arm();
     collectHomeTokens(synthetic.lockupCard);
     const card = makeCard("https://www.youtube.com/watch?v=vidLockup01");
+    // A fresh Response per call: a body can only be read once.
     const fetchSpy = vi
       .spyOn(globalThis, "fetch")
-      .mockResolvedValue(jsonRes(synthetic.feedbackResponseWithUndo));
+      .mockImplementation(async () => jsonRes(synthetic.feedbackResponseWithUndo));
+    const warn = vi.spyOn(console, "warn");
 
     await onFeedbackClick(new MouseEvent("click"), card, "notInterested");
     card.querySelector<HTMLButtonElement>(".ythc-removed-undo")!.click();
@@ -206,6 +225,31 @@ describe("onFeedbackClick", () => {
     expect(card.querySelector(".ythc-removed")).toBeNull();
     const body = JSON.parse(fetchSpy.mock.calls[1]![1]?.body as string);
     expect(body.feedbackTokens).toEqual(["TOKEN_UNDO"]);
+    // The undo request itself must succeed: no toast, no failure log.
+    await new Promise((r) => setTimeout(r, 0));
+    expect(document.querySelector(".ythc-toast")).toBeNull();
+    expect(warn).not.toHaveBeenCalledWith(expect.stringMatching(/undo failed/), expect.anything());
+  });
+
+  it("removes the Undo button when the response carries no undo token", async () => {
+    arm();
+    collectHomeTokens(synthetic.lockupCard);
+    const card = makeCard("https://www.youtube.com/watch?v=vidLockup01");
+    vi.spyOn(globalThis, "fetch").mockImplementation(async () =>
+      jsonRes(synthetic.feedbackResponseWithoutUndo),
+    );
+
+    await onFeedbackClick(new MouseEvent("click"), card, "notInterested");
+
+    expect(card.querySelector(".ythc-removed")).not.toBeNull();
+    expect(card.querySelector(".ythc-removed-undo")).toBeNull();
+  });
+
+  it("does not decorate a playlist card that links to a known video", () => {
+    collectHomeTokens(synthetic.lockupCard);
+    const card = makeCard("https://www.youtube.com/watch?v=vidLockup01&list=PLxyz");
+    decorateHomeCard(card);
+    expect(buttons(card)).toEqual([]);
   });
 
   it("Undo clicked while the request is in flight is sent once it lands", async () => {
