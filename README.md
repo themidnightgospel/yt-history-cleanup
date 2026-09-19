@@ -17,7 +17,7 @@ This extension fixes that.
 - **Delete all from this channel** — wipes every item from a given creator in one click, with confirmation
 - **Delete all shorts in this group** — clears an entire shorts shelf at once
 - **Not interested / Don't recommend channel on the home feed** — always-visible buttons on every thumbnail, with an in-place Undo, no 3-dot menu
-- **Grayscale thumbnails** on the home feed and the watch-page sidebar, back to color on hover. On by default; a toggle in YouTube's header turns it off
+- **Grayscale thumbnails and channel avatars** on the home feed and the watch-page sidebar, back to color on hover. On by default; a toggle in YouTube's header turns it off
 - **SPA-aware** — activates when you navigate to History or Home via the sidebar, no reload required
 - Works on items appended as you scroll (continuation payloads)
 

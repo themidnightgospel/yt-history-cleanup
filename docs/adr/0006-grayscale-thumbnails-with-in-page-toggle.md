@@ -27,10 +27,15 @@ so. Three ways to hold one boolean were considered:
 ## Decision
 
 Grayscale is a CSS effect keyed off a `data-ythc-grayscale` attribute on
-`<html>`. `content.css` applies `filter: grayscale(1)` to thumbnail images
-and inline-preview videos inside home-feed cards and the watch-page
-sidebar, and lifts it while the card is hovered so a deliberately examined
-thumbnail is seen in color.
+`<html>`. `content.css` applies `filter: grayscale(1)` to thumbnail images,
+inline-preview videos, and channel avatars inside home-feed cards and the
+watch-page sidebar, and lifts it while the card is hovered so a
+deliberately examined card is seen in color.
+
+A second attribute, `data-ythc-page` (`home` or `watch`, set on every
+route change), limits the filter to those two pages. The home-feed card
+element also renders channel pages, the Subscriptions feed, and search
+shelves, and those stay in color.
 
 The attribute is set from a single `localStorage` key, `ythc-grayscale`,
 on the youtube.com origin. An absent key means on; the feature defaults on.

@@ -5,8 +5,10 @@ import {
   applyGrayscale,
   ensureGrayscaleToggle,
   initGrayscale,
+  pageKind,
   GRAYSCALE_STORAGE_KEY,
   GRAYSCALE_ATTR,
+  PAGE_ATTR,
   TOGGLE_CLASS,
 } from "./grayscale.js";
 
@@ -122,5 +124,30 @@ describe("ensureGrayscaleToggle", () => {
     localStorage.setItem(GRAYSCALE_STORAGE_KEY, "0");
     initGrayscale();
     expect(document.documentElement.hasAttribute(GRAYSCALE_ATTR)).toBe(false);
+  });
+});
+
+describe("page scoping", () => {
+  it("classifies only the home and watch paths", () => {
+    expect(pageKind("/")).toBe("home");
+    expect(pageKind("/watch")).toBe("watch");
+    expect(pageKind("/feed/subscriptions")).toBeNull();
+    expect(pageKind("/@somechannel/videos")).toBeNull();
+    expect(pageKind("/results")).toBeNull();
+    expect(pageKind("/feed/history")).toBeNull();
+  });
+
+  it("initGrayscale stamps the page kind for the current location", () => {
+    // jsdom runs at /feed/history, which is neither home nor watch.
+    initGrayscale();
+    expect(document.documentElement.hasAttribute(PAGE_ATTR)).toBe(false);
+
+    history.pushState({}, "", "/watch?v=abc");
+    initGrayscale();
+    expect(document.documentElement.getAttribute(PAGE_ATTR)).toBe("watch");
+
+    history.pushState({}, "", "/");
+    initGrayscale();
+    expect(document.documentElement.getAttribute(PAGE_ATTR)).toBe("home");
   });
 });

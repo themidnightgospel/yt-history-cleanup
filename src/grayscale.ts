@@ -8,6 +8,12 @@ import { makeSvgIcon } from "./dom-shared.js";
 
 export const GRAYSCALE_STORAGE_KEY = "ythc-grayscale";
 export const GRAYSCALE_ATTR = "data-ythc-grayscale";
+/**
+ * Which page we are on ("home" | "watch"), so content.css can limit the
+ * filter to those two: `ytd-rich-item-renderer` also renders channel
+ * pages, the Subscriptions feed, and search shelves.
+ */
+export const PAGE_ATTR = "data-ythc-page";
 export const TOGGLE_CLASS = "ythc-grayscale-toggle";
 
 // YouTube's masthead: `#end` holds the right-hand icon buttons (create,
@@ -74,8 +80,22 @@ function syncToggleButton(): void {
   btn.setAttribute("aria-label", label);
 }
 
+export function pageKind(pathname: string): "home" | "watch" | null {
+  if (pathname === "/") return "home";
+  if (pathname === "/watch") return "watch";
+  return null;
+}
+
+export function applyPageKind(): void {
+  const kind = pageKind(location.pathname);
+  const html = document.documentElement;
+  if (kind) html.setAttribute(PAGE_ATTR, kind);
+  else html.removeAttribute(PAGE_ATTR);
+}
+
 /** Applies the persisted state; safe to call on every navigation. */
 export function initGrayscale(): void {
+  applyPageKind();
   applyGrayscale(isGrayscaleEnabled());
   ensureGrayscaleToggle();
 }

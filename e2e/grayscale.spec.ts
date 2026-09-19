@@ -68,6 +68,14 @@ test("hovering a home card brings its thumbnail back to color", async () => {
   await expect.poll(() => filterOf("#thumb-1")).toBe("none");
 });
 
+test("channel avatars on home cards are grayscale and lift on hover with the card", async () => {
+  await page.goto(HOME_URL);
+  await expect(page.locator(TOGGLE)).toHaveCount(1, { timeout: 5000 });
+  await expect.poll(() => filterOf("#avatar-1")).toBe("grayscale(1)");
+  await page.locator("#card-1").hover();
+  await expect.poll(() => filterOf("#avatar-1")).toBe("none");
+});
+
 test("watch-page sidebar thumbnails are grayscale, the main player area is not", async () => {
   await page.goto(WATCH_URL);
   await expect(page.locator(TOGGLE)).toHaveCount(1, { timeout: 5000 });

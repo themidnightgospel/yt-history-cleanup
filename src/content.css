@@ -283,34 +283,34 @@
    src/grayscale.ts sets from the persisted toggle. Scoped to the home grid
    and the watch-page sidebar; a hovered card returns to color. */
 
-html[data-ythc-grayscale] ytd-rich-item-renderer ytd-thumbnail img,
-html[data-ythc-grayscale] ytd-rich-item-renderer ytd-thumbnail video,
-html[data-ythc-grayscale] ytd-rich-item-renderer ytd-playlist-thumbnail img,
-html[data-ythc-grayscale] ytd-rich-item-renderer yt-thumbnail-view-model img,
-html[data-ythc-grayscale] ytd-rich-item-renderer yt-thumbnail-view-model video,
-html[data-ythc-grayscale] ytd-rich-item-renderer .shortsLockupViewModelHostThumbnailContainer img,
-html[data-ythc-grayscale] ytd-watch-next-secondary-results-renderer ytd-thumbnail img,
-html[data-ythc-grayscale] ytd-watch-next-secondary-results-renderer ytd-thumbnail video,
-html[data-ythc-grayscale] ytd-watch-next-secondary-results-renderer ytd-playlist-thumbnail img,
-html[data-ythc-grayscale] ytd-watch-next-secondary-results-renderer yt-thumbnail-view-model img,
-html[data-ythc-grayscale] ytd-watch-next-secondary-results-renderer yt-thumbnail-view-model video,
-html[data-ythc-grayscale] ytd-watch-next-secondary-results-renderer .shortsLockupViewModelHostThumbnailContainer img {
+html[data-ythc-grayscale][data-ythc-page="home"] ytd-rich-item-renderer ytd-thumbnail img,
+html[data-ythc-grayscale][data-ythc-page="home"] ytd-rich-item-renderer ytd-thumbnail video,
+html[data-ythc-grayscale][data-ythc-page="home"] ytd-rich-item-renderer ytd-playlist-thumbnail img,
+html[data-ythc-grayscale][data-ythc-page="home"] ytd-rich-item-renderer yt-thumbnail-view-model img,
+html[data-ythc-grayscale][data-ythc-page="home"] ytd-rich-item-renderer yt-thumbnail-view-model video,
+html[data-ythc-grayscale][data-ythc-page="home"] ytd-rich-item-renderer .shortsLockupViewModelHostThumbnailContainer img,
+html[data-ythc-grayscale][data-ythc-page="watch"] ytd-watch-next-secondary-results-renderer ytd-thumbnail img,
+html[data-ythc-grayscale][data-ythc-page="watch"] ytd-watch-next-secondary-results-renderer ytd-thumbnail video,
+html[data-ythc-grayscale][data-ythc-page="watch"] ytd-watch-next-secondary-results-renderer ytd-playlist-thumbnail img,
+html[data-ythc-grayscale][data-ythc-page="watch"] ytd-watch-next-secondary-results-renderer yt-thumbnail-view-model img,
+html[data-ythc-grayscale][data-ythc-page="watch"] ytd-watch-next-secondary-results-renderer yt-thumbnail-view-model video,
+html[data-ythc-grayscale][data-ythc-page="watch"] ytd-watch-next-secondary-results-renderer .shortsLockupViewModelHostThumbnailContainer img {
   filter: grayscale(1);
   transition: filter 150ms ease;
 }
 
-html[data-ythc-grayscale] ytd-rich-item-renderer:hover ytd-thumbnail img,
-html[data-ythc-grayscale] ytd-rich-item-renderer:hover ytd-thumbnail video,
-html[data-ythc-grayscale] ytd-rich-item-renderer:hover ytd-playlist-thumbnail img,
-html[data-ythc-grayscale] ytd-rich-item-renderer:hover yt-thumbnail-view-model img,
-html[data-ythc-grayscale] ytd-rich-item-renderer:hover yt-thumbnail-view-model video,
-html[data-ythc-grayscale] ytd-rich-item-renderer:hover .shortsLockupViewModelHostThumbnailContainer img,
-html[data-ythc-grayscale] ytd-watch-next-secondary-results-renderer yt-lockup-view-model:hover img,
-html[data-ythc-grayscale] ytd-watch-next-secondary-results-renderer yt-lockup-view-model:hover video,
-html[data-ythc-grayscale] ytd-watch-next-secondary-results-renderer ytd-compact-video-renderer:hover img,
-html[data-ythc-grayscale] ytd-watch-next-secondary-results-renderer ytd-compact-video-renderer:hover video,
-html[data-ythc-grayscale] ytd-watch-next-secondary-results-renderer ytd-compact-playlist-renderer:hover img,
-html[data-ythc-grayscale] ytd-watch-next-secondary-results-renderer ytm-shorts-lockup-view-model-v2:hover img {
+html[data-ythc-grayscale][data-ythc-page="home"] ytd-rich-item-renderer:hover ytd-thumbnail img,
+html[data-ythc-grayscale][data-ythc-page="home"] ytd-rich-item-renderer:hover ytd-thumbnail video,
+html[data-ythc-grayscale][data-ythc-page="home"] ytd-rich-item-renderer:hover ytd-playlist-thumbnail img,
+html[data-ythc-grayscale][data-ythc-page="home"] ytd-rich-item-renderer:hover yt-thumbnail-view-model img,
+html[data-ythc-grayscale][data-ythc-page="home"] ytd-rich-item-renderer:hover yt-thumbnail-view-model video,
+html[data-ythc-grayscale][data-ythc-page="home"] ytd-rich-item-renderer:hover .shortsLockupViewModelHostThumbnailContainer img,
+html[data-ythc-grayscale][data-ythc-page="watch"] ytd-watch-next-secondary-results-renderer yt-lockup-view-model:hover img,
+html[data-ythc-grayscale][data-ythc-page="watch"] ytd-watch-next-secondary-results-renderer yt-lockup-view-model:hover video,
+html[data-ythc-grayscale][data-ythc-page="watch"] ytd-watch-next-secondary-results-renderer ytd-compact-video-renderer:hover img,
+html[data-ythc-grayscale][data-ythc-page="watch"] ytd-watch-next-secondary-results-renderer ytd-compact-video-renderer:hover video,
+html[data-ythc-grayscale][data-ythc-page="watch"] ytd-watch-next-secondary-results-renderer ytd-compact-playlist-renderer:hover img,
+html[data-ythc-grayscale][data-ythc-page="watch"] ytd-watch-next-secondary-results-renderer ytm-shorts-lockup-view-model-v2:hover img {
   filter: none;
 }
 
@@ -341,4 +341,31 @@ html[data-ythc-grayscale] ytd-watch-next-secondary-results-renderer ytm-shorts-l
 
 .ythc-grayscale-toggle:focus-visible {
   outline: 2px solid var(--yt-spec-text-primary, #f1f1f1);
+}
+
+/* Channel avatars on the same cards (classic yt-img-shadow / #avatar and
+   view-model yt-avatar-shape). They follow the card's hover lift. */
+html[data-ythc-grayscale][data-ythc-page="home"] ytd-rich-item-renderer yt-img-shadow img,
+html[data-ythc-grayscale][data-ythc-page="home"] ytd-rich-item-renderer #avatar img,
+html[data-ythc-grayscale][data-ythc-page="home"] ytd-rich-item-renderer yt-avatar-shape img,
+html[data-ythc-grayscale][data-ythc-page="home"] ytd-rich-item-renderer .yt-spec-avatar-shape__image,
+html[data-ythc-grayscale][data-ythc-page="watch"] ytd-watch-next-secondary-results-renderer yt-img-shadow img,
+html[data-ythc-grayscale][data-ythc-page="watch"] ytd-watch-next-secondary-results-renderer #avatar img,
+html[data-ythc-grayscale][data-ythc-page="watch"] ytd-watch-next-secondary-results-renderer yt-avatar-shape img,
+html[data-ythc-grayscale][data-ythc-page="watch"] ytd-watch-next-secondary-results-renderer .yt-spec-avatar-shape__image {
+  filter: grayscale(1);
+  transition: filter 150ms ease;
+}
+
+html[data-ythc-grayscale][data-ythc-page="home"] ytd-rich-item-renderer:hover yt-img-shadow img,
+html[data-ythc-grayscale][data-ythc-page="home"] ytd-rich-item-renderer:hover #avatar img,
+html[data-ythc-grayscale][data-ythc-page="home"] ytd-rich-item-renderer:hover yt-avatar-shape img,
+html[data-ythc-grayscale][data-ythc-page="home"] ytd-rich-item-renderer:hover .yt-spec-avatar-shape__image,
+html[data-ythc-grayscale][data-ythc-page="watch"] ytd-watch-next-secondary-results-renderer yt-lockup-view-model:hover yt-img-shadow img,
+html[data-ythc-grayscale][data-ythc-page="watch"] ytd-watch-next-secondary-results-renderer yt-lockup-view-model:hover #avatar img,
+html[data-ythc-grayscale][data-ythc-page="watch"] ytd-watch-next-secondary-results-renderer yt-lockup-view-model:hover yt-avatar-shape img,
+html[data-ythc-grayscale][data-ythc-page="watch"] ytd-watch-next-secondary-results-renderer yt-lockup-view-model:hover .yt-spec-avatar-shape__image,
+html[data-ythc-grayscale][data-ythc-page="watch"] ytd-watch-next-secondary-results-renderer ytd-compact-video-renderer:hover yt-img-shadow img,
+html[data-ythc-grayscale][data-ythc-page="watch"] ytd-watch-next-secondary-results-renderer ytd-compact-video-renderer:hover #avatar img {
+  filter: none;
 }
