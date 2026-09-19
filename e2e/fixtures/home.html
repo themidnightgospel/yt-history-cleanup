@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Home feed fixture</title>
+  </head>
+  <body>
+    <script>
+      window.ytcfg = {
+        data_: {
+          INNERTUBE_API_KEY: "FIXTURE_KEY",
+          INNERTUBE_CONTEXT: { client: { clientName: "WEB", clientVersion: "2.99" } },
+        },
+      };
+      document.cookie = "SAPISID=fixtureSapisid; Path=/";
+
+      function menu(items) {
+        return {
+          buttonViewModel: {
+            onTap: {
+              innertubeCommand: {
+                showSheetCommand: {
+                  panelLoadingStrategy: {
+                    inlineContent: {
+                      sheetViewModel: {
+                        content: { listViewModel: { listItems: items } },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        };
+      }
+      function item(label, token) {
+        return {
+          listItemViewModel: {
+            title: { content: label },
+            rendererContext: {
+              commandContext: {
+                onTap: { innertubeCommand: { feedbackEndpoint: { feedbackToken: token } } },
+              },
+            },
+          },
+        };
+      }
+
+      window.ytInitialData = {
+        contents: [
+          {
+            richItemRenderer: {
+              content: {
+                lockupViewModel: {
+                  contentId: "fixtureHom1",
+                  metadata: {
+                    lockupMetadataViewModel: {
+                      title: { content: "Fixture home video" },
+                      menuButton: menu([
+                        item("Save to Watch later", undefined),
+                        item("Not interested", "FIXTURE_HOME_NI"),
+                        item("Don’t recommend channel", "FIXTURE_HOME_DRC"),
+                      ]),
+                    },
+                  },
+                },
+              },
+            },
+          },
+          {
+            richItemRenderer: {
+              content: {
+                shortsLockupViewModel: {
+                  contentId: "fixtureSht1",
+                  menuOnTap: menu([item("Not interested", "FIXTURE_SHORT_NI")]).buttonViewModel
+                    .onTap,
+                },
+              },
+            },
+          },
+        ],
+      };
+    </script>
+
+    <ytd-rich-grid-renderer>
+      <div id="contents">
+        <ytd-rich-item-renderer id="card-1">
+          <div id="content">
+            <yt-lockup-view-model>
+              <a href="https://www.youtube.com/watch?v=fixtureHom1">Fixture home video</a>
+              <yt-thumbnail-view-model style="display:block;width:320px;height:180px"></yt-thumbnail-view-model>
+            </yt-lockup-view-model>
+          </div>
+        </ytd-rich-item-renderer>
+
+        <ytd-rich-item-renderer id="card-short">
+          <div id="content">
+            <ytm-shorts-lockup-view-model-v2>
+              <a href="/shorts/fixtureSht1">Fixture short</a>
+              <div class="shortsLockupViewModelHostThumbnailContainer" style="width:180px;height:320px"></div>
+            </ytm-shorts-lockup-view-model-v2>
+          </div>
+        </ytd-rich-item-renderer>
+
+        <ytd-rich-item-renderer id="card-mix">
+          <div id="content">
+            <yt-lockup-view-model>
+              <a href="https://www.youtube.com/watch?v=fixtureMix1&list=RDfixtureMix1">Fixture mix</a>
+              <yt-thumbnail-view-model style="display:block;width:320px;height:180px"></yt-thumbnail-view-model>
+            </yt-lockup-view-model>
+          </div>
+        </ytd-rich-item-renderer>
+      </div>
+    </ytd-rich-grid-renderer>
+  </body>
+</html>
