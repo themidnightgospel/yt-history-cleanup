@@ -277,3 +277,68 @@
 .ythc-removed-undo:focus-visible {
   outline: 2px solid #fff;
 }
+
+/* ---------------------------------------------------------------------------
+   Grayscale thumbnails. Driven by `data-ythc-grayscale` on <html>, which
+   src/grayscale.ts sets from the persisted toggle. Scoped to the home grid
+   and the watch-page sidebar; a hovered card returns to color. */
+
+html[data-ythc-grayscale] ytd-rich-item-renderer ytd-thumbnail img,
+html[data-ythc-grayscale] ytd-rich-item-renderer ytd-thumbnail video,
+html[data-ythc-grayscale] ytd-rich-item-renderer ytd-playlist-thumbnail img,
+html[data-ythc-grayscale] ytd-rich-item-renderer yt-thumbnail-view-model img,
+html[data-ythc-grayscale] ytd-rich-item-renderer yt-thumbnail-view-model video,
+html[data-ythc-grayscale] ytd-rich-item-renderer .shortsLockupViewModelHostThumbnailContainer img,
+html[data-ythc-grayscale] ytd-watch-next-secondary-results-renderer ytd-thumbnail img,
+html[data-ythc-grayscale] ytd-watch-next-secondary-results-renderer ytd-thumbnail video,
+html[data-ythc-grayscale] ytd-watch-next-secondary-results-renderer ytd-playlist-thumbnail img,
+html[data-ythc-grayscale] ytd-watch-next-secondary-results-renderer yt-thumbnail-view-model img,
+html[data-ythc-grayscale] ytd-watch-next-secondary-results-renderer yt-thumbnail-view-model video,
+html[data-ythc-grayscale] ytd-watch-next-secondary-results-renderer .shortsLockupViewModelHostThumbnailContainer img {
+  filter: grayscale(1);
+  transition: filter 150ms ease;
+}
+
+html[data-ythc-grayscale] ytd-rich-item-renderer:hover ytd-thumbnail img,
+html[data-ythc-grayscale] ytd-rich-item-renderer:hover ytd-thumbnail video,
+html[data-ythc-grayscale] ytd-rich-item-renderer:hover ytd-playlist-thumbnail img,
+html[data-ythc-grayscale] ytd-rich-item-renderer:hover yt-thumbnail-view-model img,
+html[data-ythc-grayscale] ytd-rich-item-renderer:hover yt-thumbnail-view-model video,
+html[data-ythc-grayscale] ytd-rich-item-renderer:hover .shortsLockupViewModelHostThumbnailContainer img,
+html[data-ythc-grayscale] ytd-watch-next-secondary-results-renderer yt-lockup-view-model:hover img,
+html[data-ythc-grayscale] ytd-watch-next-secondary-results-renderer yt-lockup-view-model:hover video,
+html[data-ythc-grayscale] ytd-watch-next-secondary-results-renderer ytd-compact-video-renderer:hover img,
+html[data-ythc-grayscale] ytd-watch-next-secondary-results-renderer ytd-compact-video-renderer:hover video,
+html[data-ythc-grayscale] ytd-watch-next-secondary-results-renderer ytd-compact-playlist-renderer:hover img,
+html[data-ythc-grayscale] ytd-watch-next-secondary-results-renderer ytm-shorts-lockup-view-model-v2:hover img {
+  filter: none;
+}
+
+/* Masthead toggle, styled after YouTube's own round icon buttons. */
+.ythc-grayscale-toggle {
+  all: unset;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  margin-right: 8px;
+  border-radius: 50%;
+  color: var(--yt-spec-text-primary, #f1f1f1);
+  cursor: pointer;
+  opacity: 0.45;
+  transition: background 120ms, opacity 120ms;
+}
+
+.ythc-grayscale-toggle[aria-pressed="true"] {
+  opacity: 1;
+}
+
+.ythc-grayscale-toggle:hover {
+  background: var(--yt-spec-badge-chip-background, rgba(255, 255, 255, 0.1));
+}
+
+.ythc-grayscale-toggle:focus-visible {
+  outline: 2px solid var(--yt-spec-text-primary, #f1f1f1);
+}

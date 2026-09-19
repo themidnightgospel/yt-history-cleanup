@@ -25,7 +25,7 @@ When you click a delete button, or a "Not interested" / "Don't recommend channel
 
 ## Permissions
 
-- **Host permission for `youtube.com`** — required to call the feedback endpoint and to read history items and home-feed cards from the page DOM. The extension only activates on `https://www.youtube.com/feed/history` and `https://www.youtube.com/`.
+- **Host permission for `youtube.com`** — required to call the feedback endpoint and to read history items and home-feed cards from the page DOM. Buttons are injected on `https://www.youtube.com/feed/history` and `https://www.youtube.com/`; the grayscale style and its header toggle apply on every youtube.com page.
 
 ## Third parties
 
@@ -33,7 +33,7 @@ The extension contains no third-party SDKs, analytics, advertising, or tracking 
 
 ## Storage
 
-The extension does not use `chrome.storage`, `localStorage`, `IndexedDB`, cookies, or any other persistence mechanism. It holds no state between page loads.
+The extension stores exactly one value: whether grayscale thumbnails are on or off, kept as the key `ythc-grayscale` in youtube.com's `localStorage`. It contains no personal data and never leaves your browser. Clearing youtube.com site data resets it. The extension does not use `chrome.storage`, `IndexedDB`, cookies, or any other persistence mechanism, and holds no other state between page loads.
 
 ## Children
 

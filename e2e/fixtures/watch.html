@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Watch fixture</title>
+  </head>
+  <body>
+    <script>
+      window.ytcfg = { data_: { INNERTUBE_API_KEY: "FIXTURE_KEY" } };
+    </script>
+    <ytd-masthead>
+      <div id="end">
+        <div id="buttons"><button aria-label="Notifications">🔔</button></div>
+      </div>
+    </ytd-masthead>
+
+    <ytd-watch-flexy>
+      <div id="primary">
+        <ytd-thumbnail>
+          <img id="primary-thumb" alt="" width="320" height="180" src="data:image/gif;base64,R0lGODlhAQABAIAAAP8AAAAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" />
+        </ytd-thumbnail>
+      </div>
+      <div id="secondary">
+        <ytd-watch-next-secondary-results-renderer>
+          <yt-lockup-view-model id="related-1">
+            <a href="https://www.youtube.com/watch?v=fixtureRel1">Related video</a>
+            <yt-thumbnail-view-model style="display:block;width:168px;height:94px">
+              <img id="related-thumb" alt="" width="168" height="94" src="data:image/gif;base64,R0lGODlhAQABAIAAAP8AAAAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" />
+            </yt-thumbnail-view-model>
+          </yt-lockup-view-model>
+        </ytd-watch-next-secondary-results-renderer>
+      </div>
+    </ytd-watch-flexy>
+  </body>
+</html>

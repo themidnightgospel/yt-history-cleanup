@@ -27,3 +27,7 @@ One of YouTube's two home-feed dismissals: **Not interested** (hide this video) 
 ### undo token
 
 A `feedbackToken` returned inside the response to a `feedback action`, labelled "Undo". Posting it reverses the action exactly. History deletes return none, which is why they have no undo (ADR 0002) while feedback actions do (ADR 0005).
+
+### grayscale mode
+
+The persisted on/off preference that desaturates thumbnails on the home feed and in the watch-page sidebar. Lives as the `ythc-grayscale` key in youtube.com `localStorage` (absent means on) and is mirrored as a `data-ythc-grayscale` attribute on `<html>`, which `content.css` keys its filter off. Toggled by the round button at the front of the masthead's right-hand controls (ADR 0006).

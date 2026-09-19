@@ -17,6 +17,7 @@ This extension fixes that.
 - **Delete all from this channel** — wipes every item from a given creator in one click, with confirmation
 - **Delete all shorts in this group** — clears an entire shorts shelf at once
 - **Not interested / Don't recommend channel on the home feed** — always-visible buttons on every thumbnail, with an in-place Undo, no 3-dot menu
+- **Grayscale thumbnails** on the home feed and the watch-page sidebar, back to color on hover. On by default; a toggle in YouTube's header turns it off
 - **SPA-aware** — activates when you navigate to History or Home via the sidebar, no reload required
 - Works on items appended as you scroll (continuation payloads)
 
@@ -49,7 +50,7 @@ See [`CONTEXT.md`](CONTEXT.md) for the glossary of terms used in the code and do
 - No accounts, no analytics, no telemetry, no remote servers
 - No data is collected, stored, or transmitted to any third party
 - The only network traffic is the delete, feedback, and undo requests sent directly to youtube.com on your behalf
-- No `chrome.storage`, no `localStorage`, no cookies, no persistence
+- No `chrome.storage`, no cookies. The only persisted value is the grayscale on/off preference, one key in youtube.com `localStorage`
 
 Full policy: [`docs/privacy.md`](docs/privacy.md)
 
