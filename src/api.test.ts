@@ -5,6 +5,7 @@ import {
   readYtcfg,
   assertFeedbackProcessed,
   deleteHistoryItem,
+  postFeedback,
   ORIGIN,
   INNERTUBE_FEEDBACK,
 } from "./api.js";
@@ -120,6 +121,31 @@ describe("assertFeedbackProcessed", () => {
 
   it("throws when feedbackResponses is empty", async () => {
     await expect(assertFeedbackProcessed(jsonRes({}))).rejects.toThrow(/feedback not processed/);
+  });
+});
+
+describe("postFeedback", () => {
+  it("resolves with the parsed response so callers can read the undo token", async () => {
+    window.ytcfg = { data_: { INNERTUBE_API_KEY: "TEST_KEY" } };
+    setCookie("SAPISID", "abc");
+    const body = {
+      feedbackResponses: [{ isProcessed: true }],
+      actions: [{ anything: { feedbackEndpoint: { feedbackToken: "UNDO" } } }],
+    };
+    vi.spyOn(globalThis, "fetch").mockResolvedValue(
+      new Response(JSON.stringify(body), {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      }),
+    );
+    await expect(postFeedback("TOK")).resolves.toEqual(body);
+  });
+
+  it("rejects when the endpoint answers 403", async () => {
+    window.ytcfg = { data_: { INNERTUBE_API_KEY: "TEST_KEY" } };
+    setCookie("SAPISID", "abc");
+    vi.spyOn(globalThis, "fetch").mockResolvedValue(new Response("{}", { status: 403 }));
+    await expect(postFeedback("TOK")).rejects.toThrow(/feedback HTTP 403/);
   });
 });
 

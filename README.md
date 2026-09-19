@@ -16,7 +16,8 @@ This extension fixes that.
 - **Always-visible delete button** on every video row and every short — no hover dance
 - **Delete all from this channel** — wipes every item from a given creator in one click, with confirmation
 - **Delete all shorts in this group** — clears an entire shorts shelf at once
-- **SPA-aware** — activates when you navigate to History via the sidebar, no reload required
+- **Not interested / Don't recommend channel on the home feed** — always-visible buttons on every thumbnail, with an in-place Undo, no 3-dot menu
+- **SPA-aware** — activates when you navigate to History or Home via the sidebar, no reload required
 - Works on items appended as you scroll (continuation payloads)
 
 ## Install
@@ -37,6 +38,8 @@ Or load unpacked from `dist/` after `npm install && npm run build`.
 
 Reads each history item's `feedbackToken` from the page (the same token YouTube's own UI uses) and sends a signed `POST` to `https://www.youtube.com/youtubei/v1/feedback` — the official delete endpoint. Same API, same auth, same result, just without the clicks.
 
+The home-feed buttons work the same way: each card's menu payload carries a token for "Not interested" and one for "Don't recommend channel". The response to that request carries YouTube's own undo token, which is what the placeholder's Undo button posts.
+
 For lazy-loaded items, the extension wraps `window.fetch` in the page realm and harvests new tokens from `/youtubei/v1/browse` continuation responses as you scroll.
 
 See [`CONTEXT.md`](CONTEXT.md) for the glossary of terms used in the code and docs.
@@ -52,7 +55,7 @@ Full policy: [`docs/privacy.md`](docs/privacy.md)
 
 ## Permissions
 
-- Host permission for `https://www.youtube.com/*` — required to call the delete endpoint and to detect SPA navigation to `/feed/history`. The extension only modifies the DOM on the history page.
+- Host permission for `https://www.youtube.com/*` — required to call the feedback endpoint and to detect SPA navigation. The extension only modifies the DOM on the history page and the home feed.
 
 ## Development
 
@@ -69,7 +72,8 @@ Load `dist/` as an unpacked extension in `chrome://extensions`.
 
 ## Limitations
 
-- Only the watch history page is supported. Search history, comment history, and other Google activity are unaffected.
+- Only the watch history page and the home feed are supported. Search history, comment history, and other Google activity are unaffected.
+- Home-feed buttons match YouTube's English menu labels ("Not interested", "Don't recommend channel", "Undo"). Other UI languages get no buttons yet.
 - YouTube can change its DOM or endpoint at any time and break the extension. Updates ship as breakage is discovered — please file an issue if you spot one.
 
 ## Contributing

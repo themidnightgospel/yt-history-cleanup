@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "YouTube History Cleanup",
-  "version": "0.2.1",
-  "description": "Adds always-visible delete buttons to the YouTube watch history page.",
+  "version": "0.3.0",
+  "description": "Always-visible delete buttons on YouTube watch history, plus Not interested / Don't recommend channel on the home feed.",
   "icons": {
     "16": "icon.png",
     "32": "icon.png",

@@ -1,6 +1,6 @@
 # Privacy Policy
 
-**Effective date:** 2026-06-06
+**Effective date:** 2026-09-19
 **Extension:** YouTube History Cleanup
 **Contact:** bubachelidze1@gmail.com
 
@@ -21,11 +21,11 @@ None. The extension does not collect, store, or transmit:
 
 ## Data we send
 
-When you click a delete button, the extension reads the corresponding `feedbackToken` from the YouTube page and sends a `POST` request to `https://www.youtube.com/youtubei/v1/feedback` — the same endpoint YouTube's own UI uses for deletes. The request is authenticated using cookies already set by your browser for youtube.com. No data is sent to any other party.
+When you click a delete button, or a "Not interested" / "Don't recommend channel" button on the home feed, the extension reads the corresponding `feedbackToken` from the YouTube page and sends a `POST` request to `https://www.youtube.com/youtubei/v1/feedback` — the same endpoint YouTube's own UI uses for these actions. Pressing Undo sends the undo token YouTube returned in the same way. The request is authenticated using cookies already set by your browser for youtube.com. No data is sent to any other party.
 
 ## Permissions
 
-- **Host permission for `youtube.com`** — required to call the delete endpoint and to read history items from the page DOM. The extension only activates on `https://www.youtube.com/feed/history`.
+- **Host permission for `youtube.com`** — required to call the feedback endpoint and to read history items and home-feed cards from the page DOM. The extension only activates on `https://www.youtube.com/feed/history` and `https://www.youtube.com/`.
 
 ## Third parties
 

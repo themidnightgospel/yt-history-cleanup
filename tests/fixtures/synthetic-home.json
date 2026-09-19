@@ -1,0 +1,211 @@
+{
+  "comment": "Hand-crafted home-feed payload fragments. Each top-level key documents one home-token-walker scenario.",
+  "lockupCard": {
+    "richItemRenderer": {
+      "content": {
+        "lockupViewModel": {
+          "contentId": "vidLockup01",
+          "contentType": "LOCKUP_CONTENT_TYPE_VIDEO",
+          "metadata": {
+            "lockupMetadataViewModel": {
+              "title": { "content": "A video title that must not become the label" },
+              "menuButton": {
+                "buttonViewModel": {
+                  "onTap": {
+                    "innertubeCommand": {
+                      "showSheetCommand": {
+                        "panelLoadingStrategy": {
+                          "inlineContent": {
+                            "sheetViewModel": {
+                              "content": {
+                                "listViewModel": {
+                                  "listItems": [
+                                    {
+                                      "listItemViewModel": {
+                                        "title": { "content": "Save to Watch later" },
+                                        "rendererContext": {
+                                          "commandContext": {
+                                            "onTap": {
+                                              "innertubeCommand": {
+                                                "playlistEditEndpoint": { "playlistId": "WL" }
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    },
+                                    {
+                                      "listItemViewModel": {
+                                        "title": { "content": "Not interested" },
+                                        "rendererContext": {
+                                          "commandContext": {
+                                            "onTap": {
+                                              "innertubeCommand": {
+                                                "feedbackEndpoint": {
+                                                  "feedbackToken": "TOKEN_LOCKUP_NI",
+                                                  "uiActions": { "hideEnclosingContainer": true }
+                                                }
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    },
+                                    {
+                                      "listItemViewModel": {
+                                        "title": { "content": "Don’t recommend channel" },
+                                        "rendererContext": {
+                                          "commandContext": {
+                                            "onTap": {
+                                              "innertubeCommand": {
+                                                "feedbackEndpoint": {
+                                                  "feedbackToken": "TOKEN_LOCKUP_DRC"
+                                                }
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  ]
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "classicCard": {
+    "richItemRenderer": {
+      "content": {
+        "videoRenderer": {
+          "videoId": "vidClassic1",
+          "title": { "runs": [{ "text": "Classic title" }] },
+          "menu": {
+            "menuRenderer": {
+              "items": [
+                {
+                  "menuServiceItemRenderer": {
+                    "text": { "runs": [{ "text": "Not interested" }] },
+                    "serviceEndpoint": {
+                      "feedbackEndpoint": { "feedbackToken": "TOKEN_CLASSIC_NI" }
+                    }
+                  }
+                },
+                {
+                  "menuServiceItemRenderer": {
+                    "text": { "simpleText": "Don't recommend channel" },
+                    "serviceEndpoint": {
+                      "feedbackEndpoint": { "feedbackToken": "TOKEN_CLASSIC_DRC" }
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+  },
+  "shortsCard": {
+    "richItemRenderer": {
+      "content": {
+        "shortsLockupViewModel": {
+          "contentId": "vidShorts01",
+          "menuOnTap": {
+            "innertubeCommand": {
+              "showSheetCommand": {
+                "panelLoadingStrategy": {
+                  "inlineContent": {
+                    "sheetViewModel": {
+                      "content": {
+                        "listViewModel": {
+                          "listItems": [
+                            {
+                              "listItemViewModel": {
+                                "title": { "content": "Not interested" },
+                                "rendererContext": {
+                                  "commandContext": {
+                                    "onTap": {
+                                      "innertubeCommand": {
+                                        "feedbackEndpoint": { "feedbackToken": "TOKEN_SHORTS_NI" }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "mixCard": {
+    "richItemRenderer": {
+      "content": {
+        "lockupViewModel": {
+          "contentId": "RDvidMix000000000",
+          "contentType": "LOCKUP_CONTENT_TYPE_PLAYLIST",
+          "metadata": { "lockupMetadataViewModel": { "title": { "content": "Mix" } } }
+        }
+      }
+    }
+  },
+  "endpointWithVideoIdButNoMenu": {
+    "watchEndpoint": { "videoId": "vidNoMenu01" },
+    "feedbackEndpoint": { "feedbackToken": "TOKEN_SHOULD_NOT_BE_KEYED" }
+  },
+  "feedbackResponseWithUndo": {
+    "feedbackResponses": [{ "isProcessed": true }],
+    "actions": [
+      {
+        "replaceEnclosingAction": {
+          "item": {
+            "notificationMultiActionRenderer": {
+              "responseText": { "simpleText": "Video removed" },
+              "buttons": [
+                {
+                  "buttonRenderer": {
+                    "text": { "runs": [{ "text": "Tell us why" }] },
+                    "serviceEndpoint": {
+                      "feedbackEndpoint": { "feedbackToken": "TOKEN_SURVEY_NOT_UNDO" }
+                    }
+                  }
+                },
+                {
+                  "buttonRenderer": {
+                    "text": { "runs": [{ "text": "Undo" }] },
+                    "serviceEndpoint": {
+                      "feedbackEndpoint": { "feedbackToken": "TOKEN_UNDO" }
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    ]
+  },
+  "feedbackResponseWithoutUndo": {
+    "feedbackResponses": [{ "isProcessed": true }],
+    "actions": []
+  }
+}

@@ -5,7 +5,7 @@ const TOAST_LIFETIME_MS = 4000;
 
 // YouTube's CSP enforces Trusted Types; setting `innerHTML` to a raw string
 // throws. Build SVG nodes via DOM APIs instead.
-export function makeTrashIcon(size = 24): SVGSVGElement {
+export function makeSvgIcon(pathD: string, size = 24): SVGSVGElement {
   const svg = document.createElementNS(SVG_NS, "svg");
   svg.setAttribute("viewBox", "0 0 24 24");
   svg.setAttribute("width", String(size));
@@ -13,9 +13,13 @@ export function makeTrashIcon(size = 24): SVGSVGElement {
   svg.setAttribute("fill", "currentColor");
   svg.setAttribute("aria-hidden", "true");
   const path = document.createElementNS(SVG_NS, "path");
-  path.setAttribute("d", TRASH_PATH_D);
+  path.setAttribute("d", pathD);
   svg.appendChild(path);
   return svg;
+}
+
+export function makeTrashIcon(size = 24): SVGSVGElement {
+  return makeSvgIcon(TRASH_PATH_D, size);
 }
 
 export function showToast(message: string): void {

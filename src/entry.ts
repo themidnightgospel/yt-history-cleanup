@@ -8,6 +8,7 @@ import {
   HISTORY_ITEM_SELECTOR,
   SHELF_SELECTOR,
 } from "./dom.js";
+import { activateHomeFeed, isOnHome, restoreAllPlaceholders } from "./home-feed.js";
 
 const HISTORY_PATH = "/feed/history";
 
@@ -38,21 +39,27 @@ function activate(): void {
   }
 }
 
+function route(): void {
+  if (isOnHistory()) activate();
+  else if (isOnHome()) activateHomeFeed();
+}
+
 function bootstrap(): void {
   if (!fetchPatched) {
     patchFetchForContinuations();
     fetchPatched = true;
   }
-  if (isOnHistory()) activate();
+  route();
 }
 
 bootstrap();
 
-// YouTube is an SPA: navigating to /feed/history via the side nav does not
-// reload the page, so the document_idle injection only fires on the first
-// landing or a hard refresh. yt-navigate-finish is fired by YouTube's app
-// shell after every client-side route change — re-activate when it lands on
-// the history page.
+// YouTube is an SPA: navigating to /feed/history or back home via the side
+// nav does not reload the page, so the document_idle injection only fires on
+// the first landing or a hard refresh. yt-navigate-finish is fired by
+// YouTube's app shell after every client-side route change — re-route when
+// it lands.
 window.addEventListener("yt-navigate-finish", () => {
-  if (isOnHistory()) activate();
+  restoreAllPlaceholders();
+  route();
 });

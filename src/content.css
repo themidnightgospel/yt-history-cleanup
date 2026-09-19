@@ -181,3 +181,99 @@
   font-size: 14px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
 }
+
+/* ---------------------------------------------------------------------------
+   Home feed: "Not interested" / "Don't recommend channel" on thumbnails.
+   Stacked top-right, below YouTube's own hover overlay (Watch later / Queue),
+   which occupies roughly the top 76px. */
+
+.ythc-fb-box {
+  position: absolute;
+  top: 80px;
+  right: 8px;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  pointer-events: none;
+}
+
+.ythc-fb-btn {
+  all: unset;
+  box-sizing: border-box;
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  cursor: pointer;
+  opacity: 0.85;
+  transition: background 120ms, opacity 120ms, transform 120ms;
+}
+
+.ythc-fb-btn:hover {
+  background: rgba(0, 0, 0, 0.9);
+  opacity: 1;
+  transform: scale(1.08);
+}
+
+.ythc-fb-btn:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 1px;
+}
+
+/* In-place replacement for a dismissed card, styled after YouTube's own
+   "Video removed / Undo" placeholder. Stays until the next navigation. */
+.ythc-removed {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 24px;
+  border-radius: 12px;
+  background: var(--yt-spec-raised-background, #212121);
+  border: 1px solid var(--yt-spec-10-percent-layer, rgba(255, 255, 255, 0.1));
+  color: var(--yt-spec-text-primary, #f1f1f1);
+  font-family: "Roboto", "Arial", sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.ythc-removed-msg {
+  max-width: 90%;
+}
+
+.ythc-removed-undo {
+  all: unset;
+  box-sizing: border-box;
+  display: block;
+  width: 100%;
+  max-width: 480px;
+  height: 36px;
+  line-height: 36px;
+  border-radius: 18px;
+  background: var(--yt-spec-badge-chip-background, rgba(255, 255, 255, 0.1));
+  color: var(--yt-spec-text-primary, #f1f1f1);
+  font-family: "Roboto", "Arial", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: center;
+  cursor: pointer;
+  transition: background 120ms;
+}
+
+.ythc-removed-undo:hover {
+  background: var(--yt-spec-button-chip-background-hover, rgba(255, 255, 255, 0.2));
+}
+
+.ythc-removed-undo:focus-visible {
+  outline: 2px solid #fff;
+}
