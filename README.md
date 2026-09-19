@@ -18,6 +18,7 @@ This extension fixes that.
 - **Delete all shorts in this group** — clears an entire shorts shelf at once
 - **Not interested / Don't recommend channel on the home feed** — always-visible buttons on every thumbnail, with an in-place Undo, no 3-dot menu
 - **Grayscale thumbnails and channel avatars** on the home feed and the watch-page sidebar, back to color on hover. On by default; a toggle in YouTube's header turns it off
+- **Playback speed buttons** (1.25×, 1.5×, 1.75×, 2×) in the player's bottom bar next to the captions button. Click the active one to return to normal speed
 - **SPA-aware** — activates when you navigate to History or Home via the sidebar, no reload required
 - Works on items appended as you scroll (continuation payloads)
 

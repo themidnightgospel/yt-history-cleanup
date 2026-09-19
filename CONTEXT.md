@@ -31,3 +31,7 @@ A `feedbackToken` returned inside the response to a `feedback action`, labelled 
 ### grayscale mode
 
 The persisted on/off preference that desaturates thumbnails on the home feed and in the watch-page sidebar. Lives as the `ythc-grayscale` key in youtube.com `localStorage` (absent means on) and is mirrored as a `data-ythc-grayscale` attribute on `<html>`, which `content.css` keys its filter off. Toggled by the round button at the front of the masthead's right-hand controls (ADR 0006).
+
+### speed buttons
+
+The four playback-rate buttons (1.25×, 1.5×, 1.75×, 2×) the extension inserts into the player's bottom bar, in `.ytp-right-controls` just before the captions button. They call the player's `setPlaybackRate` and mirror the real rate, so a change made in the gear menu highlights the matching button. Clicking the active button returns to normal speed (ADR 0007).

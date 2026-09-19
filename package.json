@@ -1,8 +1,8 @@
 {
   "name": "yt-history-cleanup",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "private": true,
-  "description": "Chrome extension: always-visible delete buttons on YouTube watch history, Not interested / Don't recommend channel on the home feed, and grayscale thumbnails on the home feed and watch sidebar.",
+  "description": "Chrome extension: always-visible delete buttons on YouTube watch history, Not interested / Don't recommend channel on the home feed, grayscale thumbnails on the home feed and watch sidebar, and playback speed buttons in the player.",
   "type": "module",
   "scripts": {
     "build": "node esbuild.config.mjs",

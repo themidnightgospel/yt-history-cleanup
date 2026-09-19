@@ -10,7 +10,8 @@ import {
   SHELF_SELECTOR,
 } from "./dom.js";
 import { activateHomeFeed, isOnHome, restoreAllPlaceholders } from "./home-feed.js";
-import { initGrayscale } from "./grayscale.js";
+import { initGrayscale, pageKind } from "./grayscale.js";
+import { initSpeedButtons } from "./speed.js";
 
 let fetchPatched = false;
 let observerStarted = false;
@@ -39,6 +40,7 @@ function route(): void {
   // Page-independent: the CSS scopes grayscale to home and watch pages, and
   // the masthead toggle should exist everywhere.
   initGrayscale();
+  initSpeedButtons(pageKind(location.pathname) === "watch");
   if (isOnHistory()) activate();
   else if (isOnHome()) activateHomeFeed();
 }

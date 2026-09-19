@@ -16,6 +16,30 @@
 
     <ytd-watch-flexy>
       <div id="primary">
+        <div id="movie_player" class="html5-video-player" style="position:relative;width:640px;height:360px;background:#000">
+          <video class="html5-main-video" style="width:640px;height:360px"></video>
+          <div class="ytp-chrome-bottom">
+            <div class="ytp-chrome-controls">
+              <div class="ytp-left-controls">
+                <button class="ytp-button ytp-play-button" aria-label="Play">▶</button>
+              </div>
+              <div class="ytp-right-controls">
+                <button class="ytp-button ytp-subtitles-button" aria-label="Subtitles">CC</button>
+                <button class="ytp-button ytp-settings-button" aria-label="Settings">⚙</button>
+                <button class="ytp-button ytp-fullscreen-button" aria-label="Full screen">⛶</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <script>
+          // Minimal stand-in for YouTube's player API on #movie_player.
+          (function () {
+            var p = document.getElementById("movie_player");
+            var v = p.querySelector("video");
+            p.setPlaybackRate = function (r) { v.playbackRate = r; };
+            p.getPlaybackRate = function () { return v.playbackRate; };
+          })();
+        </script>
         <ytd-thumbnail>
           <img id="primary-thumb" alt="" width="320" height="180" src="data:image/gif;base64,R0lGODlhAQABAIAAAP8AAAAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" />
         </ytd-thumbnail>
