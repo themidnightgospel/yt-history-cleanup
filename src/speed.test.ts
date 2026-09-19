@@ -15,12 +15,14 @@ type FakePlayer = HTMLElement & {
   getPlaybackRate: () => number;
 };
 
-function makePlayer(opts: { api?: boolean; anchor?: "cc" | "gear" | "none" } = {}): {
+function makePlayer(
+  opts: { api?: boolean; anchor?: "cc" | "gear" | "none"; nested?: boolean } = {},
+): {
   player: FakePlayer;
   video: HTMLVideoElement;
   controls: HTMLElement;
 } {
-  const { api = true, anchor = "cc" } = opts;
+  const { api = true, anchor = "cc", nested = false } = opts;
   const player = document.createElement("div") as unknown as FakePlayer;
   player.id = "movie_player";
   const video = document.createElement("video");
@@ -29,15 +31,22 @@ function makePlayer(opts: { api?: boolean; anchor?: "cc" | "gear" | "none" } = {
 
   const controls = document.createElement("div");
   controls.className = "ytp-right-controls";
+  // Newer layouts wrap the buttons in a sub-container.
+  let cluster: HTMLElement = controls;
+  if (nested) {
+    cluster = document.createElement("div");
+    cluster.className = "ytp-right-controls-left";
+    controls.appendChild(cluster);
+  }
   if (anchor !== "none") {
     if (anchor === "cc") {
       const cc = document.createElement("button");
       cc.className = "ytp-button ytp-subtitles-button";
-      controls.appendChild(cc);
+      cluster.appendChild(cc);
     }
     const gear = document.createElement("button");
     gear.className = "ytp-button ytp-settings-button";
-    controls.appendChild(gear);
+    cluster.appendChild(gear);
   }
   player.appendChild(controls);
 
@@ -79,6 +88,15 @@ describe("ensureSpeedButtons", () => {
     expect(buttons().map((b) => b.textContent)).toEqual(["1.25×", "1.5×", "1.75×", "2×"]);
     expect(groups[0]!.nextElementSibling?.classList.contains("ytp-subtitles-button")).toBe(true);
     for (const b of buttons()) expect(b.classList.contains("ytp-button")).toBe(true);
+  });
+
+  it("stays a sibling of YouTube's cluster when the buttons are wrapped in a sub-container", () => {
+    const { controls } = makePlayer({ nested: true });
+    ensureSpeedButtons();
+    const group = controls.querySelector(`.${GROUP_CLASS}`)!;
+    expect(group.parentElement).toBe(controls);
+    expect(group.nextElementSibling?.classList.contains("ytp-right-controls-left")).toBe(true);
+    expect(controls.querySelector(".ytp-right-controls-left .ythc-speed-group")).toBeNull();
   });
 
   it("falls back to the settings button as anchor when captions are absent", () => {

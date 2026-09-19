@@ -99,9 +99,13 @@ export function ensureSpeedButtons(): boolean {
     group.setAttribute("role", "group");
     group.setAttribute("aria-label", "Playback speed");
     for (const s of SPEEDS) group.appendChild(makeButton(s));
+    // Our group is a sibling of YouTube's cluster, not a member of it: if
+    // the anchor sits inside a sub-container (newer layouts wrap the
+    // right-hand buttons), go in front of that container.
     const anchor = controls.querySelector<HTMLElement>(ANCHOR_SELECTOR);
-    if (anchor?.parentElement) anchor.parentElement.insertBefore(group, anchor);
-    else controls.insertBefore(group, controls.firstChild);
+    let slot: HTMLElement | null = anchor;
+    while (slot && slot.parentElement !== controls) slot = slot.parentElement;
+    controls.insertBefore(group, slot ?? controls.firstChild);
   }
 
   // The gear menu and keyboard shortcuts change the rate behind our back.
