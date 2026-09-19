@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "YouTube History Cleanup",
   "version": "0.5.0",
-  "description": "Always-visible delete buttons on YouTube watch history, Not interested / Don't recommend channel on the home feed, grayscale thumbnails on the home feed and watch sidebar, and playback speed buttons in the player.",
+  "description": "One-click history delete, Not interested / Don't recommend channel buttons, grayscale thumbnails, and playback speed buttons.",
   "icons": {
     "16": "icon.png",
     "32": "icon.png",
