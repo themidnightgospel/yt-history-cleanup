@@ -3,6 +3,7 @@
 ## Status
 
 Accepted — 2026-09-19
+Amended — 2026-09-19 (the "extension keeps no state" remark under Revisit triggers is superseded: ADR 0006 introduces one persisted preference)
 
 ## Context
 

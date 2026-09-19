@@ -11,8 +11,8 @@ feed and in the watch-page sidebar makes the feed calmer without hiding
 anything. The user must be able to turn this off, so the extension needs
 its first persisted preference.
 
-Until now the extension held no state at all, and `docs/privacy.md` says
-so. Three ways to hold one boolean were considered:
+Until now the extension held no state at all; `docs/privacy.md` said so
+and ADR 0005 leaned on it. Three ways to hold one boolean were considered:
 
 - **Popup + `chrome.storage`.** The proper extension pattern. Needs the
   `storage` permission, a popup page, and an isolated-world script to
@@ -56,6 +56,14 @@ button group toggles it, with `aria-pressed` reflecting the state.
 
 - The extension now persists one preference. `docs/privacy.md` is updated
   to say exactly that. Clearing youtube.com site data resets it to on.
+- The key lives in youtube.com's own origin storage, so YouTube's scripts
+  could read it. The extension never transmits it, but it cannot promise
+  the page will not. The value is a single on/off flag, so the exposure is
+  the fact that the extension is installed, which the injected buttons
+  already reveal.
+- If youtube.com site data is blocked, the toggle still works for the life
+  of the page (the applied state, not storage, drives the button) but the
+  choice does not survive a reload.
 - Injecting into the masthead depends on `ytd-masthead #end` existing. If
   YouTube renames it the toggle disappears, though the effect itself keeps
   working from the stored value.

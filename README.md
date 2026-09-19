@@ -56,7 +56,7 @@ Full policy: [`docs/privacy.md`](docs/privacy.md)
 
 ## Permissions
 
-- Host permission for `https://www.youtube.com/*` — required to call the feedback endpoint and to detect SPA navigation. The extension only modifies the DOM on the history page and the home feed.
+- Host permission for `https://www.youtube.com/*` — required to call the feedback endpoint and to detect SPA navigation. The extension injects buttons on the history page and the home feed, applies the grayscale style on the home feed and watch page, and adds one toggle button to the header on every page.
 
 ## Development
 
@@ -73,7 +73,7 @@ Load `dist/` as an unpacked extension in `chrome://extensions`.
 
 ## Limitations
 
-- Only the watch history page and the home feed are supported. Search history, comment history, and other Google activity are unaffected.
+- Delete and feedback buttons exist only on the watch history page and the home feed; grayscale covers the home feed and the watch-page sidebar. Search history, comment history, and other Google activity are unaffected.
 - Home-feed buttons match YouTube's English menu labels ("Not interested", "Don't recommend channel", "Undo"). Other UI languages get no buttons yet.
 - YouTube can change its DOM or endpoint at any time and break the extension. Updates ship as breakage is discovered — please file an issue if you spot one.
 

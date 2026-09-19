@@ -64,7 +64,18 @@ test("home thumbnails are grayscale by default and the masthead shows the toggle
 test("hovering a home card brings its thumbnail back to color", async () => {
   await page.goto(HOME_URL);
   await expect(page.locator(TOGGLE)).toHaveCount(1, { timeout: 5000 });
+  await expect.poll(() => filterOf("#thumb-1")).toBe("grayscale(1)");
   await page.locator("#card-1").hover();
+  await expect.poll(() => filterOf("#thumb-1")).toBe("none");
+  await page.mouse.move(0, 0);
+  await expect.poll(() => filterOf("#thumb-1")).toBe("grayscale(1)");
+});
+
+test("keyboard focus inside a card also lifts the filter", async () => {
+  await page.goto(HOME_URL);
+  await expect(page.locator(TOGGLE)).toHaveCount(1, { timeout: 5000 });
+  await expect.poll(() => filterOf("#thumb-1")).toBe("grayscale(1)");
+  await page.locator("#card-1 a").focus();
   await expect.poll(() => filterOf("#thumb-1")).toBe("none");
 });
 

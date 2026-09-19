@@ -33,7 +33,7 @@ The extension contains no third-party SDKs, analytics, advertising, or tracking 
 
 ## Storage
 
-The extension stores exactly one value: whether grayscale thumbnails are on or off, kept as the key `ythc-grayscale` in youtube.com's `localStorage`. It contains no personal data and never leaves your browser. Clearing youtube.com site data resets it. The extension does not use `chrome.storage`, `IndexedDB`, cookies, or any other persistence mechanism, and holds no other state between page loads.
+The extension stores exactly one value: whether grayscale thumbnails are on or off, kept as the key `ythc-grayscale` in youtube.com's `localStorage`. It contains no personal data and the extension never transmits it. Because it lives in youtube.com's own site storage, YouTube's page scripts could technically read that one on/off flag. Clearing youtube.com site data resets it. The extension does not use `chrome.storage`, `IndexedDB`, cookies, or any other persistence mechanism, and holds no other state between page loads.
 
 ## Children
 

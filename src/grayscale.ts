@@ -5,6 +5,10 @@ import { makeSvgIcon } from "./dom-shared.js";
 // turns into a CSS filter on home-feed and watch-sidebar thumbnails. The
 // flag persists in youtube.com localStorage (see docs/adr/0006) and is
 // flipped by a toggle button injected into YouTube's masthead.
+//
+// The applied state (the <html> attribute) is the source of truth for the
+// UI; storage is only how it survives reloads. If storage is blocked the
+// toggle still works for the life of the page.
 
 export const GRAYSCALE_STORAGE_KEY = "ythc-grayscale";
 export const GRAYSCALE_ATTR = "data-ythc-grayscale";
@@ -24,13 +28,18 @@ const ICON_SIZE = 24;
 const CONTRAST_PATH_D =
   "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18V4c4.41 0 8 3.59 8 8s-3.59 8-8 8z";
 
-export function isGrayscaleEnabled(): boolean {
+export function readStoredGrayscale(): boolean {
   try {
     // Absent key means never toggled: default on.
     return localStorage.getItem(GRAYSCALE_STORAGE_KEY) !== "0";
   } catch {
     return true;
   }
+}
+
+/** The state currently applied to the page. */
+export function isGrayscaleApplied(): boolean {
+  return document.documentElement.hasAttribute(GRAYSCALE_ATTR);
 }
 
 export function setGrayscaleEnabled(enabled: boolean): void {
@@ -40,44 +49,13 @@ export function setGrayscaleEnabled(enabled: boolean): void {
     console.warn(`${LOG_PREFIX} could not persist grayscale setting`, err);
   }
   applyGrayscale(enabled);
-  syncToggleButton();
 }
 
 export function applyGrayscale(enabled: boolean): void {
   const html = document.documentElement;
   if (enabled) html.setAttribute(GRAYSCALE_ATTR, "1");
   else html.removeAttribute(GRAYSCALE_ATTR);
-}
-
-/** Idempotent: creates the masthead toggle once, then keeps its state fresh. */
-export function ensureGrayscaleToggle(): void {
-  if (document.querySelector(`.${TOGGLE_CLASS}`)) {
-    syncToggleButton();
-    return;
-  }
-  const end = document.querySelector<HTMLElement>(MASTHEAD_END_SELECTOR);
-  if (!end) return;
-  const btn = document.createElement("button");
-  btn.type = "button";
-  btn.className = TOGGLE_CLASS;
-  btn.appendChild(makeSvgIcon(CONTRAST_PATH_D, ICON_SIZE));
-  btn.addEventListener("click", (e) => {
-    e.stopPropagation();
-    e.preventDefault();
-    setGrayscaleEnabled(!isGrayscaleEnabled());
-  });
-  end.insertBefore(btn, end.firstChild);
   syncToggleButton();
-}
-
-function syncToggleButton(): void {
-  const btn = document.querySelector<HTMLButtonElement>(`.${TOGGLE_CLASS}`);
-  if (!btn) return;
-  const on = isGrayscaleEnabled();
-  btn.setAttribute("aria-pressed", on ? "true" : "false");
-  const label = `Grayscale thumbnails: ${on ? "on" : "off"}`;
-  btn.title = label;
-  btn.setAttribute("aria-label", label);
 }
 
 export function pageKind(pathname: string): "home" | "watch" | null {
@@ -93,9 +71,71 @@ export function applyPageKind(): void {
   else html.removeAttribute(PAGE_ATTR);
 }
 
+let mastheadObserver: MutationObserver | null = null;
+
+/**
+ * Idempotent: creates the masthead toggle once, then keeps its state fresh.
+ * If the masthead has not been stamped yet, waits for it once.
+ */
+export function ensureGrayscaleToggle(): void {
+  if (document.querySelector(`.${TOGGLE_CLASS}`)) {
+    syncToggleButton();
+    return;
+  }
+  const end = document.querySelector<HTMLElement>(MASTHEAD_END_SELECTOR);
+  if (!end) {
+    waitForMasthead();
+    return;
+  }
+  mastheadObserver?.disconnect();
+  mastheadObserver = null;
+
+  const btn = document.createElement("button");
+  btn.type = "button";
+  btn.className = TOGGLE_CLASS;
+  // Constant accessible name; the state is conveyed by aria-pressed.
+  btn.setAttribute("aria-label", "Grayscale thumbnails");
+  btn.appendChild(makeSvgIcon(CONTRAST_PATH_D, ICON_SIZE));
+  btn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+    setGrayscaleEnabled(!isGrayscaleApplied());
+  });
+  end.insertBefore(btn, end.firstChild);
+  syncToggleButton();
+}
+
+function waitForMasthead(): void {
+  if (mastheadObserver || !document.body) return;
+  mastheadObserver = new MutationObserver(() => {
+    if (document.querySelector(MASTHEAD_END_SELECTOR)) ensureGrayscaleToggle();
+  });
+  mastheadObserver.observe(document.body, { childList: true, subtree: true });
+}
+
+function syncToggleButton(): void {
+  const btn = document.querySelector<HTMLButtonElement>(`.${TOGGLE_CLASS}`);
+  if (!btn) return;
+  const on = isGrayscaleApplied();
+  btn.setAttribute("aria-pressed", on ? "true" : "false");
+  btn.title = `Grayscale thumbnails: ${on ? "on" : "off"}`;
+}
+
+let storageListenerInstalled = false;
+
 /** Applies the persisted state; safe to call on every navigation. */
 export function initGrayscale(): void {
   applyPageKind();
-  applyGrayscale(isGrayscaleEnabled());
+  applyGrayscale(readStoredGrayscale());
   ensureGrayscaleToggle();
+  if (!storageListenerInstalled) {
+    storageListenerInstalled = true;
+    // Another youtube.com tab toggled it: follow without waiting for a
+    // navigation.
+    window.addEventListener("storage", (e) => {
+      if (e.key === GRAYSCALE_STORAGE_KEY || e.key === null) {
+        applyGrayscale(readStoredGrayscale());
+      }
+    });
+  }
 }
