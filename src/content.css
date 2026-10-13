@@ -397,3 +397,126 @@ html[data-ythc-grayscale][data-ythc-page="watch"] ytd-watch-next-secondary-resul
 .ytp-small-mode .ythc-speed-group {
   display: none;
 }
+
+/* ---------------------------------------------------------------------------
+   Volume boost: one speaker-plus button left of the speed group; hovering or
+   focusing it opens a row of chips above the bar. Orange marks a boost. */
+
+.ythc-boost {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  height: 100%;
+  vertical-align: top;
+  margin-right: 4px;
+}
+
+/* Scoped to #movie_player: YouTube's own `.ytp-chrome-controls .ytp-button`
+   (inline-block, width 48px, overflow hidden) and the newer bar's padding
+   and padded icons would otherwise win over this injected sheet and clip
+   the multiplier out of the button. */
+#movie_player .ytp-button.ythc-boost-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  height: 100%;
+  width: auto;
+  min-width: 48px;
+  padding: 0 6px;
+  overflow: visible;
+  line-height: normal;
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+  white-space: nowrap;
+}
+
+#movie_player .ythc-boost-btn svg {
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  fill: currentColor;
+}
+
+#movie_player .ytp-button.ythc-boost-btn.ythc-boost-active {
+  color: #ffb547;
+}
+
+.ythc-boost-mult:empty {
+  display: none;
+}
+
+.ythc-boost-menu {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  display: none;
+  gap: 4px;
+  padding: 5px 6px;
+  margin-bottom: 2px;
+  border-radius: 20px;
+  background: rgba(28, 28, 28, 0.92);
+  z-index: 70;
+}
+
+/* A bridge over the 2px gap so the pointer can travel from the button up
+   into the row. No taller: it would cover the top of the button (and of
+   its neighbours) and swallow clicks there. */
+.ythc-boost-menu::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100%;
+  height: 2px;
+}
+
+.ythc-boost:hover .ythc-boost-menu,
+.ythc-boost:focus-within .ythc-boost-menu {
+  display: flex;
+}
+
+/* YouTube's newer bar makes .ytp-right-controls a z-indexed flex item below
+   the progress bar (59 vs 60), which would cover the open row and turn a
+   click on a chip into a seek. Lift the controls above it while the row is
+   open (scoped to #movie_player to outrank YouTube's rule). */
+#movie_player .ytp-right-controls:has(> .ythc-boost:hover),
+#movie_player .ytp-right-controls:has(> .ythc-boost:focus-within) {
+  z-index: 61;
+}
+
+.ythc-boost-chip {
+  height: 26px;
+  min-width: 40px;
+  padding: 0 9px;
+  border: 0;
+  border-radius: 13px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.ythc-boost-chip:hover {
+  background: rgba(255, 255, 255, 0.22);
+}
+
+.ythc-boost-chip:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 1px;
+}
+
+.ythc-boost-chip.ythc-boost-active {
+  background: #ffb547;
+  color: #0f0f0f;
+  font-weight: 700;
+}
+
+.ytp-small-mode .ythc-boost {
+  display: none;
+}

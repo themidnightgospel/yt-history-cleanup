@@ -4,17 +4,20 @@ const TRASH_PATH_D =
 const TOAST_LIFETIME_MS = 4000;
 
 // YouTube's CSP enforces Trusted Types; setting `innerHTML` to a raw string
-// throws. Build SVG nodes via DOM APIs instead.
-export function makeSvgIcon(pathD: string, size = 24): SVGSVGElement {
+// throws. Build SVG nodes via DOM APIs instead. Several `d` strings become
+// separate <path>s, each filled on its own.
+export function makeSvgIcon(pathD: string | readonly string[], size = 24): SVGSVGElement {
   const svg = document.createElementNS(SVG_NS, "svg");
   svg.setAttribute("viewBox", "0 0 24 24");
   svg.setAttribute("width", String(size));
   svg.setAttribute("height", String(size));
   svg.setAttribute("fill", "currentColor");
   svg.setAttribute("aria-hidden", "true");
-  const path = document.createElementNS(SVG_NS, "path");
-  path.setAttribute("d", pathD);
-  svg.appendChild(path);
+  for (const d of typeof pathD === "string" ? [pathD] : pathD) {
+    const path = document.createElementNS(SVG_NS, "path");
+    path.setAttribute("d", d);
+    svg.appendChild(path);
+  }
   return svg;
 }
 

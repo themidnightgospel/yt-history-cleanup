@@ -19,6 +19,7 @@ This extension fixes that.
 - **Not interested / Don't recommend channel on the home feed** — always-visible buttons on every thumbnail, with an in-place Undo, no 3-dot menu
 - **Grayscale thumbnails and channel avatars** on the home feed and the watch-page sidebar, back to color on hover. On by default; a toggle in YouTube's header turns it off
 - **Playback speed buttons** (1.25×, 1.5×, 1.75×, 2×) in the player's bottom bar next to the captions button. Click the active one to return to normal speed
+- **Volume boost** above 100% for quiet videos: hover the speaker-plus button left of the speed buttons and pick 1.5×, 2× or 3×. Click the button to turn the boost off or back on. Resets on every new video and is lifted during ads
 - **SPA-aware** — activates when you navigate to History or Home via the sidebar, no reload required
 - Works on items appended as you scroll (continuation payloads)
 
@@ -76,6 +77,7 @@ Load `dist/` as an unpacked extension in `chrome://extensions`.
 
 - Delete and feedback buttons exist only on the watch history page and the home feed; grayscale covers the home feed and the watch-page sidebar. Search history, comment history, and other Google activity are unaffected.
 - Home-feed buttons match YouTube's English menu labels ("Not interested", "Don't recommend channel", "Undo"). Other UI languages get no buttons yet.
+- The volume boost routes the video through Web Audio. Another extension that does the same, such as an equaliser or another booster, conflicts with it; whichever attaches second has no effect.
 - YouTube can change its DOM or endpoint at any time and break the extension. Updates ship as breakage is discovered — please file an issue if you spot one.
 
 ## Contributing

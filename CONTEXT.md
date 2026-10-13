@@ -35,3 +35,7 @@ The persisted on/off preference that desaturates thumbnails on the home feed and
 ### speed buttons
 
 The four playback-rate buttons (1.25×, 1.5×, 1.75×, 2×) the extension inserts into the player's bottom bar, in `.ytp-right-controls` just before the captions button. They call the player's `setPlaybackRate` and mirror the real rate, so a change made in the gear menu highlights the matching button. Clicking the active button returns to normal speed (ADR 0007).
+
+### volume boost
+
+The speaker-plus button the extension inserts into the player's bottom bar, directly left of the `speed buttons`. Hovering or focusing it opens a row of chips (1.5×, 2×, 3×) that multiply the audio above YouTube's 100% ceiling through a Web Audio gain node and limiter, attached on the first boost. Clicking the button toggles between off and the last stop. Not persisted: resets on every new video, and held at 1× while an ad plays. `#movie_player` carries `data-ythc-boost` while a boost is chosen (ADR 0008).
