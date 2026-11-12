@@ -6,8 +6,10 @@ on:
   pull_request:
 
 jobs:
+  # Pinned: ubuntu-latest moved to Ubuntu 26.04, where Playwright 1.60
+  # cannot install Chromium. Move on once Playwright supports it.
   unit:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -22,7 +24,7 @@ jobs:
         run: npm run test:coverage
 
   e2e:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
