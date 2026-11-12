@@ -26,20 +26,22 @@ The design was settled with the user in a grilling session:
 **When.** A check-in comes after 1 minute of playback on a video, then
 after every further 10 minutes. The clock is video time while playing,
 read from `timeupdate`: paused time, ads (`ad-showing` on the player) and
-seeks (jumps of 2 s or more between updates) do not count, and at 2×
+seeks (the `seeking` event, plus jumps of 5 s or more as a safety net) do
+not count, and at 2×
 speed the marks come twice as fast. A check-in also comes when the user
 presses play after a pause of their own that lasted 30 s or more.
 
 **What.** The video pauses and a meme fills the player: Impact-font top
 and bottom captions over a swaying emoji, with "On purpose" and
 "Zombie. Close it." About 15 captions rotate at random without repeats;
-some use the real minutes watched and only appear once that many have
-passed, and two are reserved for the come-back-from-a-pause check-in. The
+some use the real minutes watched (time played, not the position in the
+video, which a link can start at 40:00) and only appear once that many
+have passed, and two are reserved for the come-back-from-a-pause check-in. The
 overlay lives inside `#movie_player`, so it also shows in fullscreen.
 
 **Answers.**
 
-- "On purpose", pressing play, or no answer within 5 s (a draining bar
+- "On purpose", pressing play, or no answer within 12 s (a draining bar
   shows the time) all mean keep watching: the video resumes and the next
   check-in is 10 minutes of playback away.
 - "Don't ask for this one", a quiet link under the two buttons, resumes
@@ -48,7 +50,8 @@ overlay lives inside `#movie_player`, so it also shows in fullscreen.
   way out of the question, accepted because a lecture or a long podcast
   you chose should not be asked about six times.
 - "Zombie. Close it." navigates to the home page. There, a toast offers
-  Undo for the rest of 5 s. Undo returns to the same video at the same
+  Undo for 5 s from when it appears; a close older than 30 s, say a
+  reload that never finished, offers none. Undo returns to the same video at the same
   second, paused, and counts as keep watching. A full navigation is used
   both ways, so the Undo details cross the reload through the tab's
   `sessionStorage` (`ythc-checkin-undo`, then `ythc-checkin-resume`),
@@ -56,17 +59,28 @@ overlay lives inside `#movie_player`, so it also shows in fullscreen.
   YouTube's autoplay and then gives up, so a later play by the user is
   never undone.
 
-**Skipped.** Videos in the Music category or live (from the player's
-`getPlayerResponse()`), any URL with `list=` (a playlist or mix the user
-opened; autoplay's Up Next has no `list=`), anything off the watch page
-(the miniplayer keeps the element playing), and while the tab is hidden:
-a check-in that comes due then waits until the tab is visible.
+**Skipped.** Videos in the Music category or live right now
+(`videoDetails.isLive` or `liveBroadcastDetails.isLiveNow` from the
+player's `getPlayerResponse()`; a finished stream's recording is an
+ordinary video), the user's relax time, any URL with `list=` (a playlist
+or mix the user opened; autoplay's Up Next has no `list=`), anything off
+the watch page (the miniplayer keeps the element playing), and while the
+tab is hidden: a scheduled check-in that comes due then waits until the
+tab is visible, while a come-back-from-a-pause one lapses, since it would
+be stale by then.
 
-**Off switch.** A round hourglass toggle in the masthead, right after the
-grayscale toggle, on by default. It is stored as `ythc-checkin` in
-youtube.com `localStorage`, the same mechanism as grayscale (ADR 0006,
-amended for this). Turning it off during a check-in resumes the video.
-The intervals are fixed; there is no settings UI.
+**Settings.** A round button in the masthead showing an outlined zombie shuffling arms-out, right after the
+grayscale toggle, opens a panel laid out like YouTube's own account menu:
+an icon row with a pill switch for check-ins (on by default), and a
+"Relax time" row showing the current range that unfolds to its own
+switch and From / To pickers in half-hour steps, labelled in the user's
+clock format. Relax time is off by default and prefilled 21:00 to
+06:00. A range whose start is later than its end wraps past midnight. During relax time no check-in fires; the clock keeps
+counting, so one may come soon after they end. Both settings live in
+youtube.com `localStorage` (`ythc-checkin`, and `ythc-checkin-quiet` as
+JSON), the same mechanism as grayscale (ADR 0006, amended for this).
+Turning check-ins off during one resumes the video; turning them back on
+counts from then. The intervals are fixed.
 
 ## Consequences
 
@@ -74,7 +88,7 @@ The intervals are fixed; there is no settings UI.
 
 - No new permission. Two small modules, CSS and a shared toast that can
   now carry one action.
-- Background listening is never blocked for more than 5 s, and a hidden
+- Background listening is never blocked for more than 12 s, and a hidden
   tab is never paused at all.
 
 **Negative.**

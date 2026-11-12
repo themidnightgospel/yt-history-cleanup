@@ -12,6 +12,7 @@ const OVERLAY = "#movie_player .ythc-checkin";
 const KEEP = `${OVERLAY} .ythc-checkin-keep`;
 const CLOSE = `${OVERLAY} .ythc-checkin-close`;
 const TOGGLE = "ytd-masthead #end .ythc-checkin-toggle";
+const PANEL = "ytd-masthead #end .ythc-checkin-panel";
 // youtube.com enforces Trusted Types; serve the watch fixture the same way.
 const TRUSTED_TYPES_CSP = { "Content-Security-Policy": "require-trusted-types-for 'script'" };
 
@@ -42,8 +43,13 @@ test.beforeEach(async () => {
 });
 
 test.afterEach(async () => {
-  // The profile is shared between tests: leave the preference at its default.
-  await page.evaluate(() => localStorage.removeItem("ythc-checkin")).catch(() => {});
+  // The profile is shared between tests: leave the preferences at their defaults.
+  await page
+    .evaluate(() => {
+      localStorage.removeItem("ythc-checkin");
+      localStorage.removeItem("ythc-checkin-quiet");
+    })
+    .catch(() => {});
   await page.close();
 });
 
@@ -104,7 +110,7 @@ test("the masthead toggle sits right after the grayscale toggle, on by default",
   await page.goto(HOME_URL);
   await expect(page.locator(TOGGLE)).toHaveCount(1, { timeout: 5000 });
   const prev = await page.evaluate(
-    () => document.querySelector(".ythc-checkin-toggle")!.previousElementSibling!.className,
+    () => document.querySelector(".ythc-checkin-control")!.previousElementSibling!.className,
   );
   expect(prev).toContain("ythc-grayscale-toggle");
   await expect(page.locator(TOGGLE)).toHaveAttribute("aria-pressed", "true");
@@ -120,10 +126,10 @@ test("after a minute of playback the meme pauses the video; On purpose resumes i
   expect(await paused()).toBe(false);
 });
 
-test("no answer within five seconds resumes the video", async () => {
+test("no answer within twelve seconds resumes the video", async () => {
   await watchFor(61);
   await expect(page.locator(OVERLAY)).toBeVisible();
-  await expect(page.locator(OVERLAY)).toHaveCount(0, { timeout: 7000 });
+  await expect(page.locator(OVERLAY)).toHaveCount(0, { timeout: 15_000 });
   expect(await paused()).toBe(false);
 });
 
@@ -155,10 +161,16 @@ test("no check-in in a playlist the user started", async () => {
   await expect(page.locator(OVERLAY)).toHaveCount(0);
 });
 
-test("turned off in the masthead, no check-in, and the choice survives a reload", async () => {
+test("turned off in the masthead panel, no check-in, and the choice survives a reload", async () => {
   await page.goto(WATCH_URL);
   await page.locator(TOGGLE).click();
+  await expect(page.locator(PANEL)).toBeVisible();
+  await page.locator(`${PANEL} [data-ythc='enabled']`).click();
+  await expect(page.locator(`${PANEL} [data-ythc='enabled']`)).toHaveAttribute("aria-checked", "false");
   await expect(page.locator(TOGGLE)).toHaveAttribute("aria-pressed", "false");
+  // A click elsewhere closes the panel.
+  await page.mouse.click(5, 300);
+  await expect(page.locator(PANEL)).toBeHidden();
   await page.reload();
   await expect(page.locator(TOGGLE)).toHaveAttribute("aria-pressed", "false", { timeout: 5000 });
   await fakePlayback();
@@ -314,4 +326,70 @@ test("Don't ask for this one resumes and silences check-ins for this video only"
   });
   await advance(61);
   await expect(page.locator(OVERLAY)).toBeVisible();
+});
+
+test("relax time set in the panel keeps check-ins away and survives a reload", async () => {
+  // 22:30 local time, inside the default 21:00 to 06:00.
+  await page.clock.install({ time: new Date(2026, 10, 12, 22, 30) });
+  await page.goto(WATCH_URL);
+  await page.locator(TOGGLE).click();
+  const summary = page.locator(`${PANEL} [data-ythc='summary']`);
+  await expect(summary).toHaveText("Off");
+  const from = page.locator(`${PANEL} [data-ythc='from']`);
+  await expect(from).toBeHidden();
+  await page.locator(`${PANEL} [data-ythc='expand']`).click();
+  await expect(from).toBeVisible();
+  await expect(from).toBeDisabled();
+  await page.locator(`${PANEL} [data-ythc='quiet']`).click();
+  await expect(page.locator(`${PANEL} [data-ythc='quiet']`)).toHaveAttribute("aria-checked", "true");
+  await expect(from).toBeEnabled();
+  await expect(from).toHaveValue("21:00");
+  await expect(page.locator(`${PANEL} [data-ythc='to']`)).toHaveValue("06:00");
+  // The browser runs in en-US: 12-hour clock.
+  await expect(summary).toHaveText(/^No check-ins 9:00\sPM – 6:00\sAM$/);
+  await expect(page.locator(TOGGLE)).toHaveAttribute("title", /relax time 9:00\sPM – 6:00\sAM/);
+  // Pick a different end time.
+  await page.locator(`${PANEL} [data-ythc='to']`).selectOption("07:00");
+  await expect(summary).toHaveText(/7:00\sAM$/);
+
+  await page.reload();
+  await expect(page.locator(TOGGLE)).toHaveAttribute("title", /relax time 9:00\sPM – 7:00\sAM/, { timeout: 5000 });
+  await fakePlayback();
+  await play();
+  await advance(120);
+  await expect(page.locator(OVERLAY)).toHaveCount(0);
+});
+
+test("outside relax time the check-in still comes", async () => {
+  await page.clock.install({ time: new Date(2026, 10, 12, 15, 0) });
+  await page.goto(WATCH_URL);
+  await page.locator(TOGGLE).click();
+  await page.locator(`${PANEL} [data-ythc='expand']`).click();
+  await page.locator(`${PANEL} [data-ythc='quiet']`).click();
+  await page.mouse.click(5, 300);
+  await fakePlayback();
+  await play();
+  await advance(61);
+  await expect(page.locator(OVERLAY)).toBeVisible();
+});
+
+test("keys pressed in the panel's time pickers do not trigger YouTube shortcuts", async () => {
+  await page.goto(WATCH_URL);
+  await page.evaluate(() => {
+    const w = window as unknown as { __keys: number };
+    w.__keys = 0;
+    document.addEventListener("keydown", () => w.__keys++);
+  });
+  await page.locator(TOGGLE).click();
+  await page.locator(`${PANEL} [data-ythc='expand']`).click();
+  await page.locator(`${PANEL} [data-ythc='quiet']`).click();
+  await page.locator(`${PANEL} [data-ythc='from']`).focus();
+  // On a watch page these are seek and volume shortcuts.
+  await page.keyboard.press("ArrowDown");
+  await page.keyboard.press("ArrowRight");
+  await page.keyboard.press("k");
+  expect(await page.evaluate(() => (window as unknown as { __keys: number }).__keys)).toBe(0);
+  await page.keyboard.press("Escape");
+  await expect(page.locator(PANEL)).toBeHidden();
+  await expect(page.locator(TOGGLE)).toBeFocused();
 });

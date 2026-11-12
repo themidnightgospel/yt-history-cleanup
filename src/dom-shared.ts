@@ -21,6 +21,29 @@ export function makeSvgIcon(pathD: string | readonly string[], size = 24): SVGSV
   return svg;
 }
 
+/**
+ * An outlined icon in the line weight of YouTube's own masthead icons (the
+ * bell, Create): each `d` is drawn as a stroke, not filled.
+ */
+export function makeStrokeIcon(pathDs: readonly string[], size = 24): SVGSVGElement {
+  const svg = document.createElementNS(SVG_NS, "svg");
+  svg.setAttribute("viewBox", "0 0 24 24");
+  svg.setAttribute("width", String(size));
+  svg.setAttribute("height", String(size));
+  svg.setAttribute("fill", "none");
+  svg.setAttribute("stroke", "currentColor");
+  svg.setAttribute("stroke-width", "1.75");
+  svg.setAttribute("stroke-linecap", "round");
+  svg.setAttribute("stroke-linejoin", "round");
+  svg.setAttribute("aria-hidden", "true");
+  for (const d of pathDs) {
+    const path = document.createElementNS(SVG_NS, "path");
+    path.setAttribute("d", d);
+    svg.appendChild(path);
+  }
+  return svg;
+}
+
 export function makeTrashIcon(size = 24): SVGSVGElement {
   return makeSvgIcon(TRASH_PATH_D, size);
 }
@@ -30,13 +53,12 @@ export type ToastAction = { label: string; onClick: () => void };
 /**
  * Shows a short-lived toast. With an `action`, the toast carries one
  * button; clicking it runs the action and removes the toast at once.
- * Returns the toast element.
  */
 export function showToast(
   message: string,
   action?: ToastAction,
   lifetimeMs: number = TOAST_LIFETIME_MS,
-): HTMLElement {
+): void {
   const t = document.createElement("div");
   t.className = "ythc-toast";
   t.setAttribute("role", "status");
@@ -59,5 +81,4 @@ export function showToast(
     t.appendChild(btn);
   }
   document.body.appendChild(t);
-  return t;
 }

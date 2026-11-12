@@ -38,18 +38,27 @@ function activate(): void {
   }
 }
 
+/** Runs one feature's route step; a bug in one must not stop the others. */
+function safely(feature: string, step: () => void): void {
+  try {
+    step();
+  } catch (err) {
+    console.error(`${LOG_PREFIX} ${feature} failed`, err);
+  }
+}
+
 function route(): void {
   // Page-independent: the CSS scopes grayscale to home and watch pages, and
   // the masthead toggle should exist everywhere.
-  initGrayscale();
+  safely("grayscale", initGrayscale);
   const page = pageKind(location.pathname);
   const onWatch = page === "watch";
-  initSpeedButtons(onWatch);
-  initBoostButton(onWatch);
+  safely("speed buttons", () => initSpeedButtons(onWatch));
+  safely("volume boost", () => initBoostButton(onWatch));
   // After grayscale, so its masthead toggle lands right next to grayscale's.
-  initCheckin(page);
-  if (isOnHistory()) activate();
-  else if (isOnHome()) activateHomeFeed();
+  safely("watch check-in", () => initCheckin(page));
+  if (isOnHistory()) safely("history", activate);
+  else if (isOnHome()) safely("home feed", activateHomeFeed);
 }
 
 function bootstrap(): void {

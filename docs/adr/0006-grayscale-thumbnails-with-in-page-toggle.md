@@ -77,9 +77,12 @@ selector list in `content.css` needs updating.
 
 ## Amendment — 2026-11-12
 
-The watch check-in (ADR 0009) adds a second on/off preference,
-`ythc-checkin`, stored the same way with its toggle next to this one. Two
-on/off flags do not justify a popup, a new permission and a bridge into
-the page. The revisit trigger above now reads: move to the popup +
-`chrome.storage` pattern for a third preference, or for any setting that
-is not a plain on/off flag (such as adjustable intervals).
+The watch check-in (ADR 0009) adds two more preferences, stored the same
+way: its on/off flag `ythc-checkin` and its relax time
+`ythc-checkin-quiet` (JSON). They are edited in a small panel that drops
+down from the check-in's masthead button, next to this toggle, which
+keeps each setting beside the feature it belongs to. That is still less
+than a popup, a new permission and a bridge into the page would cost.
+The revisit trigger above now reads: move to the popup +
+`chrome.storage` pattern when settings outgrow such small per-feature
+panels, or when they need to sync across devices.

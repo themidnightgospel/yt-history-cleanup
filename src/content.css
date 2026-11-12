@@ -381,6 +381,184 @@ html[data-ythc-grayscale][data-ythc-page="watch"] ytd-watch-next-secondary-resul
   outline: 2px solid var(--yt-spec-text-primary, #f1f1f1);
 }
 
+/* The check-in's masthead control: the button plus a small settings panel
+   that drops down from it. YouTube's own variables keep it in its theme. */
+.ythc-checkin-control {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.ythc-checkin-panel {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 8px;
+  z-index: 2300;
+  width: 320px;
+  padding: 8px 0;
+  border-radius: 12px;
+  background: var(--yt-spec-menu-background, #282828);
+  color: var(--yt-spec-text-primary, #f1f1f1);
+  box-shadow: 0 4px 32px rgba(0, 0, 0, 0.3);
+  font-family: "Roboto", "Arial", sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  text-align: left;
+}
+
+.ythc-checkin-panel[hidden],
+.ythc-menu-times[hidden] {
+  display: none;
+}
+
+/* Rows in the style of YouTube's account menu: 24px icon, text, control. */
+.ythc-menu-row {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 40px;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.ythc-menu-row > svg {
+  flex: none;
+}
+
+button.ythc-menu-click {
+  all: unset;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 40px;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  cursor: pointer;
+}
+
+button.ythc-menu-click:hover {
+  background: var(--yt-spec-10-percent-layer, rgba(255, 255, 255, 0.1));
+}
+
+button.ythc-menu-click:focus-visible {
+  outline: 2px solid var(--yt-spec-text-primary, #f1f1f1);
+  outline-offset: -2px;
+}
+
+.ythc-menu-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.ythc-menu-sub {
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--yt-spec-text-secondary, #aaa);
+}
+
+.ythc-menu-chevron {
+  transition: transform 150ms;
+}
+
+button.ythc-menu-click[aria-expanded="true"] .ythc-menu-chevron {
+  transform: rotate(90deg);
+}
+
+.ythc-menu-divider {
+  height: 1px;
+  margin: 8px 0;
+  background: var(--yt-spec-10-percent-layer, rgba(255, 255, 255, 0.1));
+}
+
+/* The unfolded quiet hours, indented under the row's text. */
+.ythc-menu-times {
+  padding: 4px 16px 10px 56px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.ythc-menu-times-head {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.ythc-menu-time {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+
+.ythc-menu-time select {
+  width: 100%;
+  padding: 7px 8px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--yt-spec-badge-chip-background, rgba(255, 255, 255, 0.1));
+  color: var(--yt-spec-text-primary, #f1f1f1);
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.ythc-menu-time select:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.ythc-menu-time select:focus-visible {
+  outline: 2px solid var(--yt-spec-text-primary, #f1f1f1);
+}
+
+.ythc-menu-time option {
+  background: var(--yt-spec-menu-background, #282828);
+  color: var(--yt-spec-text-primary, #f1f1f1);
+}
+
+/* YouTube-style pill switch. */
+.ythc-switch {
+  all: unset;
+  flex: none;
+  position: relative;
+  width: 36px;
+  height: 20px;
+  border-radius: 10px;
+  background: var(--yt-spec-icon-disabled, #717171);
+  cursor: pointer;
+  transition: background 150ms;
+}
+
+.ythc-switch::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  transition: transform 150ms;
+}
+
+.ythc-switch[aria-checked="true"] {
+  background: var(--yt-spec-call-to-action, #3ea6ff);
+}
+
+.ythc-switch[aria-checked="true"]::after {
+  transform: translateX(16px);
+}
+
+.ythc-switch:focus-visible {
+  outline: 2px solid var(--yt-spec-text-primary, #f1f1f1);
+  outline-offset: 2px;
+}
+
 /* ---------------------------------------------------------------------------
    Watch check-in: a meme over the paused player. Inside #movie_player so it
    shows in fullscreen too; above the control bar and its progress bar. */
@@ -392,8 +570,12 @@ html[data-ythc-grayscale][data-ythc-page="watch"] ytd-watch-next-secondary-resul
   display: grid;
   place-items: center;
   padding: 16px;
+  overflow: hidden;
   background: rgba(0, 0, 0, 0.62);
   animation: ythc-checkin-in 0.25s ease-out;
+  /* Size the meme from the player, not the window: a 360px-tall default
+     player on a 1080p screen must fit it as well as fullscreen does. */
+  container-type: size;
 }
 
 @keyframes ythc-checkin-in {
@@ -411,7 +593,7 @@ html[data-ythc-grayscale][data-ythc-page="watch"] ytd-watch-next-secondary-resul
 
 .ythc-checkin-text {
   font-family: Impact, "Anton", "Arial Black", "Arial Narrow Bold", sans-serif;
-  font-size: clamp(20px, 4.2vmin, 44px);
+  font-size: clamp(14px, 7cqmin, 44px);
   line-height: 1.05;
   letter-spacing: 0.02em;
   text-transform: uppercase;
@@ -421,7 +603,7 @@ html[data-ythc-grayscale][data-ythc-page="watch"] ytd-watch-next-secondary-resul
 }
 
 .ythc-checkin-face {
-  font-size: clamp(48px, 11vmin, 104px);
+  font-size: clamp(28px, 17cqmin, 104px);
   line-height: 1.1;
   animation: ythc-checkin-sway 1.6s ease-in-out infinite;
 }
@@ -495,7 +677,7 @@ html[data-ythc-grayscale][data-ythc-page="watch"] ytd-watch-next-secondary-resul
 }
 
 .ythc-checkin-bar {
-  width: min(320px, 60vw);
+  width: min(320px, 60cqw);
   height: 4px;
   margin-top: 10px;
   border-radius: 2px;
@@ -508,7 +690,7 @@ html[data-ythc-grayscale][data-ythc-page="watch"] ytd-watch-next-secondary-resul
   height: 100%;
   background: #fff;
   transform-origin: left;
-  animation: ythc-checkin-drain 5s linear forwards;
+  animation: ythc-checkin-drain 12s linear forwards;
 }
 
 @keyframes ythc-checkin-drain {
