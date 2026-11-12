@@ -58,7 +58,7 @@ Full policy: [`docs/privacy.md`](docs/privacy.md)
 
 ## Permissions
 
-- Host permission for `https://www.youtube.com/*` — required to call the feedback endpoint and to detect SPA navigation. The extension injects buttons on the history page and the home feed, applies the grayscale style on the home feed and watch page, and adds one toggle button to the header on every page.
+- Host permission for `https://www.youtube.com/*` — required to call the feedback endpoint and to detect SPA navigation. The extension injects buttons on the history page and the home feed, adds speed and volume boost controls to the player on watch pages, applies the grayscale style on the home feed and watch page, and adds one toggle button to the header on every page. The volume boost amplifies the video's sound locally with the browser's Web Audio API; no audio leaves the browser.
 
 ## Development
 

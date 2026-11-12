@@ -19,7 +19,8 @@
         <div id="movie_player" class="html5-video-player" style="position:relative;width:640px;height:360px;background:#000">
           <video class="html5-main-video" style="width:640px;height:360px"></video>
           <div class="ytp-chrome-bottom">
-            <div class="ytp-chrome-controls">
+            <!-- YouTube's newer bar sets this line-height on the controls. -->
+            <div class="ytp-chrome-controls" style="line-height:72px">
               <div class="ytp-left-controls">
                 <button class="ytp-button ytp-play-button" aria-label="Play">▶</button>
               </div>

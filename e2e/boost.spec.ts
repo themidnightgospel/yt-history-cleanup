@@ -82,7 +82,7 @@ test("clicking a chip boosts, marks the button orange with the multiplier, and s
   await expect(page.locator(BTN)).toHaveAttribute("aria-pressed", "true");
   await expect(page.locator(`${BTN} .ythc-boost-mult`)).toHaveText("2×");
   await expect(page.locator(CHIP).nth(1)).toHaveClass(/ythc-boost-active/);
-  await expect(page.locator(CHIP).nth(1)).toHaveAttribute("aria-checked", "true");
+  await expect(page.locator(CHIP).nth(1)).toHaveAttribute("aria-pressed", "true");
 
   await page.locator(CHIP).nth(2).click();
   await expect(page.locator(PLAYER)).toHaveAttribute("data-ythc-boost", "3");
@@ -120,8 +120,36 @@ test("the chips open from the keyboard and close on Escape", async () => {
   await expect(page.locator(CHIP).nth(0)).toBeFocused();
   await page.keyboard.press("Enter");
   await expect(page.locator(PLAYER)).toHaveAttribute("data-ythc-boost", "1.5");
+  await page.keyboard.press("ArrowRight");
+  await expect(page.locator(CHIP).nth(1)).toBeFocused();
   await page.keyboard.press("Escape");
   await expect(page.locator(MENU)).toBeHidden();
+  await expect(page.locator(BTN)).toBeFocused();
+  await expect(page.locator(BTN)).toHaveAttribute("aria-expanded", "false");
+});
+
+test("Escape shuts the row even while the pointer rests on the button", async () => {
+  await open();
+  await page.locator(BTN).hover();
+  await expect(page.locator(MENU)).toBeVisible();
+  await page.locator(BTN).focus();
+  await page.keyboard.press("Escape");
+  await expect(page.locator(MENU)).toBeHidden();
+  await page.mouse.move(0, 0);
+  await page.locator(BTN).hover();
+  await expect(page.locator(MENU)).toBeVisible();
+});
+
+test("chips do not inherit the control bar's line-height", async () => {
+  await open();
+  // The fixture's bar carries YouTube's newer 72px line-height. Inherited
+  // into a 26px chip, YouTube's own styles push the label out of the pill.
+  await page.locator(BTN).hover();
+  const heights = await page.evaluate(() =>
+    Array.from(document.querySelectorAll(".ythc-boost-chip")).map((c) => getComputedStyle(c).lineHeight),
+  );
+  expect(heights).toHaveLength(3);
+  for (const h of heights) expect(h).not.toBe("72px");
 });
 
 test("the boost does not leak onto the next video after an SPA navigation", async () => {
@@ -147,8 +175,16 @@ test("re-routing within the same video keeps the boost", async () => {
   await expect(page.locator(PLAYER)).toHaveAttribute("data-ythc-boost", "1.5");
 });
 
-test("no boost button is injected on the home page", async () => {
+test("no boost button is injected off the watch page, even with a player present", async () => {
+  // Serve a page with a full player at "/", so only the watch-page gate
+  // can keep the button out (the plain home fixture has no player at all).
+  const watch = await readFile(resolve(here, "fixtures", "watch.html"), "utf8");
+  await page.unroute(HOME_URL);
+  await page.route(HOME_URL, (route) =>
+    route.fulfill({ status: 200, contentType: "text/html", body: watch }),
+  );
   await page.goto(HOME_URL);
   await expect(page.locator(".ythc-grayscale-toggle")).toHaveCount(1, { timeout: 5000 });
+  await expect(page.locator(`${PLAYER} .ytp-right-controls`)).toHaveCount(1);
   await expect(page.locator(".ythc-boost")).toHaveCount(0);
 });

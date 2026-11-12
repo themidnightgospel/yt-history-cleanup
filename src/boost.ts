@@ -19,6 +19,8 @@ export const MULT_CLASS = "ythc-boost-mult";
 export const MENU_CLASS = "ythc-boost-menu";
 export const CHIP_CLASS = "ythc-boost-chip";
 export const ACTIVE_CLASS = "ythc-boost-active";
+/** On the group after Escape: keeps the row shut until focus leaves or the pointer re-enters. */
+export const CLOSED_CLASS = "ythc-boost-closed";
 /** On `#movie_player`: the chosen multiplier while boosted, absent at 1×. */
 export const BOOST_ATTR = "data-ythc-boost";
 
@@ -165,7 +167,7 @@ export function syncUi(): void {
   for (const chip of group.querySelectorAll<HTMLButtonElement>(`.${CHIP_CLASS}`)) {
     const active = Number(chip.dataset["boost"]) === boost;
     chip.classList.toggle(ACTIVE_CLASS, active);
-    chip.setAttribute("aria-checked", active ? "true" : "false");
+    chip.setAttribute("aria-pressed", active ? "true" : "false");
   }
 }
 
@@ -177,8 +179,8 @@ function makeChip(value: number): HTMLButtonElement {
   chip.className = CHIP_CLASS;
   chip.dataset["boost"] = String(value);
   chip.textContent = `${value}×`;
-  chip.setAttribute("role", "menuitemradio");
   chip.setAttribute("aria-label", `Volume boost ${value}×`);
+  chip.setAttribute("aria-pressed", "false");
   // Clicking the active chip turns the boost off, as with speed.
   chip.addEventListener("click", () => setBoost(boost === value ? NO_BOOST : value));
   return chip;
@@ -194,7 +196,6 @@ function makeGroup(): HTMLElement {
   btn.type = "button";
   // `ytp-button` gives YouTube's own sizing, hover and focus styling.
   btn.className = `ytp-button ${BUTTON_CLASS}`;
-  btn.setAttribute("aria-haspopup", "true");
   btn.setAttribute("aria-expanded", "false");
   btn.appendChild(makeSvgIcon(ICON_PATHS));
   const mult = document.createElement("span");
@@ -202,25 +203,92 @@ function makeGroup(): HTMLElement {
   btn.appendChild(mult);
   btn.addEventListener("click", toggleBoost);
 
+  // A plain group of toggle buttons, not role=menu: menu semantics promise
+  // arrow / Home / End handling, and YouTube's player has its own meaning
+  // for those keys (and for elements with role^=menuitem).
   const menu = document.createElement("div");
   menu.className = MENU_CLASS;
-  menu.setAttribute("role", "menu");
+  menu.setAttribute("role", "group");
   menu.setAttribute("aria-label", "Volume boost level");
   for (const b of BOOSTS) menu.appendChild(makeChip(b));
 
   // The row opens on hover / focus via CSS; aria-expanded mirrors that.
-  const expanded = (v: boolean): void => btn.setAttribute("aria-expanded", v ? "true" : "false");
-  group.addEventListener("pointerenter", () => expanded(true));
-  group.addEventListener("pointerleave", () => expanded(group.matches(":focus-within")));
-  group.addEventListener("focusin", () => expanded(true));
-  group.addEventListener("focusout", (e) => {
-    if (!group.contains(e.relatedTarget as Node | null)) expanded(group.matches(":hover"));
+  // jsdom and some event orders make :hover unreliable, so track it.
+  let hovering = false;
+  const isClosed = (): boolean => group.classList.contains(CLOSED_CLASS);
+  const reopen = (): void => {
+    group.classList.remove(CLOSED_CLASS);
+  };
+  const syncExpanded = (focusInside: boolean): void => {
+    const open = !isClosed() && (hovering || focusInside);
+    btn.setAttribute("aria-expanded", open ? "true" : "false");
+  };
+  const focusInside = (): boolean => group.contains(document.activeElement);
+
+  group.addEventListener("pointerenter", () => {
+    hovering = true;
+    reopen();
+    syncExpanded(focusInside());
   });
+  group.addEventListener("pointerleave", () => {
+    hovering = false;
+    syncExpanded(focusInside());
+  });
+  group.addEventListener("focusin", () => syncExpanded(true));
+  group.addEventListener("focusout", (e) => {
+    const stillInside = group.contains(e.relatedTarget as Node | null);
+    if (!stillInside) reopen();
+    syncExpanded(stillInside);
+  });
+
+  // YouTube's keydown handler on #movie_player turns arrows into seek and
+  // volume, Home / End into seek-to-start / end, and Space into play/pause.
+  // While focus is in our group those keys belong to us.
   group.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") {
-      (document.activeElement as HTMLElement | null)?.blur();
-      e.stopPropagation();
+    const items: HTMLElement[] = [btn, ...menu.querySelectorAll<HTMLElement>(`.${CHIP_CLASS}`)];
+    const at = items.indexOf(document.activeElement as HTMLElement);
+    const last = items.length - 1;
+    let to: number | null = null;
+    switch (e.key) {
+      case "ArrowRight":
+      case "ArrowUp":
+        to = Math.min(at + 1, last);
+        break;
+      case "ArrowLeft":
+      case "ArrowDown":
+        to = Math.max(at - 1, 0);
+        break;
+      case "Home":
+        to = 0;
+        break;
+      case "End":
+        to = last;
+        break;
+      case " ":
+      case "Enter":
+        // The focused button handles the press; the player must not too.
+        e.stopPropagation();
+        return;
+      case "Escape":
+        if (isClosed()) return;
+        // Close the row and hand focus back to the button, as a menu
+        // button does. The class keeps the row shut although the pointer
+        // or the focus is still on the group.
+        e.preventDefault();
+        e.stopPropagation();
+        group.classList.add(CLOSED_CLASS);
+        btn.focus();
+        syncExpanded(true);
+        return;
+      default:
+        return;
     }
+    e.preventDefault();
+    e.stopPropagation();
+    if (at < 0) return;
+    reopen();
+    items[to]!.focus();
+    syncExpanded(true);
   });
   group.addEventListener("click", (e) => {
     // A click must not reach the player, which toggles playback on it.

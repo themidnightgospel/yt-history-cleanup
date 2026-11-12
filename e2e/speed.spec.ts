@@ -94,8 +94,16 @@ test("a rate change made elsewhere (gear menu, shortcut) updates the highlight",
   await expect(page.locator(BTN).nth(0)).toHaveClass(/ythc-speed-active/);
 });
 
-test("no speed buttons are injected on the home page", async () => {
+test("no speed buttons are injected off the watch page, even with a player present", async () => {
+  // Serve a page with a full player at "/", so only the watch-page gate
+  // can keep the buttons out (the plain home fixture has no player at all).
+  const watch = await readFile(resolve(here, "fixtures", "watch.html"), "utf8");
+  await page.unroute(HOME_URL);
+  await page.route(HOME_URL, (route) =>
+    route.fulfill({ status: 200, contentType: "text/html", body: watch }),
+  );
   await page.goto(HOME_URL);
   await expect(page.locator(".ythc-grayscale-toggle")).toHaveCount(1, { timeout: 5000 });
+  await expect(page.locator("#movie_player .ytp-right-controls")).toHaveCount(1);
   await expect(page.locator(".ythc-speed-group")).toHaveCount(0);
 });

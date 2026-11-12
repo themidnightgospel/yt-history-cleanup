@@ -41,8 +41,20 @@ yet. Hovering or focusing it opens a row of three chips above the bar:
 to 1×. Clicking the button itself turns the boost off, or back on at the
 last stop used (2× before any). While boosted the button turns orange and
 shows the multiplier, so the state is visible without hovering. Escape
-closes the row. A mouse click gives up the focus it leaves on the button,
+closes the row and returns focus to the button, even while the pointer
+rests on it. A mouse click gives up the focus it leaves on the button,
 so the row closes once the pointer leaves; keyboard focus keeps it open.
+
+The row is a plain group of toggle buttons (`aria-pressed`), not a
+`role=menu`. YouTube's keydown handler on `#movie_player` maps arrows to
+seek and volume, Home / End to the start and end of the video, and Space
+to play/pause, and it treats `role^=menuitem` specially. While focus is
+in the group, arrows, Home and End move between the button and the chips
+and Space / Enter press the focused one; none of them reach the player.
+Every other key stays YouTube's.
+
+The group is hidden in a narrow player: `ytp-small-mode` on the classic
+bar, `ytp-xsmall-width-mode` on the newer one.
 
 The graph is `source → GainNode → DynamicsCompressorNode → destination`.
 It is built on the first click that asks for a boost, never earlier, so
@@ -75,7 +87,8 @@ whenever it is not 1×. Tests read it; Playwright cannot measure loudness.
 
 - Fixes quiet videos with one click per stop, which YouTube cannot do.
 - No persisted state, so ADR 0006's trigger for a popup and
-  `chrome.storage` is not reached, and `docs/privacy.md` is unchanged.
+  `chrome.storage` is not reached. `docs/privacy.md` only gains a
+  sentence on the player controls and the local Web Audio routing.
 - Native mute and the native slider keep working: the boost multiplies
   whatever volume the user has set.
 

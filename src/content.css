@@ -394,7 +394,8 @@ html[data-ythc-grayscale][data-ythc-page="watch"] ytd-watch-next-secondary-resul
 
 /* Compact player (small embeds / narrow windows): drop the group rather
    than crowd out the essential controls. */
-.ytp-small-mode .ythc-speed-group {
+.ytp-small-mode .ythc-speed-group,
+.ytp-xsmall-width-mode .ythc-speed-group {
   display: none;
 }
 
@@ -478,6 +479,12 @@ html[data-ythc-grayscale][data-ythc-page="watch"] ytd-watch-next-secondary-resul
   display: flex;
 }
 
+/* After Escape: shut although the pointer or focus is still on the group.
+   Same specificity as the rule above, so it must stay after it. */
+.ythc-boost.ythc-boost-closed .ythc-boost-menu {
+  display: none;
+}
+
 /* YouTube's newer bar makes .ytp-right-controls a z-indexed flex item below
    the progress bar (59 vs 60), which would cover the open row and turn a
    click on a chip into a seek. Lift the controls above it while the row is
@@ -488,6 +495,9 @@ html[data-ythc-grayscale][data-ythc-page="watch"] ytd-watch-next-secondary-resul
 }
 
 .ythc-boost-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   height: 26px;
   min-width: 40px;
   padding: 0 9px;
@@ -495,7 +505,10 @@ html[data-ythc-grayscale][data-ythc-page="watch"] ytd-watch-next-secondary-resul
   border-radius: 13px;
   background: rgba(255, 255, 255, 0.1);
   color: #fff;
-  font: inherit;
+  /* Not `font: inherit`: that shorthand also pulls in the bar's line-height
+     (48px, 72px on the newer bar) and pushes the label out of the pill. */
+  font-family: inherit;
+  line-height: normal;
   font-size: 12px;
   font-weight: 500;
   white-space: nowrap;
@@ -517,6 +530,10 @@ html[data-ythc-grayscale][data-ythc-page="watch"] ytd-watch-next-secondary-resul
   font-weight: 700;
 }
 
-.ytp-small-mode .ythc-boost {
+/* Narrow player: the classic bar sets ytp-small-mode, the newer bar sets
+   ytp-xsmall-width-mode instead (below 528px). Hide the whole group: our
+   #movie_player-scoped button rule would outrank YouTube's own hiding. */
+.ytp-small-mode .ythc-boost,
+.ytp-xsmall-width-mode .ythc-boost {
   display: none;
 }

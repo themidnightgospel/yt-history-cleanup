@@ -187,7 +187,8 @@ describe("choosing a boost", () => {
     expect(btn().getAttribute("aria-pressed")).toBe("true");
     expect(btn().querySelector(`.${boost.MULT_CLASS}`)!.textContent).toBe("2×");
     expect(activeChips()).toEqual(["2"]);
-    expect(chips()[1]!.getAttribute("aria-checked")).toBe("true");
+    expect(chips()[1]!.getAttribute("aria-pressed")).toBe("true");
+    expect(chips()[0]!.getAttribute("aria-pressed")).toBe("false");
 
     chips()[2]!.click();
     expect(FakeContext.instances).toHaveLength(1);
@@ -261,10 +262,15 @@ describe("choosing a boost", () => {
     expect(ctx().close).toHaveBeenCalled();
     // YouTube rewrites the player's classes constantly; none of that, nor
     // another pick, may build more contexts.
+    // Each flip in its own tick, so the observer really sees it.
+    const tick = (): Promise<void> => new Promise((r) => setTimeout(r, 0));
     player.classList.add("ytp-autohide");
+    await tick();
     player.classList.add("ad-showing");
+    await tick();
     player.classList.remove("ad-showing");
-    await new Promise((r) => setTimeout(r, 0));
+    await tick();
+    expect(FakeContext.instances).toHaveLength(1);
     chips()[2]!.click();
     expect(FakeContext.instances).toHaveLength(1);
     expect(warn).toHaveBeenCalledTimes(1);
@@ -305,20 +311,117 @@ describe("choosing a boost", () => {
 });
 
 describe("the drop-up", () => {
-  it("mirrors hover and focus in aria-expanded, Escape blurs", () => {
+  function group(): HTMLElement {
+    return document.querySelector<HTMLElement>(`.${boost.GROUP_CLASS}`)!;
+  }
+  function key(el: Element, k: string): KeyboardEvent {
+    const e = new KeyboardEvent("keydown", { key: k, bubbles: true, cancelable: true });
+    el.dispatchEvent(e);
+    return e;
+  }
+
+  it("is a group of toggle buttons, not a menu", () => {
     makePlayer();
     boost.ensureBoostButton();
-    const group = document.querySelector<HTMLElement>(`.${boost.GROUP_CLASS}`)!;
-    expect(btn().getAttribute("aria-expanded")).toBe("false");
-    group.dispatchEvent(new Event("pointerenter"));
-    expect(btn().getAttribute("aria-expanded")).toBe("true");
-    group.dispatchEvent(new Event("pointerleave"));
-    expect(btn().getAttribute("aria-expanded")).toBe("false");
+    expect(document.querySelector(`.${boost.MENU_CLASS}`)!.getAttribute("role")).toBe("group");
+    expect(btn().hasAttribute("aria-haspopup")).toBe(false);
+    for (const c of chips()) {
+      expect(c.hasAttribute("role")).toBe(false);
+      expect(c.getAttribute("aria-pressed")).toBe("false");
+    }
+  });
 
+  it("mirrors hover and focus in aria-expanded", () => {
+    makePlayer();
+    boost.ensureBoostButton();
+    expect(btn().getAttribute("aria-expanded")).toBe("false");
+    group().dispatchEvent(new Event("pointerenter"));
+    expect(btn().getAttribute("aria-expanded")).toBe("true");
+    group().dispatchEvent(new Event("pointerleave"));
+    expect(btn().getAttribute("aria-expanded")).toBe("false");
     chips()[0]!.focus();
     expect(btn().getAttribute("aria-expanded")).toBe("true");
-    chips()[0]!.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
-    expect(document.activeElement).not.toBe(chips()[0]);
+  });
+
+  it("arrows, Home and End move focus between the button and the chips", () => {
+    makePlayer();
+    boost.ensureBoostButton();
+    btn().focus();
+    key(btn(), "ArrowUp");
+    expect(document.activeElement).toBe(chips()[0]);
+    key(chips()[0]!, "ArrowRight");
+    expect(document.activeElement).toBe(chips()[1]);
+    key(chips()[1]!, "End");
+    expect(document.activeElement).toBe(chips()[2]);
+    key(chips()[2]!, "ArrowRight");
+    expect(document.activeElement).toBe(chips()[2]);
+    key(chips()[2]!, "ArrowLeft");
+    expect(document.activeElement).toBe(chips()[1]);
+    key(chips()[1]!, "Home");
+    expect(document.activeElement).toBe(btn());
+    key(btn(), "ArrowDown");
+    expect(document.activeElement).toBe(btn());
+    // Moving focus never changes the boost.
+    expect(boost.currentBoost()).toBe(1);
+  });
+
+  it("keeps navigation keys, Space and Enter away from the player's shortcuts", () => {
+    const { player } = makePlayer();
+    boost.ensureBoostButton();
+    const onPlayer = vi.fn();
+    player.addEventListener("keydown", onPlayer);
+    btn().focus();
+    for (const k of ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", "Home", "End", " ", "Enter"]) {
+      key(document.activeElement!, k);
+    }
+    expect(onPlayer).not.toHaveBeenCalled();
+    // Other keys stay YouTube's (k, m, f, digits).
+    key(btn(), "m");
+    expect(onPlayer).toHaveBeenCalledTimes(1);
+  });
+
+  it("Escape shuts the row, returns focus to the button, and stays shut under the pointer", () => {
+    makePlayer();
+    boost.ensureBoostButton();
+    group().dispatchEvent(new Event("pointerenter"));
+    chips()[1]!.focus();
+    const e = key(chips()[1]!, "Escape");
+    expect(e.defaultPrevented).toBe(true);
+    expect(document.activeElement).toBe(btn());
+    expect(group().classList.contains(boost.CLOSED_CLASS)).toBe(true);
+    expect(btn().getAttribute("aria-expanded")).toBe("false");
+
+    // Leaving with the pointer while focus stays on the button keeps it shut.
+    group().dispatchEvent(new Event("pointerleave"));
+    expect(group().classList.contains(boost.CLOSED_CLASS)).toBe(true);
+    // An arrow reopens it and moves into the chips.
+    key(btn(), "ArrowUp");
+    expect(group().classList.contains(boost.CLOSED_CLASS)).toBe(false);
+    expect(document.activeElement).toBe(chips()[0]);
+    expect(btn().getAttribute("aria-expanded")).toBe("true");
+  });
+
+  it("a shut row reopens when the pointer comes back or focus leaves", () => {
+    makePlayer();
+    boost.ensureBoostButton();
+    btn().focus();
+    key(btn(), "Escape");
+    expect(group().classList.contains(boost.CLOSED_CLASS)).toBe(true);
+    group().dispatchEvent(new Event("pointerenter"));
+    expect(group().classList.contains(boost.CLOSED_CLASS)).toBe(false);
+
+    key(btn(), "Escape");
+    btn().blur();
+    expect(group().classList.contains(boost.CLOSED_CLASS)).toBe(false);
+  });
+
+  it("a second Escape on a shut row is left to the page", () => {
+    makePlayer();
+    boost.ensureBoostButton();
+    btn().focus();
+    key(btn(), "Escape");
+    const second = key(btn(), "Escape");
+    expect(second.defaultPrevented).toBe(false);
   });
 });
 

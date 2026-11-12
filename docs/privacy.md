@@ -1,6 +1,6 @@
 # Privacy Policy
 
-**Effective date:** 2026-09-19
+**Effective date:** 2026-10-14
 **Extension:** YouTube History Cleanup
 **Contact:** bubachelidze1@gmail.com
 
@@ -25,7 +25,7 @@ When you click a delete button, or a "Not interested" / "Don't recommend channel
 
 ## Permissions
 
-- **Host permission for `youtube.com`** — required to call the feedback endpoint and to read history items and home-feed cards from the page DOM. Buttons are injected on `https://www.youtube.com/feed/history` and `https://www.youtube.com/`; the grayscale style and its header toggle apply on every youtube.com page.
+- **Host permission for `youtube.com`** — required to call the feedback endpoint and to read history items and home-feed cards from the page DOM. Buttons are injected on `https://www.youtube.com/feed/history` and `https://www.youtube.com/`; on watch pages the extension adds playback speed and volume boost controls to the video player's control bar; the grayscale style and its header toggle apply on every youtube.com page. When you turn the volume boost on, the extension routes that video's sound through your browser's built-in Web Audio API to amplify it. This happens entirely inside your browser: the audio is never recorded, stored, or sent anywhere.
 
 ## Third parties
 
