@@ -1,4 +1,4 @@
-# YouTube History Cleanup
+# YouTube Productivity Kit
 
 Keeps your YouTube watch history tidy so your recommendations stay clean.
 

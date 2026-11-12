@@ -1,12 +1,12 @@
 # Privacy Policy
 
 **Effective date:** 2026-11-12
-**Extension:** YouTube History Cleanup
+**Extension:** YouTube Productivity Kit (formerly YouTube History Cleanup)
 **Contact:** bubachelidze1@gmail.com
 
 ## Summary
 
-YouTube History Cleanup does not collect, store, or transmit any user data to any party. It runs entirely in your browser. The only network traffic it produces is requests sent directly to youtube.com on your behalf to delete history items or to mark home-feed recommendations as not interested, and to undo the latter.
+YouTube Productivity Kit does not collect, store, or transmit any user data to any party. It runs entirely in your browser. The only network traffic it produces is requests sent directly to youtube.com on your behalf to delete history items or to mark home-feed recommendations as not interested, and to undo the latter.
 
 ## Data we collect
 
