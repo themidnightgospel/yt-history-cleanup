@@ -20,6 +20,7 @@ This extension fixes that.
 - **Grayscale thumbnails and channel avatars** on the home feed and the watch-page sidebar, back to color on hover. On by default; a toggle in YouTube's header turns it off
 - **Playback speed buttons** (1.25×, 1.5×, 1.75×, 2×) in the player's bottom bar next to the captions button. Click the active one to return to normal speed
 - **Volume boost** above 100% for quiet videos: hover the speaker-plus button left of the speed buttons and pick 1.5×, 2× or 3×. Click the button to turn the boost off or back on. Resets on every new video and is lifted during ads
+- **Watch check-ins** against autopilot watching: after a minute of playback, then every 10 minutes, and when you come back from a pause of 30 seconds or more, the video pauses and a meme asks whether you're watching on purpose. No answer within 5 seconds keeps it playing, "Don't ask for this one" silences it for the rest of the video, and "Zombie. Close it." takes you to the home page with a 5-second Undo. Skipped for music, live streams and playlists. On by default; the hourglass toggle in YouTube's header turns it off
 - **SPA-aware** — activates when you navigate to History or Home via the sidebar, no reload required
 - Works on items appended as you scroll (continuation payloads)
 
@@ -52,13 +53,13 @@ See [`CONTEXT.md`](CONTEXT.md) for the glossary of terms used in the code and do
 - No accounts, no analytics, no telemetry, no remote servers
 - No data is collected, stored, or transmitted to any third party
 - The only network traffic is the delete, feedback, and undo requests sent directly to youtube.com on your behalf
-- No `chrome.storage`, no cookies. The only persisted value is the grayscale on/off preference, one key in youtube.com `localStorage`
+- No `chrome.storage`, no cookies. The only persisted values are two on/off preferences (grayscale, watch check-ins), one key each in youtube.com `localStorage`
 
 Full policy: [`docs/privacy.md`](docs/privacy.md)
 
 ## Permissions
 
-- Host permission for `https://www.youtube.com/*` — required to call the feedback endpoint and to detect SPA navigation. The extension injects buttons on the history page and the home feed, adds speed and volume boost controls to the player on watch pages, applies the grayscale style on the home feed and watch page, and adds one toggle button to the header on every page. The volume boost amplifies the video's sound locally with the browser's Web Audio API; no audio leaves the browser.
+- Host permission for `https://www.youtube.com/*` — required to call the feedback endpoint and to detect SPA navigation. The extension injects buttons on the history page and the home feed, adds speed and volume boost controls to the player on watch pages, applies the grayscale style on the home feed and watch page, and adds two toggle buttons to the header on every page. The volume boost amplifies the video's sound locally with the browser's Web Audio API; no audio leaves the browser.
 
 ## Development
 

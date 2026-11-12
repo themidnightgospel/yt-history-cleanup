@@ -39,3 +39,7 @@ The four playback-rate buttons (1.25×, 1.5×, 1.75×, 2×) the extension insert
 ### volume boost
 
 The speaker-plus button the extension inserts into the player's bottom bar, directly left of the `speed buttons`. Hovering or focusing it opens a row of chips (1.5×, 2×, 3×) that multiply the audio above YouTube's 100% ceiling through a Web Audio gain node and limiter, attached on the first boost. Clicking the button toggles between off and the last stop. Not persisted: resets on every new video, and held at 1× while an ad plays. `#movie_player` carries `data-ythc-boost` while a boost is chosen (ADR 0008).
+
+### watch check-in
+
+The meme the extension shows over a paused video to ask whether you are watching on purpose: after 1 minute of playback, then every 10 minutes, and when you resume after a pause of 30 s or more. "On purpose", pressing play, or no answer within 5 s resumes the video; "Don't ask for this one" silences the rest of that video's check-ins; "Zombie. Close it." goes to the home page with a 5 s Undo. Skipped for music, live streams, playlists, and hidden tabs. Toggled by the hourglass button in the masthead, stored as `ythc-checkin` in youtube.com `localStorage` (ADR 0009).

@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "YouTube History Cleanup",
-  "version": "0.6.0",
-  "description": "One-click history delete, Not interested / Don't recommend channel buttons, grayscale thumbnails, speed buttons, and volume boost.",
+  "version": "0.7.0",
+  "description": "One-click history delete, home-feed Not interested buttons, grayscale thumbnails, speed and volume controls, and watch check-ins.",
   "icons": {
     "16": "icon.png",
     "32": "icon.png",

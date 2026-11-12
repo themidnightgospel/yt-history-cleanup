@@ -13,6 +13,7 @@ import { activateHomeFeed, isOnHome, restoreAllPlaceholders } from "./home-feed.
 import { initGrayscale, pageKind } from "./grayscale.js";
 import { initSpeedButtons } from "./speed.js";
 import { initBoostButton } from "./boost.js";
+import { initCheckin } from "./checkin.js";
 
 let fetchPatched = false;
 let observerStarted = false;
@@ -41,9 +42,12 @@ function route(): void {
   // Page-independent: the CSS scopes grayscale to home and watch pages, and
   // the masthead toggle should exist everywhere.
   initGrayscale();
-  const onWatch = pageKind(location.pathname) === "watch";
+  const page = pageKind(location.pathname);
+  const onWatch = page === "watch";
   initSpeedButtons(onWatch);
   initBoostButton(onWatch);
+  // After grayscale, so its masthead toggle lands right next to grayscale's.
+  initCheckin(page);
   if (isOnHistory()) activate();
   else if (isOnHome()) activateHomeFeed();
 }

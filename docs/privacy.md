@@ -1,6 +1,6 @@
 # Privacy Policy
 
-**Effective date:** 2026-10-14
+**Effective date:** 2026-11-12
 **Extension:** YouTube History Cleanup
 **Contact:** bubachelidze1@gmail.com
 
@@ -25,7 +25,7 @@ When you click a delete button, or a "Not interested" / "Don't recommend channel
 
 ## Permissions
 
-- **Host permission for `youtube.com`** — required to call the feedback endpoint and to read history items and home-feed cards from the page DOM. Buttons are injected on `https://www.youtube.com/feed/history` and `https://www.youtube.com/`; on watch pages the extension adds playback speed and volume boost controls to the video player's control bar; the grayscale style and its header toggle apply on every youtube.com page. When you turn the volume boost on, the extension routes that video's sound through your browser's built-in Web Audio API to amplify it. This happens entirely inside your browser: the audio is never recorded, stored, or sent anywhere.
+- **Host permission for `youtube.com`** — required to call the feedback endpoint and to read history items and home-feed cards from the page DOM. Buttons are injected on `https://www.youtube.com/feed/history` and `https://www.youtube.com/`; on watch pages the extension adds playback speed and volume boost controls to the video player's control bar; the grayscale style and the header toggles for grayscale and watch check-ins apply on every youtube.com page. Watch check-ins read the video's playback position and its category (to skip music and live streams) from the page; none of this leaves your browser. When you turn the volume boost on, the extension routes that video's sound through your browser's built-in Web Audio API to amplify it. This happens entirely inside your browser: the audio is never recorded, stored, or sent anywhere.
 
 ## Third parties
 
@@ -33,7 +33,7 @@ The extension contains no third-party SDKs, analytics, advertising, or tracking 
 
 ## Storage
 
-The extension stores exactly one value: whether grayscale thumbnails are on or off, kept as the key `ythc-grayscale` in youtube.com's `localStorage`. It contains no personal data and the extension never transmits it. Because it lives in youtube.com's own site storage, YouTube's page scripts could technically read that one on/off flag. Clearing youtube.com site data resets it. The extension does not use `chrome.storage`, `IndexedDB`, cookies, or any other persistence mechanism, and holds no other state between page loads.
+The extension stores exactly two values: whether grayscale thumbnails are on or off, and whether watch check-ins are on or off, kept as the keys `ythc-grayscale` and `ythc-checkin` in youtube.com's `localStorage`. They contain no personal data and the extension never transmits them. Because they live in youtube.com's own site storage, YouTube's page scripts could technically read those two on/off flags. Clearing youtube.com site data resets it. The extension does not use `chrome.storage`, `IndexedDB`, cookies, or any other persistence mechanism, and holds no other state between page loads, with one short-lived exception: when you close a video from a watch check-in, the video's id, title and position are kept in that tab's `sessionStorage` for the 5 seconds the Undo is offered, and removed as soon as they are read. Closing the tab discards them.
 
 ## Children
 

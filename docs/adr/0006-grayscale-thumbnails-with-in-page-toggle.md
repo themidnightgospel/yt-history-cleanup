@@ -74,3 +74,12 @@ button group toggles it, with `aria-pressed` reflecting the state.
 popup + `chrome.storage` pattern rather than growing a settings panel
 inside YouTube's DOM. If YouTube's thumbnail markup changes, only the
 selector list in `content.css` needs updating.
+
+## Amendment — 2026-11-12
+
+The watch check-in (ADR 0009) adds a second on/off preference,
+`ythc-checkin`, stored the same way with its toggle next to this one. Two
+on/off flags do not justify a popup, a new permission and a bridge into
+the page. The revisit trigger above now reads: move to the popup +
+`chrome.storage` pattern for a third preference, or for any setting that
+is not a plain on/off flag (such as adjustable intervals).

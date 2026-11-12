@@ -25,10 +25,39 @@ export function makeTrashIcon(size = 24): SVGSVGElement {
   return makeSvgIcon(TRASH_PATH_D, size);
 }
 
-export function showToast(message: string): void {
+export type ToastAction = { label: string; onClick: () => void };
+
+/**
+ * Shows a short-lived toast. With an `action`, the toast carries one
+ * button; clicking it runs the action and removes the toast at once.
+ * Returns the toast element.
+ */
+export function showToast(
+  message: string,
+  action?: ToastAction,
+  lifetimeMs: number = TOAST_LIFETIME_MS,
+): HTMLElement {
   const t = document.createElement("div");
   t.className = "ythc-toast";
-  t.textContent = message;
+  t.setAttribute("role", "status");
+  const text = document.createElement("span");
+  text.className = "ythc-toast-text";
+  text.textContent = message;
+  t.appendChild(text);
+  const timer = setTimeout(() => t.remove(), lifetimeMs);
+  if (action) {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "ythc-toast-action";
+    btn.textContent = action.label;
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      clearTimeout(timer);
+      t.remove();
+      action.onClick();
+    });
+    t.appendChild(btn);
+  }
   document.body.appendChild(t);
-  setTimeout(() => t.remove(), TOAST_LIFETIME_MS);
+  return t;
 }

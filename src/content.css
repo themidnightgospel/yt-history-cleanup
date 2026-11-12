@@ -180,6 +180,32 @@
   font-family: "Roboto", "Arial", sans-serif;
   font-size: 14px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  max-width: min(480px, calc(100vw - 48px));
+}
+
+.ythc-toast-text {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ythc-toast-action {
+  all: unset;
+  flex: none;
+  cursor: pointer;
+  font-weight: 500;
+  color: var(--yt-spec-call-to-action, #3ea6ff);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.ythc-toast-action:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
 }
 
 /* ---------------------------------------------------------------------------
@@ -321,8 +347,10 @@ html[data-ythc-grayscale][data-ythc-page="watch"] ytd-watch-next-secondary-resul
   transition: filter 150ms ease;
 }
 
-/* Masthead toggle, styled after YouTube's own round icon buttons. */
-.ythc-grayscale-toggle {
+/* Masthead toggles (grayscale, watch check-ins), styled after YouTube's own
+   round icon buttons. */
+.ythc-grayscale-toggle,
+.ythc-checkin-toggle {
   all: unset;
   box-sizing: border-box;
   display: inline-flex;
@@ -338,16 +366,169 @@ html[data-ythc-grayscale][data-ythc-page="watch"] ytd-watch-next-secondary-resul
   transition: background 120ms, opacity 120ms;
 }
 
-.ythc-grayscale-toggle[aria-pressed="true"] {
+.ythc-grayscale-toggle[aria-pressed="true"],
+.ythc-checkin-toggle[aria-pressed="true"] {
   opacity: 1;
 }
 
-.ythc-grayscale-toggle:hover {
+.ythc-grayscale-toggle:hover,
+.ythc-checkin-toggle:hover {
   background: var(--yt-spec-badge-chip-background, rgba(255, 255, 255, 0.1));
 }
 
-.ythc-grayscale-toggle:focus-visible {
+.ythc-grayscale-toggle:focus-visible,
+.ythc-checkin-toggle:focus-visible {
   outline: 2px solid var(--yt-spec-text-primary, #f1f1f1);
+}
+
+/* ---------------------------------------------------------------------------
+   Watch check-in: a meme over the paused player. Inside #movie_player so it
+   shows in fullscreen too; above the control bar and its progress bar. */
+
+.ythc-checkin {
+  position: absolute;
+  inset: 0;
+  z-index: 80;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  background: rgba(0, 0, 0, 0.62);
+  animation: ythc-checkin-in 0.25s ease-out;
+}
+
+@keyframes ythc-checkin-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.ythc-checkin-meme {
+  display: grid;
+  justify-items: center;
+  gap: 4px;
+  max-width: 90%;
+  text-align: center;
+}
+
+.ythc-checkin-text {
+  font-family: Impact, "Anton", "Arial Black", "Arial Narrow Bold", sans-serif;
+  font-size: clamp(20px, 4.2vmin, 44px);
+  line-height: 1.05;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: #fff;
+  text-wrap: balance;
+  text-shadow: 2px 2px 0 #000, -2px 2px 0 #000, 2px -2px 0 #000, -2px -2px 0 #000, 0 3px 0 #000;
+}
+
+.ythc-checkin-face {
+  font-size: clamp(48px, 11vmin, 104px);
+  line-height: 1.1;
+  animation: ythc-checkin-sway 1.6s ease-in-out infinite;
+}
+
+@keyframes ythc-checkin-sway {
+  0%, 100% { transform: rotate(-6deg); }
+  50% { transform: rotate(6deg) translateY(-6px); }
+}
+
+.ythc-checkin-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.ythc-checkin-buttons button {
+  all: unset;
+  box-sizing: border-box;
+  padding: 9px 18px;
+  border-radius: 18px;
+  font-family: "Roboto", "Arial", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: normal;
+  cursor: pointer;
+}
+
+.ythc-checkin-buttons .ythc-checkin-keep {
+  background: #f1f1f1;
+  color: #0f0f0f;
+}
+
+.ythc-checkin-buttons .ythc-checkin-close {
+  background: rgba(255, 255, 255, 0.16);
+  color: #fff;
+}
+
+.ythc-checkin-buttons .ythc-checkin-close:hover {
+  background: rgba(255, 255, 255, 0.26);
+}
+
+.ythc-checkin-buttons button:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+/* "Don't ask for this one": a quiet text button under the two answers. */
+.ythc-checkin-meme .ythc-checkin-mute {
+  all: unset;
+  margin-top: 6px;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-family: "Roboto", "Arial", sans-serif;
+  font-size: 13px;
+  line-height: normal;
+  color: #ddd;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.ythc-checkin-meme .ythc-checkin-mute:hover {
+  color: #fff;
+}
+
+.ythc-checkin-meme .ythc-checkin-mute:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+.ythc-checkin-bar {
+  width: min(320px, 60vw);
+  height: 4px;
+  margin-top: 10px;
+  border-radius: 2px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.ythc-checkin-bar i {
+  display: block;
+  height: 100%;
+  background: #fff;
+  transform-origin: left;
+  animation: ythc-checkin-drain 5s linear forwards;
+}
+
+@keyframes ythc-checkin-drain {
+  from { transform: scaleX(1); }
+  to { transform: scaleX(0); }
+}
+
+.ythc-checkin-countdown {
+  font-family: "Roboto", "Arial", sans-serif;
+  font-size: 12px;
+  color: #ddd;
+  font-variant-numeric: tabular-nums;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ythc-checkin,
+  .ythc-checkin-face,
+  .ythc-checkin-bar i {
+    animation: none;
+  }
 }
 
 /* ---------------------------------------------------------------------------
