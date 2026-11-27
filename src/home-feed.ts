@@ -15,7 +15,7 @@ import { makeSvgIcon, showToast } from "./dom-shared.js";
 export const HOME_CARD_SELECTOR = "ytd-rich-item-renderer";
 
 // Where the action buttons go. First match wins; the host is made
-// position:relative so the button box can sit in its top-right corner.
+// position:relative so the button box can sit in its bottom-left corner.
 const THUMB_HOST_SELECTOR = [
   "ytd-thumbnail",
   "ytd-playlist-thumbnail",
@@ -27,7 +27,7 @@ const THUMB_HOST_SELECTOR = [
 const BOX_CLASS = "ythc-fb-box";
 const BTN_CLASS = "ythc-fb-btn";
 const PLACEHOLDER_CLASS = "ythc-removed";
-const ICON_SIZE = 18;
+const ICON_SIZE = 20;
 
 type ActionSpec = { label: string; removedText: string; iconPath: string };
 
@@ -99,6 +99,11 @@ function makeActionButton(card: HTMLElement, action: FeedbackAction): HTMLButton
   btn.title = spec.label;
   btn.setAttribute("aria-label", spec.label);
   btn.appendChild(makeSvgIcon(spec.iconPath, ICON_SIZE));
+  // A visible label makes the pill a big target and says what it does.
+  const text = document.createElement("span");
+  text.className = "ythc-fb-label";
+  text.textContent = spec.label;
+  btn.appendChild(text);
   btn.addEventListener("click", (e) => onFeedbackClick(e, card, action));
   // The whole lockup is a link in the view-model layout; keep pointer
   // events from starting a navigation or the inline preview.

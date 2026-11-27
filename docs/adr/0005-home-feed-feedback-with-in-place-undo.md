@@ -4,6 +4,7 @@
 
 Accepted — 2026-09-19
 Amended — 2026-09-19 (the "extension keeps no state" remark under Revisit triggers is superseded: ADR 0006 introduces one persisted preference)
+Amended — 2026-11-27 (the buttons become labelled pills in the thumbnail's bottom-left corner; see "Button shape" under Decision)
 
 ## Context
 
@@ -28,8 +29,8 @@ it reverses the action exactly.
 
 ## Decision
 
-Two always-visible icon buttons sit stacked in the top-right of each
-card's thumbnail, below YouTube's hover overlay. A button appears only
+Two always-visible buttons sit stacked on each card's thumbnail (shape
+and position under "Button shape" below). A button appears only
 when its token is known for that card, so a short shows one and a mix
 shows none. There is no simulated-menu fallback; a card without a token
 shows no button, consistent with ADR 0001.
@@ -51,6 +52,18 @@ toast says so. If an undo cannot be sent (no token in the response, or
 the undo request fails) the card is still restored visually and a toast
 warns that YouTube may still hold the feedback.
 
+**Button shape (amended 2026-11-27).** The first version used 28px
+round icon buttons in the top-right corner, below YouTube's hover
+overlay. They were too small to hit comfortably. Five variants were
+prototyped on the live home grid: the 28px icons, labelled pills in the
+bottom-left corner, large centred buttons shown on hover, a split bar
+across the bottom shown on hover, and a chip row under the card. The
+labelled pills won. Each button is now a 36px-tall pill with its icon and
+its full label ("Not interested", "Don't recommend channel"), always
+visible, stacked in the bottom-left corner of the thumbnail. That corner
+is clear of YouTube's hover overlay (top right) and the duration badge
+(bottom right).
+
 ## Consequences
 
 **Positive.**
@@ -64,7 +77,9 @@ warns that YouTube may still hold the feedback.
 
 **Negative.**
 
-- Buttons permanently cover a small corner of every thumbnail.
+- Buttons permanently cover part of every thumbnail. Since the
+  2026-11-27 amendment the labelled pills cover more of it than the
+  old icons did: the lower-left area, up to about 200px wide.
 - Label matching (`Not interested`, `Don't recommend channel`, `Undo`) is
   English-only. Non-English UIs get no buttons until the labels are
   localised.

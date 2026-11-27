@@ -98,6 +98,27 @@ test("video card gets Not interested and Don't recommend channel buttons on its 
   await expect(buttons.nth(1)).toHaveAttribute("aria-label", "Don't recommend channel");
 });
 
+test("buttons are labelled pills in the thumbnail's bottom-left corner", async () => {
+  await page.goto(HOME_URL);
+  const thumb = page.locator("#card-1 yt-thumbnail-view-model");
+  const buttons = thumb.locator(".ythc-fb-btn");
+  await expect(buttons).toHaveCount(2, { timeout: 5000 });
+  await expect(buttons.nth(0)).toHaveText("Not interested");
+  await expect(buttons.nth(1)).toHaveText("Don't recommend channel");
+
+  const t = (await thumb.boundingBox())!;
+  const first = (await buttons.nth(0).boundingBox())!;
+  const last = (await buttons.nth(1).boundingBox())!;
+  // Big enough to hit: 36px tall, wider than the old 28px icon.
+  expect(first.height).toBe(36);
+  expect(first.width).toBeGreaterThan(36);
+  // Stacked in the bottom-left: 8px from the left, 10px from the bottom.
+  expect(first.x - t.x).toBe(8);
+  expect(last.x - t.x).toBe(8);
+  expect(t.y + t.height - (last.y + last.height)).toBe(10);
+  expect(first.y).toBeLessThan(last.y);
+});
+
 test("short gets only Not interested; mix gets no buttons", async () => {
   await page.goto(HOME_URL);
   await expect(page.locator("#card-1 .ythc-fb-btn")).toHaveCount(2, { timeout: 5000 });

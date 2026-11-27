@@ -74,6 +74,21 @@ describe("decorateHomeCard", () => {
     expect(host.querySelector(".ythc-fb-box")).not.toBeNull();
   });
 
+  it("labels each button with its action, as text and for assistive tech", () => {
+    collectHomeTokens(synthetic.lockupCard);
+    const card = makeCard("https://www.youtube.com/watch?v=vidLockup01");
+    decorateHomeCard(card);
+    const btns = Array.from(card.querySelectorAll<HTMLElement>(".ythc-fb-btn"));
+    expect(btns.map((b) => b.querySelector(".ythc-fb-label")?.textContent)).toEqual([
+      "Not interested",
+      "Don't recommend channel",
+    ]);
+    expect(btns.map((b) => b.getAttribute("aria-label"))).toEqual([
+      "Not interested",
+      "Don't recommend channel",
+    ]);
+  });
+
   it("adds only Not interested for a short", () => {
     collectHomeTokens(synthetic.shortsCard);
     const card = makeCard("https://www.youtube.com/shorts/vidShorts01");

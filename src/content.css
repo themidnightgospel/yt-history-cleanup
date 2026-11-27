@@ -210,16 +210,18 @@
 
 /* ---------------------------------------------------------------------------
    Home feed: "Not interested" / "Don't recommend channel" on thumbnails.
-   Stacked top-right, below YouTube's own hover overlay (Watch later / Queue),
-   which occupies roughly the top 76px. */
+   Labelled pills stacked in the bottom-left corner: big targets, clear of
+   YouTube's hover overlay (top right) and the duration badge (bottom
+   right). Chosen from prototype variants on 2026-11-27 (ADR 0005). */
 
 .ythc-fb-box {
   position: absolute;
-  top: 80px;
-  right: 8px;
+  bottom: 10px;
+  left: 8px;
   z-index: 20;
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   gap: 6px;
   pointer-events: none;
 }
@@ -230,21 +232,27 @@
   pointer-events: auto;
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  background: rgba(0, 0, 0, 0.6);
+  gap: 8px;
+  height: 36px;
+  padding: 0 14px 0 10px;
+  border-radius: 18px;
+  background: rgba(0, 0, 0, 0.78);
   color: #fff;
+  font-family: "Roboto", "Arial", sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.15;
+  white-space: nowrap;
   cursor: pointer;
-  opacity: 0.85;
-  transition: background 120ms, opacity 120ms, transform 120ms;
+  transition: background 120ms;
+}
+
+.ythc-fb-btn svg {
+  flex: none;
 }
 
 .ythc-fb-btn:hover {
-  background: rgba(0, 0, 0, 0.9);
-  opacity: 1;
-  transform: scale(1.08);
+  background: #cc0000;
 }
 
 .ythc-fb-btn:focus-visible {
