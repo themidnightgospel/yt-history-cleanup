@@ -37,6 +37,11 @@ test.beforeEach(async () => {
   await page.route("https://www.youtube.com/watch*", (route) =>
     route.fulfill({ status: 200, contentType: "text/html", body: watch }),
   );
+  // The feed is hidden by default (hidden-feed.spec.ts); these tests need
+  // the cards, so every load starts inside a one-minute peek.
+  await page.addInitScript(() =>
+    localStorage.setItem("ythc-feed-shown-until", String(Date.now() + 60_000)),
+  );
   // Each test starts from the default (never toggled) state.
   await page.goto(HOME_URL);
   await page.evaluate(() => localStorage.removeItem("ythc-grayscale"));

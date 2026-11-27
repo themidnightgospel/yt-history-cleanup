@@ -17,6 +17,7 @@ This extension fixes that.
 - **Delete all from this channel** — wipes every item from a given creator in one click, with confirmation
 - **Delete all shorts in this group** — clears an entire shorts shelf at once
 - **Not interested / Don't recommend channel on the home feed** — always-visible buttons on every thumbnail, with an in-place Undo, no 3-dot menu
+- **Hidden recommendations** — the home page's feed is hidden and a search box asks "What did you come here for?"; on a watch page the "Up next" sidebar and the end-of-video suggestions are hidden too. The eye button in YouTube's header shows them for one minute, counting down, then they hide again by themselves. A reload doesn't restart the minute
 - **Grayscale thumbnails and channel avatars** on the home feed and the watch-page sidebar, back to color on hover. On by default; a toggle in YouTube's header turns it off
 - **Playback speed buttons** (1.25×, 1.5×, 1.75×, 2×) in the player's bottom bar next to the captions button. Click the active one to return to normal speed
 - **Volume boost** above 100% for quiet videos: hover the speaker-plus button left of the speed buttons and pick 1.5×, 2× or 3×. Click the button to turn the boost off or back on. Resets on every new video and is lifted during ads
@@ -53,13 +54,13 @@ See [`CONTEXT.md`](CONTEXT.md) for the glossary of terms used in the code and do
 - No accounts, no analytics, no telemetry, no remote servers
 - No data is collected, stored, or transmitted to any third party
 - The only network traffic is the delete, feedback, and undo requests sent directly to youtube.com on your behalf
-- No `chrome.storage`, no cookies. The only persisted values are three preferences (grayscale on/off, watch check-ins on/off, check-in relax time), one key each in youtube.com `localStorage`
+- No `chrome.storage`, no cookies. The only persisted values are three preferences (grayscale on/off, watch check-ins on/off, check-in relax time) and when the current one-minute peek at recommendations ends, one key each in youtube.com `localStorage`
 
 Full policy: [`docs/privacy.md`](docs/privacy.md)
 
 ## Permissions
 
-- Host permission for `https://www.youtube.com/*` — required to call the feedback endpoint and to detect SPA navigation. The extension injects buttons on the history page and the home feed, adds speed and volume boost controls to the player on watch pages, applies the grayscale style on the home feed and watch page, and adds two toggle buttons to the header on every page. The volume boost amplifies the video's sound locally with the browser's Web Audio API; no audio leaves the browser.
+- Host permission for `https://www.youtube.com/*` — required to call the feedback endpoint and to detect SPA navigation. The extension injects buttons on the history page and the home feed, adds speed and volume boost controls to the player on watch pages, applies the grayscale style on the home feed and watch page, hides the recommendations on the home and watch pages, and adds three buttons to the header on every page. The volume boost amplifies the video's sound locally with the browser's Web Audio API; no audio leaves the browser.
 
 ## Development
 

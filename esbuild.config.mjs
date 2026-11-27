@@ -4,10 +4,12 @@ import { copyFile, mkdir } from "node:fs/promises";
 const watch = process.argv.includes("--watch");
 
 async function copyStatic() {
-  await mkdir("dist", { recursive: true });
+  await mkdir("dist/icons", { recursive: true });
   await copyFile("manifest.json", "dist/manifest.json");
   await copyFile("src/content.css", "dist/content.css");
-  await copyFile("icon.png", "dist/icon.png");
+  for (const size of [16, 32, 48, 128]) {
+    await copyFile(`icons/icon-${size}.png`, `dist/icons/icon-${size}.png`);
+  }
 }
 
 const ctx = await esbuild.context({

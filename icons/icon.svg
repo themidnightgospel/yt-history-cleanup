@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <!-- Zombie face: the extension icon. Rendered to PNGs by icons/render.mjs. -->
+  <path d="M22 66 C22 30 42 16 64 16 C86 16 106 30 106 66 L106 82 C106 104 88 116 64 116 C40 116 22 104 22 82 Z" fill="#8fd18b" stroke="#17161a" stroke-width="6"/>
+  <path d="M30 40 C40 20 60 14 78 18 C70 24 72 30 82 30 C92 30 98 36 100 44 C86 36 70 40 60 32 C52 40 40 38 30 40 Z" fill="#3b2a4a" stroke="#17161a" stroke-width="5" stroke-linejoin="round"/>
+  <circle cx="46" cy="64" r="13" fill="#fff" stroke="#17161a" stroke-width="5"/>
+  <circle cx="49" cy="66" r="5" fill="#17161a"/>
+  <path d="M74 54 l18 18 M92 54 l-18 18" stroke="#17161a" stroke-width="6" stroke-linecap="round"/>
+  <path d="M44 94 H86" stroke="#17161a" stroke-width="6" stroke-linecap="round"/>
+  <path d="M54 88 v12 M65 88 v12 M76 88 v12" stroke="#17161a" stroke-width="4" stroke-linecap="round"/>
+</svg>

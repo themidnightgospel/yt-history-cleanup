@@ -14,6 +14,7 @@ import { initGrayscale, pageKind } from "./grayscale.js";
 import { initSpeedButtons } from "./speed.js";
 import { initBoostButton } from "./boost.js";
 import { initCheckin } from "./checkin.js";
+import { initHiddenFeed } from "./hidden-feed.js";
 
 let fetchPatched = false;
 let observerStarted = false;
@@ -57,6 +58,8 @@ function route(): void {
   safely("volume boost", () => initBoostButton(onWatch));
   // After grayscale, so its masthead toggle lands right next to grayscale's.
   safely("watch check-in", () => initCheckin(page));
+  // After check-in, so its masthead button lands after the zombie button.
+  safely("hidden feed", () => initHiddenFeed(page));
   if (isOnHistory()) safely("history", activate);
   else if (isOnHome()) safely("home feed", activateHomeFeed);
 }

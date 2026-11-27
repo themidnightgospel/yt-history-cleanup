@@ -63,6 +63,11 @@ test.beforeEach(async () => {
   await page.route(HOME_URL, async (route) => {
     await route.fulfill({ status: 200, contentType: "text/html", body: html });
   });
+  // The feed is hidden by default (hidden-feed.spec.ts); these tests need
+  // the cards, so every load starts inside a one-minute peek.
+  await page.addInitScript(() =>
+    localStorage.setItem("ythc-feed-shown-until", String(Date.now() + 60_000)),
+  );
 });
 
 test.afterEach(async () => {

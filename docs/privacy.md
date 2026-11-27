@@ -1,6 +1,6 @@
 # Privacy Policy
 
-**Effective date:** 2026-11-12
+**Effective date:** 2026-11-17
 **Extension:** YouTube Productivity Kit (formerly YouTube History Cleanup)
 **Contact:** bubachelidze1@gmail.com
 
@@ -25,7 +25,7 @@ When you click a delete button, or a "Not interested" / "Don't recommend channel
 
 ## Permissions
 
-- **Host permission for `youtube.com`** — required to call the feedback endpoint and to read history items and home-feed cards from the page DOM. Buttons are injected on `https://www.youtube.com/feed/history` and `https://www.youtube.com/`; on watch pages the extension adds playback speed and volume boost controls to the video player's control bar; the grayscale style and the header toggles for grayscale and watch check-ins apply on every youtube.com page. Watch check-ins read the video's playback position and its category (to skip music and live streams) from the page; none of this leaves your browser. When you turn the volume boost on, the extension routes that video's sound through your browser's built-in Web Audio API to amplify it. This happens entirely inside your browser: the audio is never recorded, stored, or sent anywhere.
+- **Host permission for `youtube.com`** — required to call the feedback endpoint and to read history items and home-feed cards from the page DOM. Buttons are injected on `https://www.youtube.com/feed/history` and `https://www.youtube.com/`; on watch pages the extension adds playback speed and volume boost controls to the video player's control bar; the grayscale style and the header buttons for grayscale, watch check-ins and hidden recommendations apply on every youtube.com page. On the home page and watch pages the extension hides YouTube's recommendations; on the home page it shows a search box instead, and what you type there goes only to YouTube's own search. Watch check-ins read the video's playback position and its category (to skip music and live streams) from the page; none of this leaves your browser. When you turn the volume boost on, the extension routes that video's sound through your browser's built-in Web Audio API to amplify it. This happens entirely inside your browser: the audio is never recorded, stored, or sent anywhere.
 
 ## Third parties
 
@@ -33,7 +33,7 @@ The extension contains no third-party SDKs, analytics, advertising, or tracking 
 
 ## Storage
 
-The extension stores exactly three values: whether grayscale thumbnails are on or off, whether watch check-ins are on or off, and the optional relax time for check-ins (a start and end time of day), kept as the keys `ythc-grayscale`, `ythc-checkin` and `ythc-checkin-quiet` in youtube.com's `localStorage`. They contain no personal data and the extension never transmits them. Because they live in youtube.com's own site storage, YouTube's page scripts could technically read these three settings. Clearing youtube.com site data resets it. The extension does not use `chrome.storage`, `IndexedDB`, cookies, or any other persistence mechanism, and holds no other state between page loads, with one short-lived exception: when you close a video from a watch check-in, the video's id, title and position are kept in that tab's `sessionStorage` for the 5 seconds the Undo is offered, and removed as soon as they are read. Closing the tab discards them.
+The extension stores exactly four values: whether grayscale thumbnails are on or off, whether watch check-ins are on or off, the optional relax time for check-ins (a start and end time of day), and, while you are peeking at hidden recommendations, the time that one-minute peek ends. They are kept as the keys `ythc-grayscale`, `ythc-checkin`, `ythc-checkin-quiet` and `ythc-feed-shown-until` in youtube.com's `localStorage`. They contain no personal data and the extension never transmits them. Because they live in youtube.com's own site storage, YouTube's page scripts could technically read these four values. Clearing youtube.com site data resets it. The extension does not use `chrome.storage`, `IndexedDB`, cookies, or any other persistence mechanism, and holds no other state between page loads, with one short-lived exception: when you close a video from a watch check-in, the video's id, title and position are kept in that tab's `sessionStorage` for the 5 seconds the Undo is offered, and removed as soon as they are read. Closing the tab discards them.
 
 ## Children
 

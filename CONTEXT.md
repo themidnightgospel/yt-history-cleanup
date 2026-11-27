@@ -43,3 +43,7 @@ The speaker-plus button the extension inserts into the player's bottom bar, dire
 ### watch check-in
 
 The meme the extension shows over a paused video to ask whether you are watching on purpose: after 1 minute of playback, then every 10 minutes, and when you resume after a pause of 30 s or more. "On purpose", pressing play, or no answer within 12 s resumes the video; "Don't ask for this one" silences the rest of that video's check-ins; "Zombie. Close it." goes to the home page with a 5 s Undo. Skipped for music, live streams, playlists, and hidden tabs. The zombie button in the masthead (a figure shuffling arms-out) opens its settings: an on/off switch and an optional **relax time**, daily hours with no check-ins (called quiet hours in the code), stored as `ythc-checkin` and `ythc-checkin-quiet` in youtube.com `localStorage` (ADR 0009).
+
+### hidden recommendations
+
+The home page with its recommendation grid (chips bar and Shorts shelf included) hidden and a "What did you come here for?" search box in its place; and a watch page with its "Up next" list, end-of-video suggestion wall and fullscreen grid hidden and a one-line note in the sidebar. Hidden is the resting state. The eye button in the masthead starts a **peek**: both show for one minute while the button counts down as a yellow pill, then hide again by themselves. Clicking the pill ends the peek early. Only the peek's end time is stored, as `ythc-feed-shown-until` in youtube.com `localStorage`, so a reload does not restart it (ADR 0010).

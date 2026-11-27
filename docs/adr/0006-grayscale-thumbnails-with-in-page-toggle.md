@@ -86,3 +86,10 @@ than a popup, a new permission and a bridge into the page would cost.
 The revisit trigger above now reads: move to the popup +
 `chrome.storage` pattern when settings outgrow such small per-feature
 panels, or when they need to sync across devices.
+
+## Amendment — 2026-11-17
+
+Hidden recommendations (ADR 0010) add a fourth key, `ythc-feed-shown-until`:
+not a preference but the end time of a one-minute peek at recommendations, so a
+reload does not restart it. It is stored the same way, for the same
+reasons, and has no settings of its own.

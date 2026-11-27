@@ -347,10 +347,11 @@ html[data-ythc-grayscale][data-ythc-page="watch"] ytd-watch-next-secondary-resul
   transition: filter 150ms ease;
 }
 
-/* Masthead toggles (grayscale, watch check-ins), styled after YouTube's own
-   round icon buttons. */
+/* Masthead toggles (grayscale, watch check-ins, hidden feed), styled after
+   YouTube's own round icon buttons. */
 .ythc-grayscale-toggle,
-.ythc-checkin-toggle {
+.ythc-checkin-toggle,
+.ythc-feed-toggle {
   all: unset;
   box-sizing: border-box;
   display: inline-flex;
@@ -367,17 +368,20 @@ html[data-ythc-grayscale][data-ythc-page="watch"] ytd-watch-next-secondary-resul
 }
 
 .ythc-grayscale-toggle[aria-pressed="true"],
-.ythc-checkin-toggle[aria-pressed="true"] {
+.ythc-checkin-toggle[aria-pressed="true"],
+.ythc-feed-toggle[aria-pressed="true"] {
   opacity: 1;
 }
 
 .ythc-grayscale-toggle:hover,
-.ythc-checkin-toggle:hover {
+.ythc-checkin-toggle:hover,
+.ythc-feed-toggle:hover {
   background: var(--yt-spec-badge-chip-background, rgba(255, 255, 255, 0.1));
 }
 
 .ythc-grayscale-toggle:focus-visible,
-.ythc-checkin-toggle:focus-visible {
+.ythc-checkin-toggle:focus-visible,
+.ythc-feed-toggle:focus-visible {
   outline: 2px solid var(--yt-spec-text-primary, #f1f1f1);
 }
 
@@ -899,4 +903,176 @@ button.ythc-menu-click[aria-expanded="true"] .ythc-menu-chevron {
 .ytp-small-mode .ythc-boost,
 .ytp-xsmall-width-mode .ythc-boost {
   display: none;
+}
+
+/* Hidden recommendations (docs/adr/0010). On the home page the grid,
+   chips bar included, makes way for the prompt. On a watch page the
+   "Up next" list goes, and with it the wall of suggestions at the end of
+   the video and the grid under the video in fullscreen. */
+html[data-ythc-feed-hidden][data-ythc-page="home"] ytd-rich-grid-renderer,
+html[data-ythc-feed-hidden][data-ythc-page="watch"] ytd-watch-next-secondary-results-renderer,
+html[data-ythc-feed-hidden][data-ythc-page="watch"] .html5-endscreen.videowall-endscreen,
+html[data-ythc-feed-hidden][data-ythc-page="watch"] .ytp-fullscreen-grid {
+  display: none !important;
+}
+
+.ythc-upnext-note {
+  display: none;
+}
+
+html[data-ythc-feed-hidden][data-ythc-page="watch"] .ythc-upnext-note {
+  display: block;
+  margin: 0 0 16px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  background: var(--yt-spec-badge-chip-background, rgba(0, 0, 0, 0.05));
+  color: var(--yt-spec-text-secondary, #606060);
+  font-family: "Roboto", "Arial", sans-serif;
+  font-size: 13px;
+  line-height: 18px;
+}
+
+/* While the feed is showing, the masthead button becomes a pill with the
+   time left. Amber text in the light theme, YouTube yellow in the dark. */
+.ythc-feed-toggle.ythc-feed-pill {
+  width: auto;
+  padding: 0 12px 0 8px;
+  gap: 6px;
+  border-radius: 20px;
+  opacity: 1;
+  background: rgba(255, 190, 0, 0.18);
+  color: #8a5a00;
+  font-family: "Roboto", "Arial", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+html[dark] .ythc-feed-toggle.ythc-feed-pill {
+  background: rgba(255, 216, 74, 0.14);
+  color: #ffd84a;
+}
+
+.ythc-feed-toggle.ythc-feed-pill svg {
+  width: 22px;
+  height: 22px;
+}
+
+.ythc-feed-prompt {
+  display: none;
+}
+
+/* Own colour tokens, keyed on YouTube's html[dark] like the pill above:
+   YouTube's --yt-spec-* variables don't reach the spot the prompt sits
+   in, so they fell back to light colours on a dark page. The field and
+   button copy the masthead search bar. */
+.ythc-feed-prompt {
+  --ythc-p-text: #0f0f0f;
+  --ythc-p-muted: #606060;
+  --ythc-p-field: #fff;
+  --ythc-p-border: #ccc;
+  --ythc-p-btn: #f8f8f8;
+  --ythc-p-btn-hover: #f0f0f0;
+  --ythc-p-btn-border: #d3d3d3;
+  --ythc-p-focus: #1c62b9;
+}
+
+html[dark] .ythc-feed-prompt {
+  --ythc-p-text: #f1f1f1;
+  --ythc-p-muted: #aaa;
+  --ythc-p-field: #121212;
+  --ythc-p-border: #303030;
+  --ythc-p-btn: #222;
+  --ythc-p-btn-hover: #2f2f2f;
+  --ythc-p-btn-border: #303030;
+  --ythc-p-focus: #1c62b9;
+}
+
+html[data-ythc-feed-hidden][data-ythc-page="home"] .ythc-feed-prompt {
+  display: grid;
+  justify-items: center;
+  gap: 20px;
+  width: min(640px, calc(100% - 32px));
+  margin: 18vh auto 96px;
+  text-align: center;
+  font-family: "Roboto", "Arial", sans-serif;
+  color: var(--ythc-p-text);
+}
+
+.ythc-feed-prompt h2 {
+  margin: 0;
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.5px;
+  color: var(--ythc-p-text);
+}
+
+.ythc-feed-prompt form {
+  display: flex;
+  width: 100%;
+  height: 48px;
+}
+
+.ythc-feed-prompt input {
+  flex: 1;
+  min-width: 0;
+  box-sizing: border-box;
+  height: 100%;
+  margin: 0;
+  padding: 0 4px 0 22px;
+  border: 1px solid var(--ythc-p-border);
+  border-right: 0;
+  border-radius: 24px 0 0 24px;
+  background: var(--ythc-p-field);
+  color: var(--ythc-p-text);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+  font: inherit;
+  font-size: 18px;
+}
+
+.ythc-feed-prompt input::placeholder {
+  color: var(--ythc-p-muted);
+  opacity: 1;
+}
+
+.ythc-feed-prompt input:focus {
+  outline: none;
+  border-color: var(--ythc-p-focus);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* Hide the browser's own clear button on type="search". */
+.ythc-feed-prompt input::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+}
+
+.ythc-feed-prompt button {
+  all: unset;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 72px;
+  height: 100%;
+  cursor: pointer;
+  border: 1px solid var(--ythc-p-btn-border);
+  border-radius: 0 24px 24px 0;
+  background: var(--ythc-p-btn);
+  color: var(--ythc-p-text);
+}
+
+.ythc-feed-prompt button:hover {
+  background: var(--ythc-p-btn-hover);
+}
+
+.ythc-feed-prompt button:focus-visible {
+  outline: 2px solid var(--ythc-p-focus);
+  outline-offset: 2px;
+}
+
+.ythc-feed-prompt p {
+  margin: 0;
+  color: var(--ythc-p-muted);
+  font-size: 14px;
 }
